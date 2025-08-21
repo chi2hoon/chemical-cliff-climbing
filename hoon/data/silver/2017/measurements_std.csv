@@ -1,0 +1,857 @@
+compound_id,assay_id,cell_line,value_raw,value_num,unit,censor,provenance_file,provenance_sheet,provenance_row,readout,matrix,unit_std,value_std,std_rule_id,std_confidence
+1,assay.cell.cytotoxicity.um,KU-19-19,1.94 μM,1.94,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.94,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,KU-19-19,1.05 μM,1.05,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,1.05,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,KU-19-19,1.97 μM,1.97,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.97,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,KU-19-19,1.91 μM,1.91,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,1.91,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,KU-19-19,1.46 μM,1.46,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,1.46,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,KU-19-19,1.68 μM,1.68,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,1.68,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,KU-19-19,1.45 μM,1.45,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.45,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,KU-19-19,1.42 μM,1.42,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,1.42,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,KU-19-19,1.27 μM,1.27,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,1.27,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,KU-19-19,1.80 μM,1.8,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.8,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,KU-19-19,1.69 μM,1.69,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.69,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,KU-19-19,1.26 μM,1.26,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,1.26,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,KU-19-19,1.38 μM,1.38,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,1.38,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,KU-19-19,0.90 μM,0.9,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,0.9,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,KU-19-19,1.83 μM,1.83,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,1.83,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,KU-19-19,0.92 μM,0.92,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,0.92,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,KU-19-19,1.23 μM,1.23,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,1.23,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,KU-19-19,1.56 μM,1.56,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,1.56,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,KU-19-19,1.41 μM,1.41,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,1.41,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,KU-19-19,1.25 μM,1.25,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.25,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,KU-19-19,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,KU-19-19,1.75 μM,1.75,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.75,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,KU-19-19,1.60 μM,1.6,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.6,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,KU-19-19,1.37 μM,1.37,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,1.37,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,KU-19-19,1.64 μM,1.64,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,1.64,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,KU-19-19,1.21 μM,1.21,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.21,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,KU-19-19,1.86 μM,1.86,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,1.86,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,KU-19-19,1.38 μM,1.38,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.38,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,KU-19-19,1.60 μM,1.6,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.6,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,KU-19-19,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,KU-19-19,1.41 μM,1.41,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.41,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,KU-19-19,1.29 μM,1.29,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,1.29,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,KU-19-19,1.62 μM,1.62,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,1.62,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,KU-19-19,1.90 μM,1.9,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,1.9,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,KU-19-19,1.12 μM,1.12,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,1.12,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,KU-19-19,1.58 μM,1.58,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,1.58,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,KU-19-19,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,KU-19-19,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,253J,1.35 μM,1.35,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.35,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,253J,1.00 μM,1.0,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,1,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,253J,1.22 μM,1.22,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,1.22,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,253J,1.10 μM,1.1,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.1,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,253J,1.41 μM,1.41,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,1.41,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,253J,0.74 μM,0.74,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,0.74,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,253J,0.96 μM,0.96,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,0.96,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,253J,0.89 μM,0.89,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,0.89,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,253J,1.39 μM,1.39,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,1.39,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,253J,1.24 μM,1.24,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,1.24,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,253J,1.96 μM,1.96,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.96,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,253J,1.43 μM,1.43,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.43,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,253J,1.13 μM,1.13,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,1.13,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,253J,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,253J,1.11 μM,1.11,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,1.11,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,253J,1.92 μM,1.92,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,1.92,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,253J,0.92 μM,0.92,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,0.92,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,253J,1.14 μM,1.14,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,1.14,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,253J,1.71 μM,1.71,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,1.71,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,253J,0.95 μM,0.95,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,0.95,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,253J,0.97 μM,0.97,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,0.97,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,253J,1.08 μM,1.08,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.08,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,253J,1.04 μM,1.04,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.04,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,253J,1.11 μM,1.11,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.11,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,253J,0.83 μM,0.83,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,0.83,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,253J,1.34 μM,1.34,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,1.34,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,253J,0.81 μM,0.81,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,0.81,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,253J,0.86 μM,0.86,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,0.86,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,253J,1.24 μM,1.24,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,1.24,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,253J,0.90 μM,0.9,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,0.9,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,253J,1.29 μM,1.29,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,1.29,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,253J,1.42 μM,1.42,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.42,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,253J,0.87 μM,0.87,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,0.87,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,253J,1.06 μM,1.06,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.06,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,253J,1.84 μM,1.84,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,1.84,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,253J,0.77 μM,0.77,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,0.77,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,253J,1.49 μM,1.49,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,1.49,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,253J,1.20 μM,1.2,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,1.2,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,253J,1.38 μM,1.38,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,1.38,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,253J,0.80 μM,0.8,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,0.8,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,253J,1.82 μM,1.82,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,1.82,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,253J,0.83 μM,0.83,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,0.83,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,253J,0.87 μM,0.87,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,0.87,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,253J,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,5637,1.67 μM,1.67,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.67,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,5637,1.91 μM,1.91,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,1.91,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,5637,1.69 μM,1.69,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,1.69,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,5637,1.63 μM,1.63,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.63,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,5637,1.60 μM,1.6,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,1.6,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,5637,1.03 μM,1.03,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,1.03,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,5637,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,5637,1.23 μM,1.23,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.23,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,5637,1.35 μM,1.35,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,1.35,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,5637,1.77 μM,1.77,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.77,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,5637,1.47 μM,1.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.47,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,5637,1.07 μM,1.07,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,1.07,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,5637,1.52 μM,1.52,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,1.52,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,5637,1.46 μM,1.46,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.46,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,5637,1.62 μM,1.62,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.62,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,5637,1.73 μM,1.73,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.73,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,5637,1.51 μM,1.51,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.51,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,5637,1.64 μM,1.64,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,1.64,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,5637,1.60 μM,1.6,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,1.6,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,5637,1.57 μM,1.57,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.57,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,5637,1.68 μM,1.68,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.68,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,5637,1.37 μM,1.37,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.37,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,5637,1.36 μM,1.36,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.36,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,5637,1.23 μM,1.23,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,1.23,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,5637,1.91 μM,1.91,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,1.91,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,5637,1.62 μM,1.62,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,1.62,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,5637,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,J82,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,J82,1.38 μM,1.38,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.38,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,J82,2.07 μM,2.07,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,2.07,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,J82,1.46 μM,1.46,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,1.46,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,J82,1.96 μM,1.96,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,1.96,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,J82,1.49 μM,1.49,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.49,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,J82,1.89 μM,1.89,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.89,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,J82,1.94 μM,1.94,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.94,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,J82,1.98 μM,1.98,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.98,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,J82,1.63 μM,1.63,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,1.63,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,J82,1.48 μM,1.48,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.48,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,J82,1.62 μM,1.62,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.62,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,J82,1.61 μM,1.61,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.61,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,J82,1.47 μM,1.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,1.47,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,J82,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,J82,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,T24,1.34 μM,1.34,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.34,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,T24,1.31 μM,1.31,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,1.31,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,T24,1.42 μM,1.42,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,1.42,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,T24,1.16 μM,1.16,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.16,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,T24,1.83 μM,1.83,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,1.83,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,T24,0.82 μM,0.82,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,0.82,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,T24,1.09 μM,1.09,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,1.09,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,T24,1.12 μM,1.12,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.12,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,T24,1.03 μM,1.03,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,1.03,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,T24,0.92 μM,0.92,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,0.92,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,T24,1.57 μM,1.57,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.57,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,T24,1.43 μM,1.43,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.43,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,T24,0.89 μM,0.89,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,0.89,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,T24,1.54 μM,1.54,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,1.54,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,T24,0.98 μM,0.98,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,0.98,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,T24,1.79 μM,1.79,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,1.79,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,T24,0.82 μM,0.82,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,0.82,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,T24,1.11 μM,1.11,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,1.11,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,T24,1.72 μM,1.72,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,1.72,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,T24,1.04 μM,1.04,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,1.04,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,T24,1.47 μM,1.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.47,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,T24,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,T24,1.69 μM,1.69,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.69,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,T24,1.39 μM,1.39,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.39,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,T24,1.25 μM,1.25,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,1.25,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,T24,1.34 μM,1.34,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,1.34,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,T24,1.07 μM,1.07,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,1.07,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,T24,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,T24,1.79 μM,1.79,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,1.79,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,T24,1.51 μM,1.51,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.51,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,T24,1.80 μM,1.8,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,1.8,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,T24,1.50 μM,1.5,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.5,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,T24,1.03 μM,1.03,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,1.03,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,T24,1.02 μM,1.02,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.02,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,T24,1.75 μM,1.75,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,1.75,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,T24,0.98 μM,0.98,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,0.98,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,T24,1.66 μM,1.66,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,1.66,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,T24,1.20 μM,1.2,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,1.2,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,T24,1.32 μM,1.32,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,1.32,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,T24,0.85 μM,0.85,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,0.85,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,T24,1.03 μM,1.03,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,1.03,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,T24,1.03 μM,1.03,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,1.03,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,T24,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,MBT-2,1.19 μM,1.19,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.19,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,MBT-2,0.96 μM,0.96,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,0.96,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,MBT-2,1.44 μM,1.44,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,1.44,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,MBT-2,1.20 μM,1.2,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.2,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,MBT-2,0.79 μM,0.79,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,0.79,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,MBT-2,1.20 μM,1.2,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,1.2,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,MBT-2,1.28 μM,1.28,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.28,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,MBT-2,0.90 μM,0.9,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,0.9,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,MBT-2,1.28 μM,1.28,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,1.28,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,MBT-2,1.15 μM,1.15,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,1.15,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,MBT-2,1.84 μM,1.84,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.84,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,MBT-2,1.58 μM,1.58,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.58,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,MBT-2,0.76 μM,0.76,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,0.76,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,MBT-2,1.18 μM,1.18,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,1.18,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,MBT-2,0.86 μM,0.86,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,0.86,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,MBT-2,1.30 μM,1.3,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,1.3,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,MBT-2,0.84 μM,0.84,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,0.84,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,MBT-2,1.07 μM,1.07,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.07,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,MBT-2,1.26 μM,1.26,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.26,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,MBT-2,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,MBT-2,1.47 μM,1.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.47,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,MBT-2,1.01 μM,1.01,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,1.01,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,MBT-2,1.00 μM,1.0,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,1,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,MBT-2,1.15 μM,1.15,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,1.15,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,MBT-2,1.05 μM,1.05,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.05,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,MBT-2,1.86 μM,1.86,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,1.86,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,MBT-2,1.45 μM,1.45,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.45,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,MBT-2,1.53 μM,1.53,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,1.53,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,MBT-2,1.35 μM,1.35,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.35,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,MBT-2,0.67 μM,0.67,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,0.67,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,MBT-2,0.81 μM,0.81,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,0.81,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,MBT-2,1.27 μM,1.27,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,1.27,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,MBT-2,1.37 μM,1.37,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,1.37,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,MBT-2,1.53 μM,1.53,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,1.53,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,MBT-2,0.80 μM,0.8,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,0.8,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,MBT-2,1.06 μM,1.06,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,1.06,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,MBT-2,0.81 μM,0.81,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,0.81,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,MBT-2,0.84 μM,0.84,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,0.84,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,MBT-2,0.47 μM,0.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,0.47,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,MBT-2,0.77 μM,0.77,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,0.77,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,MBT-2,0.71 μM,0.71,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,0.71,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,MBT-2,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,UM-UC-3,1.51 μM,1.51,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,3,Cytotoxicity,cell,μM,1.51,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,4,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,5,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,UM-UC-3,1.33 μM,1.33,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,6,Cytotoxicity,cell,μM,1.33,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,7,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,UM-UC-3,1.46 μM,1.46,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,8,Cytotoxicity,cell,μM,1.46,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,9,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,10,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,UM-UC-3,1.18 μM,1.18,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,11,Cytotoxicity,cell,μM,1.18,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,12,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,UM-UC-3,1.49 μM,1.49,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,13,Cytotoxicity,cell,μM,1.49,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,14,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,15,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,16,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,17,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,18,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,19,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,20,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,21,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,22,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,23,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,24,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,25,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,26,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,27,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,28,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,29,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,UM-UC-3,0.79 μM,0.79,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,30,Cytotoxicity,cell,μM,0.79,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,UM-UC-3,1.13 μM,1.13,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,31,Cytotoxicity,cell,μM,1.13,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,32,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,UM-UC-3,1.02 μM,1.02,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,33,Cytotoxicity,cell,μM,1.02,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,34,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,UM-UC-3,1.11 μM,1.11,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,35,Cytotoxicity,cell,μM,1.11,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,36,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,37,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,38,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,39,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,40,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,41,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,42,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,43,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,UM-UC-3,1.89 μM,1.89,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,44,Cytotoxicity,cell,μM,1.89,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,45,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,UM-UC-3,0.97 μM,0.97,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,46,Cytotoxicity,cell,μM,0.97,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,47,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,UM-UC-3,1.22 μM,1.22,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,48,Cytotoxicity,cell,μM,1.22,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,49,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,UM-UC-3,1.82 μM,1.82,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,50,Cytotoxicity,cell,μM,1.82,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,51,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,UM-UC-3,1.26 μM,1.26,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,52,Cytotoxicity,cell,μM,1.26,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,UM-UC-3,0.63 μM,0.63,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,53,Cytotoxicity,cell,μM,0.63,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,54,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,55,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,56,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,UM-UC-3,1.58 μM,1.58,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,57,Cytotoxicity,cell,μM,1.58,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,UM-UC-3,1.25 μM,1.25,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,58,Cytotoxicity,cell,μM,1.25,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,59,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,UM-UC-3,1.22 μM,1.22,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,60,Cytotoxicity,cell,μM,1.22,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,UM-UC-3,1.37 μM,1.37,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,61,Cytotoxicity,cell,μM,1.37,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,62,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,63,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,64,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,65,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,UM-UC-3,1.06 μM,1.06,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,66,Cytotoxicity,cell,μM,1.06,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,67,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,68,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,69,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,UM-UC-3,1.11 μM,1.11,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,70,Cytotoxicity,cell,μM,1.11,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,UM-UC-3,1.20 μM,1.2,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,71,Cytotoxicity,cell,μM,1.2,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,UM-UC-3,1.26 μM,1.26,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,72,Cytotoxicity,cell,μM,1.26,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,UM-UC-3,1.61 μM,1.61,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,73,Cytotoxicity,cell,μM,1.61,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,UM-UC-3,0.82 μM,0.82,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,74,Cytotoxicity,cell,μM,0.82,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,UM-UC-3,1.62 μM,1.62,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,75,Cytotoxicity,cell,μM,1.62,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,UM-UC-3,1.54 μM,1.54,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,76,Cytotoxicity,cell,μM,1.54,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,UM-UC-3,1.01 μM,1.01,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,77,Cytotoxicity,cell,μM,1.01,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,UM-UC-3,1.39 μM,1.39,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,78,Cytotoxicity,cell,μM,1.39,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,UM-UC-3,1.18 μM,1.18,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,79,Cytotoxicity,cell,μM,1.18,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,UM-UC-3,1.39 μM,1.39,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,80,Cytotoxicity,cell,μM,1.39,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,81,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,82,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,83,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,84,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,UM-UC-3,1.31 μM,1.31,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,85,Cytotoxicity,cell,μM,1.31,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,UM-UC-3,0.76 μM,0.76,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,86,Cytotoxicity,cell,μM,0.76,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,87,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,UM-UC-3,1.26 μM,1.26,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,88,Cytotoxicity,cell,μM,1.26,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,89,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,90,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,UM-UC-3,1.47 μM,1.47,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,91,Cytotoxicity,cell,μM,1.47,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,92,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,UM-UC-3,1.56 μM,1.56,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,93,Cytotoxicity,cell,μM,1.56,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,94,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,95,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,96,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,UM-UC-3,1.06 μM,1.06,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,97,Cytotoxicity,cell,μM,1.06,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,UM-UC-3,1.63 μM,1.63,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,98,Cytotoxicity,cell,μM,1.63,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,UM-UC-3,1.27 μM,1.27,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,99,Cytotoxicity,cell,μM,1.27,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,UM-UC-3,1.52 μM,1.52,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,100,Cytotoxicity,cell,μM,1.52,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,UM-UC-3,0.77 μM,0.77,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,101,Cytotoxicity,cell,μM,0.77,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,102,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,UM-UC-3,1.93 μM,1.93,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,103,Cytotoxicity,cell,μM,1.93,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,UM-UC-3,1.07 μM,1.07,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,104,Cytotoxicity,cell,μM,1.07,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,105,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,UM-UC-3,1.13 μM,1.13,μM,eq,raw/2017_1020170094694_raw.xlsx,표5~표14,106,Cytotoxicity,cell,μM,1.13,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,107,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,108,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,UM-UC-3,> 2 μM,2.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,109,Cytotoxicity,cell,μM,2,SCL_CONC_V1,1
+1,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,891,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+2,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,892,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+3,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,893,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+4,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,894,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+5,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,895,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+6,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,896,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+7,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,897,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+8,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,898,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+9,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,899,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+10,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,900,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+11,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,901,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+12,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,902,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+13,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,903,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+14,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,904,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+15,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,905,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+16,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,906,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+17,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,907,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+18,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,908,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+19,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,909,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+20,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,910,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+21,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,911,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+22,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,912,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+23,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,913,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+24,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,914,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+25,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,915,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+26,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,916,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+27,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,917,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+28,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,918,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+29,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,919,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+30,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,920,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+31,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,921,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+32,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,922,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+33,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,923,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+34,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,924,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+35,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,925,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+36,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,926,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+37,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,927,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+38,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,928,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+39,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,929,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+40,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,930,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+41,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,931,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+42,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,932,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+43,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,933,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+44,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,934,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+45,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,935,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+46,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,936,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+47,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,937,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+48,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,938,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+49,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,939,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+50,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,940,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+51,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,941,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+52,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,942,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+53,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,943,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+54,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,944,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+55,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,945,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+56,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,946,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+57,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,947,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+58,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,948,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+59,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,949,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+60,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,950,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+61,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,951,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+62,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,952,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+63,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,953,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+64,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,954,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+65,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,955,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+66,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,956,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+67,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,957,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+68,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,958,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+69,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,959,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+70,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,960,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+71,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,961,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+72,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,962,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+73,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,963,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+74,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,964,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+75,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,965,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+76,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,966,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+77,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,967,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+78,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,968,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+79,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,969,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+80,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,970,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+81,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,971,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+82,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,972,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+83,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,973,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+84,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,974,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+85,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,975,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+86,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,976,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+87,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,977,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+88,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,978,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+89,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,979,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+90,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,980,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+91,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,981,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+92,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,982,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+93,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,983,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+94,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,984,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+95,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,985,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+96,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,986,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+97,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,987,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+98,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,988,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+99,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,989,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+100,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,990,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+101,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,991,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+102,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,992,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+103,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,993,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+104,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,994,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+105,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,995,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+106,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,996,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
+107,assay.cell.cytotoxicity.um,RT4,> 10 μM,10.0,μM,gt,raw/2017_1020170094694_raw.xlsx,표5~표14,997,Cytotoxicity,cell,μM,10,SCL_CONC_V1,1
