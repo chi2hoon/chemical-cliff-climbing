@@ -2,6 +2,23 @@ from rdkit import Chem
 from rdkit.Chem import Draw
 from rdkit.Chem.rdFMCS import FindMCS
 from PIL import Image
+import base64
+import io
+
+def smiles_to_image_b64(smiles: str) -> str:
+    """SMILES 문자열을 분자 구조 이미지(PNG)로 변환하고 Base64로 인코딩합니다."""
+    try:
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            return ""
+        img = Draw.MolToImage(mol, size=(200, 200))
+        
+        buffered = io.BytesIO()
+        img.save(buffered, format="PNG")
+        img_str = base64.b64encode(buffered.getvalue()).decode()
+        return img_str
+    except Exception:
+        return "" # 오류 발생 시 빈 문자열 반환
 
 def visualize_structure_difference(smiles1: str, smiles2: str, legend1: str = "Molecule 1", legend2: str = "Molecule 2") -> Image:
     """

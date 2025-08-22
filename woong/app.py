@@ -6,9 +6,9 @@ import json
 import zipfile
 import io
 from modules.cheminformatics import find_activity_cliffs
-from modules.visualization import visualize_structure_difference
-from modules.llm_handler import generate_hypothesis
-from modules.io_utils import load_smiles_activity_csv, save_hypothesis_to_md
+from modules.visualization import visualize_structure_difference, smiles_to_image_b64
+from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis
+from modules.io_utils import load_smiles_activity_csv, save_hypothesis_to_md, parse_hypothesis_md
 
 # --- Helper Functions ---
 
@@ -20,7 +20,7 @@ def get_openai_api_key_from_file():
         return None
 
 def format_hypothesis_for_markdown(data: dict) -> str:
-    """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 문자열로 변환합니다."""
+    """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 및 HTML 문자열로 변환합니다."""
     md_lines = []
 
     # 기본 정보
@@ -38,12 +38,25 @@ def format_hypothesis_for_markdown(data: dict) -> str:
             md_lines.append(f"- **{key.replace('_', ' ').title()}:** {value}")
     md_lines.append("\n")
 
-    # 설계 제안
+    # 설계 제안 (HTML 테이블로 변경)
     md_lines.append("### 💡 검증을 위한 분자 설계 제안")
     suggestions = data.get('design_suggestions', [])
     if suggestions:
-        df = pd.DataFrame(suggestions)
-        md_lines.append(df.to_markdown(index=False))
+        html_table = "<table><thead><tr><th>Design (SMILES)</th><th>Structure</th><th>Expected Effect</th><th>Rationale</th><th>Validation Metric</th></tr></thead><tbody>"
+        for s in suggestions:
+            smiles = s.get('design', '')
+            b64_img = smiles_to_image_b64(smiles) if smiles else ''
+            img_tag = f'<img src="data:image/png;base64,{b64_img}" width="200">' if b64_img else ''
+            
+            html_table += f"<tr>"
+            html_table += f"<td>`{smiles}`</td>"
+            html_table += f"<td>{img_tag}</td>"
+            html_table += f"<td>{s.get('expected_effect', 'N/A')}</td>"
+            html_table += f"<td>{s.get('rationale', 'N/A')}</td>"
+            html_table += f"<td>{s.get('validation_metric', 'N/A')}</td>"
+            html_table += f"</tr>"
+        html_table += "</tbody></table>"
+        md_lines.append(html_table)
     md_lines.append("\n")
 
     # 반대 가설
@@ -68,12 +81,29 @@ def format_hypothesis_for_markdown(data: dict) -> str:
 
     return "\n".join(md_lines)
 
+def format_evaluation_for_markdown(data: dict) -> str:
+    """Evaluation 결과를 마크다운으로 변환합니다."""
+    md_lines = []
+    summary = data.get('summary', {})
+    md_lines.append(f"### 📝 평가 요약")
+    md_lines.append(f"- **판정:** {summary.get('verdict', 'N/A')}")
+    md_lines.append(f"- **심사 방법:** {summary.get('method_sketch', 'N/A')}")
+    md_lines.append("\n")
+
+    details = data.get('detailed_solution', {})
+    md_lines.append("### 🔍 상세 평가")
+    md_lines.append(f"- **기본 일치성:** {details.get('consistency_check', 'N/A')}")
+    md_lines.append(f"- **관점별 검증:** {details.get('aspect_validation', 'N/A')}")
+    md_lines.append(f"- **반대 가설 검토:** {details.get('counter_hypothesis_review', 'N/A')}")
+    md_lines.append(f"- **설계 제안 검토:** {details.get('design_suggestion_review', 'N/A')}")
+    md_lines.append(f"- **추가 필요 요소:** {details.get('additional_requirements', 'N/A')}")
+    return "\n".join(md_lines)
 
 # --- Streamlit App ---
 
 st.set_page_config(layout="wide")
-st.title("🔬 SAR 분석 및 가설 생성 자동화 도구")
-st.write("분자 구조와 활성 데이터 기반의 구조-활성 관계(SAR) 분석 및 가설 생성을 자동화합니다.")
+st.title("🔬 SAR 분석 및 가설 생성/평가/수정 자동화 도구")
+st.write("분자 구조와 활성 데이터 기반의 구조-활성 관계(SAR) 분석 및 가설 생성, 평가, 수정을 자동화합니다.")
 
 # --- 1. 데이터 업로드 ---
 st.header("1. 데이터 업로드")
@@ -250,3 +280,123 @@ else:
                     file_name="hypotheses.zip",
                     mime="application/zip"
                 )
+
+# --- 5. 가설 평가 및 수정 ---
+st.header("🔄 가설 평가 및 수정")
+
+hypotheses_dir = "hypotheses"
+if not os.path.isdir(hypotheses_dir) or not os.listdir(hypotheses_dir):
+    st.info("평가할 가설이 없습니다. 먼저 가설을 생성해주세요.")
+else:
+    # Initialize session state keys
+    if 'selected_hypothesis_file' not in st.session_state:
+        st.session_state.selected_hypothesis_file = None
+    if 'evaluation_result' not in st.session_state:
+        st.session_state.evaluation_result = None
+    if 'revised_hypothesis' not in st.session_state:
+        st.session_state.revised_hypothesis = None
+
+    # Get hypothesis files
+    hypothesis_files = sorted([f for f in os.listdir(hypotheses_dir) if f.endswith(".md")], reverse=True)
+    
+    # File selector
+    selected_file = st.selectbox("평가/수정할 가설 파일을 선택하세요:", hypothesis_files, index=0)
+
+    # If selection changes, reset the state
+    if selected_file != st.session_state.selected_hypothesis_file:
+        st.session_state.selected_hypothesis_file = selected_file
+        st.session_state.evaluation_result = None
+        st.session_state.revised_hypothesis = None
+
+    if st.session_state.selected_hypothesis_file:
+        filepath = os.path.join(hypotheses_dir, st.session_state.selected_hypothesis_file)
+        
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            parsed_data = parse_hypothesis_md(content)
+            if not all(parsed_data.values()):
+                st.error("선택된 파일에서 분자 정보를 파싱할 수 없습니다. 파일 형식을 확인해주세요.")
+            else:
+                st.subheader("선택된 원본 가설")
+                st.markdown(parsed_data['hypothesis_body'], unsafe_allow_html=True)
+
+                # --- Evaluation Step ---
+                if st.button("가설 평가 실행"):
+                    openai_api_key = get_openai_api_key_from_file()
+                    if not openai_api_key:
+                        st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
+                    else:
+                        with st.spinner("LLM이 가설을 평가 중입니다..."):
+                            eval_response = evaluate_hypothesis(
+                                api_key=openai_api_key,
+                                hypothesis_text=parsed_data['hypothesis_body'],
+                                smiles1=parsed_data['smiles1'],
+                                activity1=parsed_data['activity1'],
+                                smiles2=parsed_data['smiles2'],
+                                activity2=parsed_data['activity2'],
+                                structural_difference_description=""
+                            )
+                            st.session_state.evaluation_result = eval_response
+                            st.session_state.revised_hypothesis = None # Reset revision
+
+                # --- Display Evaluation and Trigger Revision ---
+                if st.session_state.evaluation_result:
+                    st.subheader("가설 평가 결과")
+                    try:
+                        eval_data = json.loads(st.session_state.evaluation_result)
+                        st.markdown(format_evaluation_for_markdown(eval_data))
+
+                        if st.button("평가 기반으로 가설 수정"):
+                            openai_api_key = get_openai_api_key_from_file()
+                            if not openai_api_key:
+                                st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
+                            else:
+                                with st.spinner("LLM이 가설을 수정 중입니다..."):
+                                    revise_response = revise_hypothesis(
+                                        api_key=openai_api_key,
+                                        original_hypothesis_text=parsed_data['hypothesis_body'],
+                                        review_findings=st.session_state.evaluation_result,
+                                        smiles1=parsed_data['smiles1'],
+                                        activity1=parsed_data['activity1'],
+                                        smiles2=parsed_data['smiles2'],
+                                        activity2=parsed_data['activity2'],
+                                        structural_difference_description=""
+                                    )
+                                    st.session_state.revised_hypothesis = revise_response
+
+                    except json.JSONDecodeError:
+                        st.error("LLM 평가 응답이 유효한 JSON이 아닙니다.")
+                        st.text(st.session_state.evaluation_result)
+
+                # --- Display Revision and Save ---
+                if st.session_state.revised_hypothesis:
+                    st.subheader("수정된 가설")
+                    try:
+                        revised_data = json.loads(st.session_state.revised_hypothesis)
+                        
+                        # Format the revised hypothesis for display
+                        display_md = format_hypothesis_for_markdown(revised_data)
+                        st.markdown(display_md, unsafe_allow_html=True)
+
+                        # Prepare for saving
+                        file_header = f"""**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{parsed_data['smiles1']}` (활성도: {parsed_data['activity1']:.2f})\n- **화합물 2 (상대적 고활성):** `{parsed_data['smiles2']}` (활성도: {parsed_data['activity2']:.2f})\n\n---\n"""
+                        final_md_to_save = file_header + display_md
+
+                        st.subheader("수정된 가설 저장")
+                        new_filename = st.text_input("새 파일 이름:", f"revised_{st.session_state.selected_hypothesis_file}")
+                        if st.button("수정된 가설 저장"):
+                            if new_filename:
+                                new_filepath = os.path.join(hypotheses_dir, new_filename)
+                                save_hypothesis_to_md(final_md_to_save, new_filepath)
+                                st.success(f"수정된 가설이 {new_filepath}에 저장되었습니다.")
+                            else:
+                                st.warning("파일 이름을 입력하세요.")
+
+                    except json.JSONDecodeError:
+                        st.error("LLM 수정 응답이 유효한 JSON이 아닙니다.")
+                        st.text(st.session_state.revised_hypothesis)
+
+        except Exception as e:
+            st.error(f"파일 처리 중 오류 발생: {e}")

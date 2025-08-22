@@ -132,3 +132,47 @@ def save_hypothesis_to_md(hypothesis: str, filename: str) -> None:
     except IOError as e:
         # 실제 앱에서는 st.error() 등을 사용하여 사용자에게 알릴 수 있습니다.
         print(f"Error saving file {filename}: {e}")
+
+def parse_hypothesis_md(file_content: str) -> Dict:
+    """
+    저장된 가설 마크다운 파일의 내용을 파싱하여 초기 데이터와 가설 본문을 분리합니다.
+
+    Args:
+        file_content (str): 마크다운 파일의 전체 내용.
+
+    Returns:
+        Dict: 파싱된 데이터를 담은 딕셔너리. 실패 시 일부 필드가 None일 수 있음.
+              예: {
+                  'smiles1': str, 'activity1': float, 
+                  'smiles2': str, 'activity2': float, 
+                  'hypothesis_body': str
+              }
+    """
+    data = {
+        'smiles1': None, 'activity1': None,
+        'smiles2': None, 'activity2': None,
+        'hypothesis_body': None
+    }
+
+    # 정규식을 사용하여 화합물 정보 추출
+    # 화합물 1 (저활성)
+    match1 = re.search(r"- \*\*화합물 1 \(상대적 저활성\):\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
+    if match1:
+        data['smiles1'] = match1.group(1)
+        data['activity1'] = float(match1.group(2))
+
+    # 화합물 2 (고활성)
+    match2 = re.search(r"- \*\*화합물 2 \(상대적 고활성\):\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
+    if match2:
+        data['smiles2'] = match2.group(1)
+        data['activity2'] = float(match2.group(2))
+
+    # 헤더와 본문 분리
+    parts = re.split(r"\n---\n", file_content, maxsplit=1)
+    if len(parts) > 1:
+        data['hypothesis_body'] = parts[1].strip()
+    else:
+        # 헤더가 없는 경우 전체를 본문으로 간주
+        data['hypothesis_body'] = file_content.strip()
+
+    return data
