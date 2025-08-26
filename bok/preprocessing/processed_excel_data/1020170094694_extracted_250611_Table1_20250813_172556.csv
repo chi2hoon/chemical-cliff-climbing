@@ -1,0 +1,10 @@
+Species,Sex,Dose,Percentage
+Mouse,Male,IV 40 mg/kg,0 (0/2)
+Mouse,Male,IP 40 mg/kg,0 (0/2)
+Mouse,Female,IV 40 mg/kg,0 (0/2)
+Mouse,Female,IP 40 mg/kg,0 (0/2)
+
+--- Table Metadata for Table1 ---
+Header Row (0-indexed in sheet): 1
+Last Data Row (0-indexed in sheet): 5
+Number of Data Rows (Length of Table): 4

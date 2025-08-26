@@ -1,0 +1,104 @@
+--- Report for Excel file: ../SAR/1020170094694_extracted_250611.xlsx ---
+Report Generated: 2025-08-01 13:49:58
+
+============================================================
+Sheet Name: 표1 ~ 표2
+============================================================
+
+--- Column Headers ---
+- table 1
+- Unnamed: 1
+- Unnamed: 2
+- Unnamed: 3
+
+--- First 5 Rows (including header) ---
+table 1 Unnamed: 1  Unnamed: 2 Unnamed: 3
+Species        Sex        Dose Percentage
+  Mouse       Male IV 40 mg/kg    0 (0/2)
+  Mouse       Male IP 40 mg/kg    0 (0/2)
+  Mouse     Female IV 40 mg/kg    0 (0/2)
+  Mouse     Female IP 40 mg/kg    0 (0/2)
+
+
+============================================================
+Sheet Name: 표3
+============================================================
+
+--- Column Headers ---
+- table 3
+- used Tabula for convenient IUPAC pasting (still needed to delete spaces and take care of omits from the extracted table)
+- Non-Asterik Versions - using o3 changed SF5 values from asterik to SMILES form
+- Green highlight denotes (*)asterisks included in SMILES (could be gone after 2nd Cleansing)
+- Red highlight denotes different imaging (but SMILES is not necessarily incorrect)
+- Unnamed: 5
+
+--- First 5 Rows (including header) ---
+            table 3 used Tabula for convenient IUPAC pasting (still needed to delete spaces and take care of omits from the extracted table)  Non-Asterik Versions - using o3 changed SF5 values from asterik to SMILES form Green highlight denotes (*)asterisks included in SMILES (could be gone after 2nd Cleansing) Red highlight denotes different imaging (but SMILES is not necessarily incorrect)                                                      Unnamed: 5
+Compound # (화합물 번호)                                                                                                  Structure (구조) - SMILES                                                                             NaN                                                                           IUPAC (formatted)                                               for reference --> (before cleansed)                                     tabular IUPAC (unformatted)
+                  1                                                                             CC(=O)/C1=C(\S(C)=O)NC2=C(Br)C=CC(Cl)=C2C1=O                                                                             NaN                             3-acetyl-8-bromo-5-chloro-2-(methylsulfinyl)quinol in-4(1H)-one                                                                               NaN 3-acetyl-8-bromo-5-chloro-2-(methylsulfinyl)quinol in-4(1H)-one
+                  2                                                                               CS/C1=C(\C(C)=O)C(=O)C2=C(Cl)C=CC(Br)=C2N1                                                                             NaN                                  3-acetyl-8-bromo-5-chloro-2-(methylthio)quinolin-4(1H)-one                                                                               NaN     3-acetyl-8-bromo-5-chloro-2-(methylthio)quinolin- 4(1H)-one
+                  3                                                                      CC(=O)/C1=C(\SCC2=CC=CC=C2)NC2=C(Br)C=CC(Cl)=C2C1=O                                                                             NaN                                  3-acetyl-2-(benzylthio)-8-bromo-5-chloroquinolin-4(1H)-one                                                                               NaN     3-acetyl-2-(benzylthio)-8-bromo-5-chloroquinolin- 4(1H)-one
+                  4                                                                  CC(=O)/C1=C(\S(=O)CC2=CC=CC=C2)NC2=C(Br)C=CC(Cl)=C2C1=O                                                                             NaN                              3-acetyl-2-(benzylsulfinyl)-8-bromo-5-chloroquinolin-4(1H)-one                                                                               NaN 3-acetyl-2-(benzylsulfinyl)-8-bromo-5- chloroquinolin-4(1H)-one
+
+
+============================================================
+Sheet Name: 표4
+============================================================
+
+--- Column Headers ---
+- table 4
+- used Tabula for table pasting (manually inputted excluded parts)
+- Unnamed: 2
+- Unnamed: 3
+- 1H NMR는 lattice method로 구분
+
+--- First 5 Rows (including header) ---
+            table 4 used Tabula for table pasting (manually inputted excluded parts) Unnamed: 2 Unnamed: 3                                                                                                                                                                                                                1H NMR는 lattice method로 구분
+Compound # (화합물 번호)                                                            IUPAC   MW (분자량) LC/MS data                                                                                                                                                                                                                                    1H NMR
+                  1  3-acetyl-8-bromo-5-chloro-2-(methylsulfinyl)quinol in-4(1H)-one     362.62        363                                                                                                                    1 H NMR (300 MHz, CDCl3)δ11.13 (br, 1H), 7.81 (d, J= 8.4 Hz, 1H), 7.37 (d, J= 8.4 Hz, 1H), 3.02 (s, 3H), 2.78 (s, 3H).
+                  2       3-acetyl-8-bromo-5-chloro-2-(methylthio)quinolin-4(1H)-one     346.63        348                                                                                                                   1 H NMR (300 MHz, CDCl3) δ8.67(s,1H),7.91-7.88(d,J=8.19 Hz, 1H), 7.71-7.68(d, J=8.49 Hz, 1H), 2.97(s, 3H), 2.79(s, 3H).
+                  3       3-acetyl-2-(benzylthio)-8-bromo-5-chloroquinolin-4(1H)-one     422.72        423 1 H NMR (300 MHz, CDCl3)δ16.43 (s, 0.5H), 8.59 (br, 0.5H), 7.91 (d, J= 8.3 Hz, 1H), 7.62 (d, J= 8.4 Hz, 0.5H), 7.48 7.52 (m, 3H), 7.27 7.43 (m, 5H), 7.22 (d, J= 8.4 Hz, 0.5H), 4.80 (s, 2H), 4.32 (s, 1H), 2.93 (s, 3H), 2.69 (s, 1.5H).
+                  4   3-acetyl-2-(benzylsulfinyl)-8-bromo-5-chloroquinolin-4(1H)-one     438.72        439                                                                         1 H NMR (300 MHz, CDCl3)δ10.24 (br, 1H), 7.67 (d, J= 8.4 Hz, 1H), 7.29 (d, J= 8.4 Hz, 1H), 7.13 7.22 (m, 3H), 7.08 7.11 (m, 2H), 4.59 4.25 (m, 2H), 2.84 (s, 3H).
+
+
+============================================================
+Sheet Name: 표5~표14
+============================================================
+
+--- Column Headers ---
+- table 5
+- Tabula 기반 데이터 컬랙션/클랜징
+- Unnamed: 2
+- Unnamed: 3
+- Unnamed: 4
+- Unnamed: 5
+- Unnamed: 6
+- Unnamed: 7
+
+--- First 5 Rows (including header) ---
+table 5 Tabula 기반 데이터 컬랙션/클랜징 Unnamed: 2 Unnamed: 3 Unnamed: 4 Unnamed: 5 Unnamed: 6 Unnamed: 7
+    NaN                방광암세포주        NaN        NaN        NaN        NaN        NaN        NaN
+ 화합물 번호              KU-19-19       253J       5637        J82        T24      MBT-2    UM-UC-3
+      1               1.94 μM    1.35 μM    1.67 μM     > 2 μM    1.34 μM    1.19 μM    1.51 μM
+      2                > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM
+      3                > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM     > 2 μM
+
+
+============================================================
+Sheet Name: Asterik ExceptionCase Chart
+============================================================
+
+--- Column Headers ---
+- Unnamed: 0
+- Conclusion: There are no adjustments to be made as they matched each image
+- Unnamed: 2
+
+--- First 5 Rows (including header) ---
+ Unnamed: 0 Conclusion: There are no adjustments to be made as they matched each image                                                 Unnamed: 2
+        NaN                                                                        NaN                                                        NaN
+        NaN             OLD SMILES / Initial Extraced SMILES formula (with asterik/별표)                                                 NEW SMILES
+       68.0                   O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C   O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C
+       69.0                  O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O  O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O
+       75.0               O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)CC1=CC=C(C=C1OC)* O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)C1=CC=C(C=C1O)*
+
+

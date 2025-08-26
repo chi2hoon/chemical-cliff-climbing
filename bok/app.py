@@ -83,20 +83,35 @@ if uploaded_file:
         index=0,
     )
 
+    similarity_metric_map = {
+        "Fingerprint (빠름)": "fingerprint",
+        "MCS (정확하지만 느림)": "mcs"
+    }
+    similarity_metric_label = st.sidebar.selectbox(
+        "유사도 계산 방식",
+        options=list(similarity_metric_map.keys()),
+        index=0,
+        help="Fingerprint는 빠르지만 근사적인 방법이며, MCS는 원자 단위로 구조를 비교하는 더 정확하지만 느린 방법입니다."
+    )
+    similarity_metric = similarity_metric_map[similarity_metric_label]
+
     # Common / method-specific parameters
+    radius = 2 # Default radius
     if method == "기본 임계값":
         sim_thres = st.sidebar.slider("구조 유사도 임계값", 0.7, 1.0, 0.85, 0.01)
         act_thres = st.sidebar.slider("pIC50 차이 임계값", 0.5, 3.0, 1.0, 0.1)
     elif method == "SALI 순위":
         top_n = st.sidebar.number_input("상위 N SALI 쌍", min_value=10, max_value=2000, value=200, step=10)
         sim_floor = st.sidebar.slider("최소 유사도 (SALI 필터)", 0.0, 1.0, 0.5, 0.01)
-        radius = st.sidebar.select_slider("Morgan 반경", options=[2, 3], value=2)
+        if similarity_metric == 'fingerprint':
+            radius = st.sidebar.select_slider("Morgan 반경", options=[2, 3], value=2)
         scaffold_constrained = st.sidebar.checkbox("동일 스캐폴드 내에서만 비교", value=False)
     else:  # k-NN
         k = st.sidebar.slider("이웃 수 k", 1, 50, 8)
         act_thres = st.sidebar.slider("pIC50 차이 임계값", 0.5, 3.0, 1.0, 0.1)
         min_sim = st.sidebar.slider("최소 유사도 (이웃 필터)", 0.0, 1.0, 0.0, 0.01)
-        radius = st.sidebar.select_slider("Morgan 반경", options=[2, 3], value=2)
+        if similarity_metric == 'fingerprint':
+            radius = st.sidebar.select_slider("Morgan 반경", options=[2, 3], value=2)
         scaffold_constrained = st.sidebar.checkbox("동일 스캐폴드 내에서만 비교", value=False)
 
     # Replaced checkboxes with radio button for prompt generation strategy
@@ -116,20 +131,30 @@ if uploaded_file:
     # Get the cached Qdrant client
     qdrant_client = get_qdrant_client()
 
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+
+    def progress_callback(current, total):
+        progress = current / total
+        progress_bar.progress(progress)
+        status_text.text(f"Processing pair {current}/{total}...")
+
     with st.spinner("Activity Cliff 탐지 중..."):
         if method == "기본 임계값":
-            results = detect_activity_cliffs(df, sim_thres, act_thres)
+            results, runtime = detect_activity_cliffs(df, sim_thres, act_thres, similarity_metric=similarity_metric, progress_callback=progress_callback)
         elif method == "SALI 순위":
-            results = detect_activity_cliffs_sali(
+            results, runtime = detect_activity_cliffs_sali(
                 df,
                 top_n=top_n,
                 radius=radius,
                 fp_bits=2048,
                 sim_floor=sim_floor,
                 scaffold_constrained=scaffold_constrained,
+                similarity_metric=similarity_metric,
+                progress_callback=progress_callback,
             )
         else:  # k-NN
-            results = detect_activity_cliffs_knn(
+            results, runtime = detect_activity_cliffs_knn(
                 df,
                 k=k,
                 act_thres=act_thres,
@@ -137,9 +162,14 @@ if uploaded_file:
                 fp_bits=2048,
                 min_sim=min_sim,
                 scaffold_constrained=scaffold_constrained,
+                similarity_metric=similarity_metric,
+                progress_callback=progress_callback,
             )
+    status_text.text("Done!")
+    progress_bar.empty()
 
     st.success(f"{len(results)}개의 Activity Cliff 쌍이 탐지되었습니다.")
+    st.info(f"유사도 계산에 걸린 시간: {runtime:.2f} 초")
 
     # Download Results Button
     if not results.empty:

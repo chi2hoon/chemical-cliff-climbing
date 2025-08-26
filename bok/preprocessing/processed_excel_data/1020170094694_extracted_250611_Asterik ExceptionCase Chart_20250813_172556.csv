@@ -1,0 +1,20 @@
+,Conclusion: There are no adjustments to be made as they matched each image,
+,,
+,OLD SMILES / Initial Extraced SMILES formula (with asterik/별표),NEW SMILES
+68.0,O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C,O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C
+69.0,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O
+75.0,O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)CC1=CC=C(C=C1OC)*,O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)C1=CC=C(C=C1O)*
+76.0,ClC1C=CC(Br)=C2C=1C(=O)C(=C(S(=O)CC1=CC(F)=CC(=C1)*)N2)C(=O)C,ClC1C=CC(Br)=C2C=1C(=O)C(=C(S(=O)CC1=CC(F)=CC(=C1)*)N2)C(=O)C
+77.0,O=C1C2C(=C(Br)C=CC=2Cl)NC(=C1C(=O)C)S(=O)CC1C=C(*)C=CC=1,O=C1C2C(=C(Br)C=CC=2Cl)NC(=C1C(=O)C)S(=O)CC1C=C(*)C=CC=1
+79.0,O=S(C1=C(C(=O)C)C(=O)C2C(=C(Cl)C=CC=2Cl)N1)CC1=CC=C(C=C1)*,O=S(C1=C(C(=O)C)C(=O)C2C(=C(Cl)C=CC=2Cl)N1)CC1=CC=C(C=C1)*
+80.0,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C)S(=O)CC1=CC=C(C=C1)*,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C)S(=O)CC1=CC=C(C=C1)*
+85.0,O=C(C(C)C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(=C(F)C=CC=2F)C1=O,O=C(C(C)C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(=C(F)C=CC=2F)C1=O
+87.0,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C1C=CC=CC=1)S(=O)CC1=CC=C(C=C1)*,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C1C=CC=CC=1)S(=O)CC1=CC=C(C=C1)*
+92.0,O=C1C2C(=CC=CC=2OC)NC(=C1C(=O)C)SCC1=CC=C(C=C1)*,O=C1C2C(=CC=CC=2OC)NC(=C1C(=O)C)SCC1=CC=C(C=C1)*
+93.0,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(C1=O)=C(OC)C=CC=2,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(C1=O)=C(OC)C=CC=2
+101.0,ClC1=C2C(NC(=C(C(=O)C3CC3)C2=O)S(=O)CC2=CC=C(C=C2)*C)=C(Br)C=C1,ClC1=C2C(NC(=C(C(=O)C3CC3)C2=O)S(=O)CC2=CC=C(C=C2)*C)=C(Br)C=C1
+
+--- Table Metadata for Asterik ExceptionCase Chart ---
+Header Row (0-indexed in sheet): 0
+Last Data Row (0-indexed in sheet): 14
+Number of Data Rows (Length of Table): 14
