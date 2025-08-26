@@ -23,16 +23,33 @@ def format_hypothesis_for_markdown(data: dict) -> str:
     """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 및 HTML 문자열로 변환합니다."""
     md_lines = []
 
+    # --- Robust type normalization ---
+    def as_dict(value):
+        return value if isinstance(value, dict) else {}
+
+    def as_list(value):
+        if isinstance(value, list):
+            return value
+        if isinstance(value, str) and value.strip():
+            return [value]
+        return []
+
+    def as_float(value, default=0.0):
+        try:
+            return float(value)
+        except Exception:
+            return default
+
     # 기본 정보
     md_lines.append(f"### 🏆 주요 가설: {data.get('primary_hypothesis', 'N/A')}")
     md_lines.append(f"- **더 활성이 높은 화합물:** `{data.get('more_active', 'N/A')}`")
     md_lines.append(f"- **활성도 변화 설명:** {data.get('delta_pAct_explained', 'N/A')}")
-    md_lines.append(f"- **신뢰도:** {data.get('confidence', 0.0) * 100:.1f}%")
+    md_lines.append(f"- **신뢰도:** {as_float(data.get('confidence', 0.0)) * 100:.1f}%")
     md_lines.append("\n")
 
     # 기전 분석
     md_lines.append("### 🔬 기전 분석")
-    rationale = data.get('mechanistic_rationale', {})
+    rationale = as_dict(data.get('mechanistic_rationale', {}))
     for key, value in rationale.items():
         if value and value not in ["N/A", "선택"]:
             md_lines.append(f"- **{key.replace('_', ' ').title()}:** {value}")
@@ -40,20 +57,31 @@ def format_hypothesis_for_markdown(data: dict) -> str:
 
     # 설계 제안 (HTML 테이블로 변경)
     md_lines.append("### 💡 검증을 위한 분자 설계 제안")
-    suggestions = data.get('design_suggestions', [])
+    suggestions = as_list(data.get('design_suggestions', []))
     if suggestions:
         html_table = "<table><thead><tr><th>Design (SMILES)</th><th>Structure</th><th>Expected Effect</th><th>Rationale</th><th>Validation Metric</th></tr></thead><tbody>"
         for s in suggestions:
-            smiles = s.get('design', '')
+            if isinstance(s, dict):
+                smiles = s.get('design') or s.get('smiles') or ''
+                expected_effect = s.get('expected_effect', 'N/A')
+                rationale_text = s.get('rationale', 'N/A')
+                validation_metric = s.get('validation_metric', 'N/A')
+            else:
+                # 문자열 등 단순 항목을 안전하게 표시
+                smiles = str(s)
+                expected_effect = 'N/A'
+                rationale_text = 'N/A'
+                validation_metric = 'N/A'
+
             b64_img = smiles_to_image_b64(smiles) if smiles else ''
             img_tag = f'<img src="data:image/png;base64,{b64_img}" width="200">' if b64_img else ''
-            
+
             html_table += f"<tr>"
             html_table += f"<td>`{smiles}`</td>"
             html_table += f"<td>{img_tag}</td>"
-            html_table += f"<td>{s.get('expected_effect', 'N/A')}</td>"
-            html_table += f"<td>{s.get('rationale', 'N/A')}</td>"
-            html_table += f"<td>{s.get('validation_metric', 'N/A')}</td>"
+            html_table += f"<td>{expected_effect}</td>"
+            html_table += f"<td>{rationale_text}</td>"
+            html_table += f"<td>{validation_metric}</td>"
             html_table += f"</tr>"
         html_table += "</tbody></table>"
         md_lines.append(html_table)
@@ -61,21 +89,21 @@ def format_hypothesis_for_markdown(data: dict) -> str:
 
     # 반대 가설
     md_lines.append("### 🤔 반대 가설")
-    counter_hypotheses = data.get('counter_hypotheses', [])
+    counter_hypotheses = as_list(data.get('counter_hypotheses', []))
     for i, counter in enumerate(counter_hypotheses, 1):
         md_lines.append(f"{i}. {counter}")
     md_lines.append("\n")
 
     # ADMET 위험성
     md_lines.append("### ⚠️ ADMET 위험성 예측")
-    admet_flags = data.get('admet_flags', [])
+    admet_flags = as_list(data.get('admet_flags', []))
     for flag in admet_flags:
         md_lines.append(f"- {flag}")
     md_lines.append("\n")
     
     # 가정 및 한계
     md_lines.append("### 📋 가정 및 한계")
-    assumptions = data.get('assumptions_and_limits', [])
+    assumptions = as_list(data.get('assumptions_and_limits', []))
     for assumption in assumptions:
         md_lines.append(f"- {assumption}")
 
@@ -107,6 +135,67 @@ st.write("분자 구조와 활성 데이터 기반의 구조-활성 관계(SAR) 
 
 # --- 1. 데이터 업로드 ---
 st.header("1. 데이터 업로드")
+
+# Option B: Silver 데이터셋에서 바로 불러오기
+with st.expander("Option B: Silver 데이터셋에서 불러오기", expanded=False):
+    try:
+        PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        silver_base_dir = os.path.join(PROJECT_ROOT, "hoon", "data", "silver")
+        if not os.path.isdir(silver_base_dir):
+            st.info(f"Silver 데이터 경로가 없습니다: {silver_base_dir}")
+        else:
+            # 사용 가능한 데이터셋 ID 탐색 (예: 2017, 2018 ...). 'all' 제외
+            dataset_ids = [d for d in os.listdir(silver_base_dir) if os.path.isdir(os.path.join(silver_base_dir, d)) and d != "all"]
+            dataset_ids = sorted(dataset_ids)
+            if not dataset_ids:
+                st.info("사용 가능한 Silver 데이터셋 디렉토리가 없습니다.")
+            else:
+                dataset_id = st.selectbox("데이터셋 ID 선택", dataset_ids, index=0)
+
+                # 미리 측정 파일을 읽어 cell line 옵션 제공
+                meas_path = os.path.join(silver_base_dir, dataset_id, "measurements_std.csv")
+                comp_path = os.path.join(silver_base_dir, dataset_id, "compounds_canonical.csv")
+                cell_options = []
+                try:
+                    if os.path.exists(meas_path):
+                        tmp_meas = pd.read_csv(meas_path)
+                        if "cell_line" in tmp_meas.columns:
+                            cell_options = sorted([c for c in tmp_meas["cell_line"].dropna().unique().tolist() if str(c).strip() != ""])
+                except Exception:
+                    pass
+
+                selected_cells = st.multiselect("필터: Cell line (선택)", options=cell_options, default=[])
+                if st.button("Silver 데이터셋 불러오기"):
+                    try:
+                        if not os.path.exists(meas_path) or not os.path.exists(comp_path):
+                            raise FileNotFoundError("measurements_std.csv 또는 compounds_canonical.csv 파일을 찾을 수 없습니다.")
+
+                        df_meas = pd.read_csv(meas_path)
+                        df_comp = pd.read_csv(comp_path)
+                        # 선택된 cell line 필터링 (있을 때만)
+                        if selected_cells and "cell_line" in df_meas.columns:
+                            df_meas = df_meas[df_meas["cell_line"].isin(selected_cells)]
+
+                        # 병합 및 정리
+                        merged = df_meas.merge(df_comp[[c for c in ["compound_id", "smiles_canonical"] if c in df_comp.columns]], on="compound_id", how="left")
+                        if "value_std" not in merged.columns:
+                            raise RuntimeError("measurements_std.csv에 'value_std' 컬럼이 없습니다.")
+                        merged = merged.rename(columns={"smiles_canonical": "SMILES", "value_std": "Activity"})
+                        merged["Activity"] = pd.to_numeric(merged["Activity"], errors="coerce")
+                        merged = merged[(merged["SMILES"].astype(str).str.strip() != "") & (merged["Activity"].notna())]
+
+                        # 앱에서 사용할 최소 컬럼만 유지
+                        keep_cols = [c for c in ["SMILES", "Activity", "assay_id", "cell_line"] if c in merged.columns]
+                        df_for_app = merged[keep_cols].reset_index(drop=True)
+
+                        st.session_state['df'] = df_for_app
+                        st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
+                        st.success(f"Silver 데이터셋 '{dataset_id}'에서 {len(df_for_app)}개 레코드를 불러왔습니다.")
+                        st.dataframe(df_for_app.head())
+                    except Exception as e:
+                        st.error(f"Silver 데이터셋 로딩 실패: {e}")
+    except Exception as e:
+        st.error(f"Option B UI 오류: {e}")
 
 uploaded_file = st.file_uploader("분자 구조(SMILES)와 활성 데이터가 포함된 CSV 파일을 업로드하세요.", type="csv")
 
@@ -145,6 +234,13 @@ if 'df' in st.session_state and st.session_state['df'] is not None:
         similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
         activity_diff_threshold = st.number_input("활성도 차이 임계값", min_value=0.0, value=1.0, step=0.1)
 
+    activity_direction = st.selectbox(
+        "활성도 방향",
+        ["낮을수록 좋음 (IC50/Ki 등)", "높을수록 좋음 (pIC50/Efficacy 등)"],
+        index=0,
+        help="IC50/Ki 등 원시 값은 낮을수록 활성이 강합니다. pIC50 등 변환 값은 높을수록 강합니다."
+    )
+
     if st.button("Activity Cliff 분석 실행"):
         with st.spinner("Activity Cliff를 분석 중입니다..."):
             work_df = df.copy()
@@ -178,6 +274,15 @@ if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
             st.session_state['openai_api_key'] = openai_api_key
             st.success("API 키가 openAI_key.txt 파일에서 로드되었습니다.")
 
+            # 모델 선택 (gpt-4o-mini가 JSON 모드에 더 안정적)
+            model_options = ["gpt-4o-mini", "gpt-5-nano"]
+            selected_model = st.selectbox(
+                "LLM 모델 선택",
+                model_options,
+                index=0,
+                help="gpt-4o-mini는 JSON 응답이 더 안정적입니다. gpt-5-nano는 속도는 빠르나 JSON 강제 모드가 제한될 수 있습니다."
+            )
+
             if st.button("선택된 쌍에 대한 가설 생성"):
                 output_dir = "hypotheses"
                 os.makedirs(output_dir, exist_ok=True)
@@ -197,12 +302,22 @@ if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
 
                     # 가설 생성
                     with st.spinner(f"쌍 #{i}에 대한 LLM 가설을 생성 중입니다..."):
-                        if row['Activity_1'] > row['Activity_2']:
-                            high_act_smiles, high_act_val = row['SMILES_1'], row['Activity_1']
-                            low_act_smiles, low_act_val = row['SMILES_2'], row['Activity_2']
+                        if activity_direction.startswith("낮을수록"):
+                            # 낮을수록 활성이 강함 (예: IC50). 더 작은 값이 더 활성이 높음
+                            if row['Activity_1'] < row['Activity_2']:
+                                high_act_smiles, high_act_val = row['SMILES_1'], row['Activity_1']
+                                low_act_smiles, low_act_val = row['SMILES_2'], row['Activity_2']
+                            else:
+                                high_act_smiles, high_act_val = row['SMILES_2'], row['Activity_2']
+                                low_act_smiles, low_act_val = row['SMILES_1'], row['Activity_1']
                         else:
-                            high_act_smiles, high_act_val = row['SMILES_2'], row['Activity_2']
-                            low_act_smiles, low_act_val = row['SMILES_1'], row['Activity_1']
+                            # 높을수록 활성이 강함 (예: pIC50)
+                            if row['Activity_1'] > row['Activity_2']:
+                                high_act_smiles, high_act_val = row['SMILES_1'], row['Activity_1']
+                                low_act_smiles, low_act_val = row['SMILES_2'], row['Activity_2']
+                            else:
+                                high_act_smiles, high_act_val = row['SMILES_2'], row['Activity_2']
+                                low_act_smiles, low_act_val = row['SMILES_1'], row['Activity_1']
 
                         json_response = generate_hypothesis(
                             api_key=openai_api_key,
@@ -210,24 +325,35 @@ if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
                             activity1=low_act_val,
                             smiles2=high_act_smiles,
                             activity2=high_act_val,
-                            structural_difference_description=f"화합물 1({low_act_smiles})과 화합물 2({high_act_smiles})의 구조적 차이점."
+                            structural_difference_description=(
+                                f"화합물 1({low_act_smiles})과 화합물 2({high_act_smiles})의 구조적 차이점. "
+                                f"활성도 방향 가정: {'낮을수록 좋음' if activity_direction.startswith('낮을수록') else '높을수록 좋음'}."
+                            ),
+                            similarity=float(row['Similarity']) if 'Similarity' in row and pd.notna(row['Similarity']) else None,
+                            model=selected_model,
                         )
                         
                         try:
                             hypothesis_data = json.loads(json_response)
-                            
+
                             display_md = format_hypothesis_for_markdown(hypothesis_data)
-                            
+
                             file_header = f"""**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{low_act_smiles}` (활성도: {low_act_val:.2f})\n- **화합물 2 (상대적 고활성):** `{high_act_smiles}` (활성도: {high_act_val:.2f})\n\n---\n"""
                             file_md = file_header + display_md
 
                             st.markdown(file_md, unsafe_allow_html=True)
 
-                            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                            filename = f"hypothesis_pair_{i}_{timestamp}.md"
-                            filepath = os.path.join(output_dir, filename)
-                            save_hypothesis_to_md(file_md, filepath)
-                            st.success(f"가설이 '{filepath}' 파일로 저장되었습니다.")
+                            # Manual save controls per item
+                            with st.expander(f"가설 저장 옵션 (쌍 #{i})", expanded=False):
+                                default_name = f"hypothesis_pair_{i}_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.md"
+                                manual_filename = st.text_input("파일 이름", default_name, key=f"save_name_{i}")
+                                if st.button("이 가설 저장", key=f"save_btn_{i}"):
+                                    if manual_filename:
+                                        filepath = os.path.join(output_dir, manual_filename)
+                                        save_hypothesis_to_md(file_md, filepath)
+                                        st.success(f"가설이 '{filepath}' 파일로 저장되었습니다.")
+                                    else:
+                                        st.warning("파일 이름을 입력하세요.")
 
                         except json.JSONDecodeError:
                             st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 원본 응답을 표시합니다:")

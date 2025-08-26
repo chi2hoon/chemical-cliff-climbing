@@ -3,6 +3,10 @@ import re
 from typing import Dict, Optional, Tuple
 
 import pandas as pd
+try:
+    from rdkit import Chem
+except Exception:  # RDKit가 없거나 로드 실패 시 이름 기반 휴리스틱만 사용
+    Chem = None
 
 
 def _normalize_column_name(name: str) -> str:
@@ -13,12 +17,40 @@ def _normalize_column_name(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", lowered)
 
 
+def _smiles_parse_ratio(series: pd.Series, sample_size: int = 300) -> float:
+    if Chem is None:
+        return 0.0
+    values = series.dropna().astype(str).str.strip()
+    if values.empty:
+        return 0.0
+    sample = values.sample(min(sample_size, len(values)), random_state=42)
+    total = 0
+    ok = 0
+    for v in sample:
+        if not v:
+            continue
+        total += 1
+        mol = Chem.MolFromSmiles(v)
+        if mol is not None:
+            ok += 1
+    return (ok / total) if total > 0 else 0.0
+
+
+def _numeric_ratio(series: pd.Series, sample_size: int = 500) -> float:
+    values = series.dropna().astype(str).str.strip()
+    if values.empty:
+        return 0.0
+    sample = values.sample(min(sample_size, len(values)), random_state=42)
+    nums = pd.to_numeric(sample, errors="coerce")
+    return float(nums.notna().mean())
+
+
 def _detect_header_row(df_without_header: pd.DataFrame) -> Optional[int]:
     # 어느 행에 실제 헤더(예: SMILES)가 있는지 탐지
     for row_idx in range(len(df_without_header)):
         row = df_without_header.iloc[row_idx].astype(str).fillna("").tolist()
         normalized_cells = [_normalize_column_name(cell) for cell in row]
-        if any(cell == "smiles" for cell in normalized_cells):
+        if any(("smile" in cell) for cell in normalized_cells):
             return row_idx
     return None
 
@@ -26,21 +58,53 @@ def _detect_header_row(df_without_header: pd.DataFrame) -> Optional[int]:
 def _choose_smiles_and_activity_columns(df: pd.DataFrame) -> Tuple[str, Optional[str]]:
     normalized_map = {col: _normalize_column_name(col) for col in df.columns}
 
-    # SMILES 컬럼 선택: normalize == "smiles" 우선
-    smiles_candidates = [col for col, norm in normalized_map.items() if norm == "smiles"]
-    smiles_col = smiles_candidates[0] if smiles_candidates else df.columns[0]
-
-    # Activity 컬럼 선택 우선순위: ic50 포함 > activity 포함 > 두 번째 컬럼
-    activity_candidates = [
-        col for col, norm in normalized_map.items() if ("ic50" in norm or "activity" in norm)
+    # 1) SMILES 후보: 이름에 'smile' 포함, 'structure', 'mol' 등
+    name_based_candidates = [
+        col for col, norm in normalized_map.items()
+        if ("smile" in norm) or ("structure" in norm) or (norm in {"mol", "molecule"})
     ]
+
+    # 2) RDKit로 실제 SMILES 파싱률 기반 스코어링 (가능할 때)
+    scored: Dict[str, float] = {}
+    candidates = name_based_candidates if name_based_candidates else list(df.columns)
+    for col in candidates:
+        try:
+            ratio = _smiles_parse_ratio(df[col])
+        except Exception:
+            ratio = 0.0
+        scored[col] = ratio
+
+    # 최적 컬럼 선택: 파싱률 0.2 이상 중 최고, 없으면 이름 기반 첫 번째, 그것도 없으면 첫 컬럼
+    smiles_col = None
+    if scored:
+        best_col = max(scored, key=lambda c: scored[c])
+        if scored[best_col] >= 0.2:
+            smiles_col = best_col
+    if smiles_col is None:
+        smiles_col = name_based_candidates[0] if name_based_candidates else df.columns[0]
+
+    # 3) Activity 후보: 이름 키워드 가중치 + 숫자 비율
+    activity_keywords = (
+        "pic50", "ic50", "ec50", "ki", "kd", "potency", "activity", "response", "value"
+    )
+    act_scores: Dict[str, float] = {}
+    for col, norm in normalized_map.items():
+        if col == smiles_col:
+            continue
+        keyword_bonus = 1.0 if any(k in norm for k in activity_keywords) else 0.0
+        try:
+            num_ratio = _numeric_ratio(df[col])
+        except Exception:
+            num_ratio = 0.0
+        # 기본 점수: 숫자 비율 + 키워드 보너스
+        act_scores[col] = num_ratio + keyword_bonus
+
     activity_col = None
-    for col in activity_candidates:
-        if col != smiles_col:
-            activity_col = col
-            break
+    if act_scores:
+        activity_col = max(act_scores, key=lambda c: act_scores[c])
+
+    # 폴백: 그래도 없으면 두 번째(또는 세 번째) 컬럼
     if activity_col is None and len(df.columns) >= 2:
-        # 안전한 폴백: 두 번째 컬럼(단, SMILES와 다를 것)
         second = df.columns[1]
         activity_col = second if second != smiles_col else (df.columns[2] if len(df.columns) >= 3 else None)
 
