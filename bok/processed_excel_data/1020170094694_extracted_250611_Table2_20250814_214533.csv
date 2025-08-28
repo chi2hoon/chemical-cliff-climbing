@@ -1,0 +1,10 @@
+Compound,심장박동변화(%),치사율,비고
+10uM Astemizole,46.2,0/10,
+5uM of KSI-3716,-,2025-10-10 00:00:00,전 개체 사망으로 측정불가
+5uM of 화합물 4,88.5,2025-01-10 00:00:00,
+5uM of 화합물 33,97.3,0/10,유의적 심박수 저해 없음
+
+--- Table Metadata for Table2 ---
+Header Row (0-indexed in sheet): 8
+Last Data Row (0-indexed in sheet): 12
+Number of Data Rows (Length of Table): 4
