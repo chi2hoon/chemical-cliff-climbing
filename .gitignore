@@ -3,6 +3,7 @@
 ### NEVER Upload API key###
 .DS_Store
 openAI_key.txt
+AGENTS.md
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
