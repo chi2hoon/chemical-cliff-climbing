@@ -1,0 +1,6 @@
+assay_id,readout,matrix,label_raw,target,unit,unit_base
+assay.unknown.iupacs,iupacs,,iupacs,,,
+kras_sos1_interaction,binding,biochemical,KRAS-SOS1 Interaction,KRAS,,M
+assay.unknown.kras-activation-by-sos-high-gtp,mixed,biochemical,KRAS-Activation by SOS high GTP,KRAS/SOS1,,M
+assay.unknown.kras-activation-by-sos-no-gtp,mixed,biochemical,KRAS-Activation by SOS no GTP,KRAS/SOS1,,M
+egfr_ic50,IC50,enzyme,EGFR kinase inhibition IC50,EGFR,,M

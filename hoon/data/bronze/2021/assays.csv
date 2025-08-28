@@ -1,0 +1,5 @@
+assay_id,readout,matrix,label_raw,target,unit,unit_base
+assay.unknown.prmt5-mtase-glo-ki-nm-meth-a,Ki,enzyme,"PRMT5 MTase Glo Ki (nM, Meth. A)",PRMT5,nM,
+assay.unknown.prmt5-mtase-glo-ki-nm-meth-b,Ki,enzyme,"PRMT5 MTase Glo Ki (nM, Meth. B)",PRMT5,nM,
+hct116_mtapnull_ic50,IC50,cell,ProlifHCTl 16-MTAP null IC_50 (μΜ),PRMT5,μM,
+hct116_wt_ic50,IC50,cell,Prolil_HCTU6-WT IC_50 (μΜ),PRMT5,μM,

@@ -1,0 +1,10 @@
+panel_id,panel_label,disease_area,provenance_sheet,cell_lines
+blca,Bladder Cancer Panel,bladder,표5~표14,253J;5637;J82;KU-19-19;MBT-2;RT4;T24;UM-UC-3
+prad,Prostate Cancer Panel,prostate,표5~표14,CWR22;DU145;DU145/TXR;LNCaP;PC-3
+luad,Lung Cancer Panel,lung,표5~표14,A549;DMS 114;MRC-5;NCI-H1299;NCI-H1437;NCI-H23;NCI-H460;NCI-H522
+brca,Breast Cancer Panel,breast,표5~표14,BT-20;HCC1395;HCC1954;JIMT-1;MCF7;MDA-MB-231;MDA-MB-468;SK-BR-3
+heme,Leukemia/Lymphoma Panel,hematologic,표5~표14,Daudi;HL-60;Jurkat;MOLT-4;MV-4-11;Raji;Ramos;U-937
+paad,Pancreatic Cancer Panel,pancreas,표5~표14,AsPC-1;BxPC-3;CFPAC-1;Capan-1;Capan-2;MIA PaCa-2;PANC-1
+coad,Colon Cancer Panel,colon,표5~표14,DLD-1;HCT-116;HCT-15;HCT-8;HT-29;LoVo;RKO;SW480;SW620
+misc12,Mixed Panel (Brain/Neuroblastoma/Melanoma/Liver),mixed,표5~표14,LOX-IMVI;SH-SY5Y;SK-HEP-1;T98G;U-138 MG;U-251 MG
+misc13,Gyn/Other Panel,mixed,표5~표14,ACHN;HeLa;OVCAR-3
