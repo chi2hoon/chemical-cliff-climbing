@@ -3,7 +3,7 @@ from rdkit import Chem
 from rdkit.DataStructs import BulkTanimotoSimilarity
 from itertools import combinations
 
-def find_activity_cliffs(df: pd.DataFrame, smiles_col: str, activity_col: str, similarity_threshold: float, activity_diff_threshold: float):
+def find_activity_cliffs(df: pd.DataFrame, smiles_col: str, activity_col: str, similarity_threshold: float, activity_diff_threshold: float, higher_is_better: bool = True):
     """
     데이터프레임에서 Activity Cliff 쌍을 찾습니다.
 

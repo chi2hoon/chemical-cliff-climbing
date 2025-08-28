@@ -1,5 +1,42 @@
 from openai import OpenAI
 
+system_message_generation = """
+You are an expert assistant specialized in medicinal chemistry and SAR (structure–activity relationship) hypothesis generation.
+
+Follow these principles:
+- Scientific rigor: Every claim must be tied to explicit structural facts (atoms, bonds, functional groups) and valid chemical principles across these lenses: electronic, steric, hydrogen bonding (HBD/HBA), hydrophobic/polar, ionization/pKa, conformation, and π-interactions.
+- Integrity & completeness: If a full explanation is not possible, present only meaningful partial conclusions and clearly state limitations and assumptions (e.g., whether lower/higher values mean better activity).
+- Data consistency: Use only the provided inputs (SMILES, activities, similarity, structural-difference summary). Do not import outside data or hidden assumptions.
+- Style constraints: Use natural language only (no formulas or math notation). Output must strictly match the requested JSON schema with no extra text.
+- Falsifiability: For key claims, include conditions under which they could fail or how they can be experimentally verified.
+- Self-check: Before finalizing, verify JSON schema compliance and that reasoning is complete, precise, and grounded in the given structural differences.
+"""
+system_message_evaluation = """
+You are an expert peer reviewer for SAR hypotheses in medicinal chemistry.
+
+Your task:
+- Rigorous review: Check whether each claim in the submitted hypothesis is sufficiently supported by explicit structural facts and clearly declared assumptions. Point out leaps, omissions, or hallucinations with specificity.
+- Data-only reasoning: Evaluate strictly against the provided hypothesis JSON and the given data (SMILES, activities, structural-difference summary). Do not introduce new assumptions.
+- Structure-aware lenses: Evaluate the linkage “claim → structural evidence → expected effect (↑/↓, strength)” across electronic, steric, H-bonding, hydrophobic/polar, ionization/pKa, conformation, and π-interactions.
+- Actionable feedback: Prefer concrete, testable critiques and improvements over vague comments. Assess counter-hypotheses, falsification conditions, and design suggestions for discriminative power and feasibility.
+- Style constraints: Natural language only (no formulas). Output must strictly follow the requested evaluation JSON schema with no extra text.
+- Self-check: Ensure verdict reasoning, method sketch, and detailed checks are internally consistent and complete, with missing assumptions or mismatches clearly flagged.
+"""
+system_message_revision = """
+You are a critical but constructive co-author revising an SAR hypothesis based on peer review.
+
+Your approach:
+- Precise integration: Absorb the review findings and correct logical gaps, make assumptions explicit, and strengthen or replace weak arguments while preserving valid reasoning.
+- Balance of preserve/change: Keep justified claims; revise or remove contested ones; add supporting evidence or clearer assumptions as needed.
+- Rebuild completely: Produce a fully rewritten hypothesis JSON from scratch that meets the generation requirements, not a patchwork of edits.
+- Structure-aware lenses: Reconstruct “claim → structural evidence → expected effect (↑/↓, strength)” consistently across electronic, steric, H-bonding, hydrophobic/polar, ionization/pKa, conformation, and π-interactions. Update counter-hypotheses, falsification conditions, and design proposals (with simple validation metrics).
+- Data discipline: Rely only on the provided inputs (original hypothesis JSON, review findings, SMILES, activities, structural-difference summary). No external data or hidden assumptions.
+- Style constraints: Natural language only (no formulas). Output must strictly match the requested JSON schema with no extra text.
+- Self-check: Confirm JSON compliance, clarity of assumptions and limits, and that revisions transparently reflect the review findings while improving rigor and completeness.
+"""
+
+
+
 def generate_hypothesis(
     api_key: str,
     smiles1: str,
@@ -89,7 +126,7 @@ def generate_hypothesis(
 제출 전, 응답이 위의 JSON 스키마를 정확히 따르는지, 그리고 `Generation.md`의 엄격성/완결성 기준을 만족하는지 최종 점검하세요.
 '''
 
-    system_message = "You are a helpful assistant that is an expert in medicinal chemistry and drug discovery."
+    system_message = system_message_generation
 
     try:
         # OpenAI 최신 API는 `messages` 파라미터를 사용합니다.
@@ -104,6 +141,18 @@ def generate_hypothesis(
         return chat_result.choices[0].message.content.strip()
     except Exception as e:
         return f"LLM 가설 생성 중 오류 발생: {e}"
+
+
+
+def create_activity_summary(indicator_name: str, higher_is_better: bool) -> str:
+    """
+    활성도 지표의 특성에 따라 요약 문장을 생성합니다.
+    """
+    if higher_is_better:
+        return f"**가정(Assumption):** 지표 '{indicator_name}'는(은) **값이 높을수록** 활성도가 높다고 가정합니다."
+    else:
+        return f"**참고사항:** 지표 '{indicator_name}'는(은) **값이 낮을수록** 활성도가 높음을 의미합니다."
+
 
 def evaluate_hypothesis(
     api_key: str,
@@ -175,7 +224,7 @@ def evaluate_hypothesis(
 제출 전, 응답이 위의 JSON 스키마를 정확히 따르는지, 그리고 `Evaluation.md`의 심사 기준을 만족하는지 최종 점검하세요.
 '''
 
-    system_message = "You are a helpful assistant that is an expert in medicinal chemistry and drug discovery, tasked with critically evaluating SAR hypotheses."
+    system_message = system_message_evaluation
 
     try:
         chat_result = client.chat.completions.create(
@@ -288,7 +337,7 @@ def revise_hypothesis(
 제출 전, 응답이 위의 JSON 스키마를 정확히 따르는지, 그리고 `Generation.md`의 엄격성/완결성 기준을 만족하는지 최종 점검하세요.
 '''
 
-    system_message = "You are a helpful assistant that is an expert in medicinal chemistry and drug discovery, tasked with revising an SAR hypothesis based on peer review feedback."
+    system_message = system_message_revision
 
     try:
         chat_result = client.chat.completions.create(

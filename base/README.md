@@ -1,4 +1,4 @@
-# Chemical Compound Creator
+# Chemical Cilff Climbing (ccc -> ㅋㅋㅋ)
 
 이 애플리케이션은 Streamlit을 사용하여 화학적 화합물과 관련된 가설을 생성, 수정 및 평가하는 웹 기반 도구입니다.
 
