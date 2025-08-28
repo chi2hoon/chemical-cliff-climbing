@@ -8,7 +8,15 @@ import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
 from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis
-from modules.io_utils import load_smiles_activity_csv, save_hypothesis_to_md, parse_hypothesis_md
+from modules.io_utils import (
+    load_smiles_activity_csv,
+    save_hypothesis_to_md,
+    parse_hypothesis_md,
+    list_hoon_datasets,
+    list_hoon_groups,
+    load_hoon_group_as_dataframe,
+    load_hoon_ac_pairs,
+)
 
 # --- Helper Functions ---
 
@@ -133,9 +141,107 @@ with tab1:
 
         st.session_state['df'] = df
 
+        # 2017년 데이터 빠른 로딩 (권장)
+    st.markdown("### 🚀 2017년 데이터 빠른 시작")
+    col1, col2, col3 = st.columns([2, 2, 1])
+
+    with col1:
+        if st.button("📊 2017년 전체 데이터 로드", type="primary", use_container_width=True):
+            try:
+                with st.spinner("2017년 데이터를 불러오는 중..."):
+                    # 2017년 데이터의 모든 그룹을 하나로 합치기
+                    data_root = "hoon/data"
+                    groups_2017 = list_hoon_groups(data_root, "2017")
+
+                    if groups_2017.empty:
+                        st.error("2017년 데이터가 없습니다.")
+                    else:
+                        all_dfs = []
+                        for _, group in groups_2017.iterrows():
+                            assay_id = group['assay_id'] if group['assay_id'] else None
+                            cell_line = group['cell_line'] if group['cell_line'] else None
+
+                            df_group = load_hoon_group_as_dataframe(
+                                dataset_id="2017",
+                                assay_id=assay_id,
+                                cell_line=cell_line,
+                                data_root=data_root
+                            )
+                            if not df_group.empty:
+                                # 그룹 정보 추가
+                                df_group['assay_id'] = assay_id or ""
+                                df_group['cell_line'] = cell_line or ""
+                                all_dfs.append(df_group)
+
+                        if all_dfs:
+                            df_combined = pd.concat(all_dfs, ignore_index=True)
+                            st.session_state['df'] = df_combined
+                            st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
+                            st.success(f"2017년 전체 데이터 로드 완료! 총 {len(df_combined)}개 레코드")
+                            st.dataframe(df_combined.head())
+                        else:
+                            st.warning("불러올 수 있는 데이터가 없습니다.")
+
+            except Exception as e:
+                st.error(f"데이터 로드 실패: {e}")
+
+    with col2:
+        st.markdown("**데이터 정보:**")
+        st.info("2017년 cytotoxicity 데이터\n• 5개 세포주 (253J, 5637, J82, KU-19-19, MBT-2)\n• 각 그룹당 ~107개 화합물\n• 총 ~535개 데이터 포인트")
+
+    with col3:
+        if st.button("🔄 새로고침"):
+            st.rerun()
+
+    st.markdown("---")
+    with st.expander("또는 세부 그룹 선택 (고급)"):
+        data_root = "hoon/data"
+        ds_list = list_hoon_datasets(data_root)
+        if not ds_list:
+            st.info("hoon/data/silver 하위에 데이터셋이 없습니다. 먼저 UDM 파이프라인을 실행하세요 (예: `python hoon/udm_cli.py silver --config hoon/configs/2017.yml --root hoon/data`).")
+        else:
+            colA, colB = st.columns([1, 2])
+            with colA:
+                ds = st.selectbox("데이터셋 선택", ds_list, index=ds_list.index("2017") if "2017" in ds_list else 0, key="hoon_ds")
+                groups_df = list_hoon_groups(data_root, ds)
+                # 안전한 기본값 처리
+                assay_opts = sorted(groups_df['assay_id'].unique().tolist()) if 'assay_id' in groups_df.columns else []
+                cell_opts = sorted(groups_df['cell_line'].unique().tolist()) if 'cell_line' in groups_df.columns else []
+            with colB:
+                assay_sel = st.selectbox("Assay ID", [""] + assay_opts, index=0, key="hoon_assay")
+                cell_sel = st.selectbox("Cell line", [""] + cell_opts, index=0, key="hoon_cell")
+
+            if st.button("선택한 그룹 불러오기 (SMILES/Activity)"):
+                try:
+                    df2 = load_hoon_group_as_dataframe(dataset_id=ds, assay_id=(assay_sel or None), cell_line=(cell_sel or None), data_root=data_root)
+                    if df2 is None or df2.empty:
+                        st.warning("선택한 조건에 해당하는 데이터가 없습니다.")
+                    else:
+                        st.success(f"불러오기 성공: {len(df2)}개 레코드")
+                        st.dataframe(df2.head())
+                        st.session_state['df'] = df2
+                        st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
+                except Exception as e:
+                    st.error(f"불러오기 실패: {e}")
+
 with tab2:
     st.header("2. Activity Cliff 분석")
-    if 'df' in st.session_state and st.session_state['df'] is not None:
+    # 데이터 소스 선택
+    source = st.radio("데이터 소스", ["업로드/불러온 데이터로 계산", "Hoon AC 쌍(사전계산) 불러오기"], index=0, horizontal=True)
+
+    if source == "Hoon AC 쌍(사전계산) 불러오기":
+        if st.button("Hoon 사전계산 AC 쌍 로드"):
+            try:
+                cliff_df = load_hoon_ac_pairs(data_root="hoon/data")
+                if cliff_df is None or cliff_df.empty:
+                    st.info("사전계산된 AC 쌍이 없습니다. hoon 파이프라인에서 `ac` 또는 `ac-all` 스테이지를 먼저 실행하세요.")
+                else:
+                    st.success(f"{len(cliff_df)}개의 Activity Cliff 쌍을 불러왔습니다.")
+                    st.dataframe(cliff_df.head())
+                    st.session_state['cliff_df'] = cliff_df
+            except Exception as e:
+                st.error(f"AC 쌍 로드 실패: {e}")
+    elif 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
         
         col1, col2 = st.columns(2)
@@ -416,5 +522,4 @@ with tab5:
 
             except Exception as e:
                 st.error(f"파일 처리 중 오류가 발생했습니다: {e}")
-
 

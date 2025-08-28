@@ -9,14 +9,9 @@ from .io_csv import read_csv_safe, write_csv_safe
 from .parsers import normalize_unit_label, split_censor_and_value, parse_scientific_notation
 
 def _get_bronze_builder(cfg: Dict):
-    dataset_id = str(cfg.get("dataset_id", ""))
-    if dataset_id == "2017":
-        from .bronze_build_2017 import build_bronze_from_raw as builder
-        return builder
-    else:
-        # Lazy import to avoid importing 2017-incompatible builders
-        from .bronze_build import build_bronze_from_raw as builder
-        return builder
+    # Centralized dispatcher for year-aware bronze building
+    from .bronze_build_dispatch import build_bronze_from_raw as builder
+    return builder
 
 
 class BronzeValidator:
@@ -117,5 +112,3 @@ class BronzeValidator:
 					write_csv_safe(df_fixed, path)
 					results["fixed"].append(path)
 		return results
-
-
