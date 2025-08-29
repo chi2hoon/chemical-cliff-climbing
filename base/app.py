@@ -7,16 +7,8 @@ import zipfile
 import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
-from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis
-from modules.io_utils import (
-    load_smiles_activity_csv,
-    save_hypothesis_to_md,
-    parse_hypothesis_md,
-    list_hoon_datasets,
-    list_hoon_groups,
-    load_hoon_group_as_dataframe,
-    load_hoon_ac_pairs,
-)
+from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis, create_activity_summary
+from modules.io_utils import load_smiles_activity_csv, save_hypothesis_to_md, parse_hypothesis_md
 
 # --- Helper Functions ---
 
@@ -257,6 +249,12 @@ with tab2:
             similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
             activity_diff_threshold = st.number_input("활성도 차이 임계값", min_value=0.0, value=1.0, step=0.1)
 
+        activity_assumption = st.radio(
+            "활성도 데이터의 의미를 선택해주세요:",
+            ('값이 높을수록 활성도가 높음 (Higher is better)', '값이 낮을수록 활성도가 높음 (Lower is better)'),
+            key='activity_assumption'
+        )
+
         if st.button("Activity Cliff 분석 실행"):
             with st.spinner("Activity Cliff를 분석 중입니다..."):
                 work_df = df.copy()
@@ -268,12 +266,18 @@ with tab2:
                     smiles_col=smiles_col,
                     activity_col=activity_col,
                     similarity_threshold=similarity_threshold,
-                    activity_diff_threshold=activity_diff_threshold
+                    activity_diff_threshold=activity_diff_threshold,
+                    higher_is_better= (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
                 )
             
             st.success(f"{len(cliff_df)}개의 Activity Cliff 쌍을 찾았습니다!")
             st.dataframe(cliff_df)
             st.session_state['cliff_df'] = cliff_df
+
+            # 활성도 지표에 대한 요약 정보 표시
+            summary_text = create_activity_summary(activity_col, (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
+            st.markdown("---")
+            st.markdown(summary_text)
     else:
         st.info("1. 데이터 업로드 탭에서 데이터를 먼저 업로드해주세요.")
 
@@ -311,7 +315,11 @@ with tab3:
                         st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
 
                         with st.spinner(f"쌍 #{i}에 대한 LLM 가설을 생성 중입니다..."):
-                            if row['Activity_1'] > row['Activity_2']:
+                            higher_is_better = st.session_state.get('activity_assumption') == '값이 높을수록 활성도가 높음 (Higher is better)'
+                            
+                            # 가정에 따라 고활성/저활성 분자 결정
+                            if (higher_is_better and row['Activity_1'] > row['Activity_2']) or \
+                               (not higher_is_better and row['Activity_1'] < row['Activity_2']):
                                 high_act_smiles, high_act_val = row['SMILES_1'], row['Activity_1']
                                 low_act_smiles, low_act_val = row['SMILES_2'], row['Activity_2']
                             else:
@@ -331,7 +339,7 @@ with tab3:
                             try:
                                 hypothesis_data = json.loads(json_response)
                                 display_md = format_hypothesis_for_markdown(hypothesis_data)
-                                file_header = f"""**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{low_act_smiles}` (활성도: {low_act_val:.2f})\n- **화합물 2 (상대적 고활성):** `{high_act_smiles}` (활성도: {high_act_val:.2f})\n\n---\n"""
+                                file_header = f"**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{low_act_smiles}` (활성도: {low_act_val:.2f})\n- **화합물 2 (상대적 고활성):** `{high_act_smiles}` (활성도: {high_act_val:.2f})\n\n---\n"
                                 file_md = file_header + display_md
                                 st.markdown(file_md, unsafe_allow_html=True)
                                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -458,12 +466,11 @@ with tab5:
                             base_filename = selected_file.replace(".md", "")
                             eval_filename = f"{base_filename}_Eval.md"
                             
-                            if st.button("평가 결과 파일로 저장", key=f"save_eval_{selected_file}"):
-                                content_to_save = f"# 원본 가설: {selected_file}\n\n{content}\n\n---\n\n# 가설 평가 결과\n\n{formatted_eval_md}"
-                                eval_filepath = os.path.join(evaluations_dir, eval_filename)
-                                save_hypothesis_to_md(content_to_save, eval_filepath)
-                                st.success(f"평가 결과가 '{eval_filepath}'에 저장되었습니다.")
-                                st.toast("평가 저장 완료!")
+                            content_to_save = f"# 원본 가설: {selected_file}\n\n{content}\n\n---\n\n# 가설 평가 결과\n\n{formatted_eval_md}"
+                            eval_filepath = os.path.join(evaluations_dir, eval_filename)
+                            save_hypothesis_to_md(content_to_save, eval_filepath)
+                            st.success(f"평가 결과가 '{eval_filepath}'에 저장되었습니다.")
+                            st.toast("평가 저장 완료!")
 
                         except json.JSONDecodeError:
                             st.error("LLM 평가 응답이 유효한 JSON이 아닙니다.")
@@ -506,15 +513,11 @@ with tab5:
                                 file_header = f"**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{parsed_data['smiles1']}` (활성도: {parsed_data['activity1']:.2f})\n- **화합물 2 (상대적 고활성):** `{parsed_data['smiles2']}` (활성도: {parsed_data['activity2']:.2f})\n\n---"
                                 final_md_to_save = file_header + display_md
 
-                                new_filename = st.text_input("새 파일 이름:", f"revised_{selected_file}", key=f"fn_{selected_file}")
-                                if st.button("파일로 저장", key=f"save_btn_{selected_file}"):
-                                    if new_filename:
-                                        new_filepath = os.path.join(hypotheses_dir, new_filename)
-                                        save_hypothesis_to_md(final_md_to_save, new_filepath)
-                                        st.success(f"수정된 가설이 '{new_filepath}'에 저장되었습니다.")
-                                        st.toast("저장 완료!")
-                                    else:
-                                        st.warning("파일 이름을 입력하세요.")
+                                new_filename = f"revised_{selected_file}"
+                                new_filepath = os.path.join(hypotheses_dir, new_filename)
+                                save_hypothesis_to_md(final_md_to_save, new_filepath)
+                                st.success(f"수정된 가설이 '{new_filepath}'에 저장되었습니다.")
+                                st.toast("저장 완료!")
 
                             except json.JSONDecodeError:
                                 st.error("LLM 수정 응답이 유효한 JSON이 아닙니다.")
