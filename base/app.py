@@ -8,7 +8,15 @@ import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
 from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis, create_activity_summary
-from modules.io_utils import load_smiles_activity_csv, save_hypothesis_to_md, parse_hypothesis_md
+from modules.io_utils import (
+    load_smiles_activity_csv,
+    save_hypothesis_to_md,
+    parse_hypothesis_md,
+    load_hoon_gold_data,
+    load_hoon_ac_pairs,
+    get_available_gold_years,
+    get_available_panel_ids
+)
 
 # --- Helper Functions ---
 
@@ -106,7 +114,7 @@ st.title("🔬 SAR 분석 및 가설 생성/평가/수정 자동화 도구")
 st.write("분자 구조와 활성 데이터 기반의 구조-활성 관계(SAR) 분석 및 가설 생성, 평가, 수정을 자동화합니다.")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "1. 데이터 업로드",
+    "1. 데이터셋 선택",
     "2. Activity Cliff 분석",
     "3. 가설 생성",
     "4. 가설 관리",
@@ -114,107 +122,134 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 ])
 
 with tab1:
-    st.header("1. 데이터 업로드")
-    uploaded_file = st.file_uploader("분자 구조(SMILES)와 활성 데이터가 포함된 CSV 파일을 업로드하세요.", type="csv")
+    st.header("1. Gold 데이터 로드")
+    st.markdown("표준화된 gold 데이터셋을 로드하여 분석을 시작하세요.")
 
-    if uploaded_file is not None:
-        try:
-            df, suggestion = load_smiles_activity_csv(uploaded_file)
-            st.success("파일이 성공적으로 업로드되었습니다!")
-        except Exception as e:
-            st.error(f"CSV 로딩 중 오류가 발생했습니다: {e}")
-            df = None
+    # 데이터셋 선택
+    data_root = "hoon/data"
+    available_years = get_available_gold_years(data_root)
+    
+    if not available_years:
+        st.warning("Gold 데이터가 없습니다. hoon 파이프라인에서 `gold` 스테이지를 먼저 실행하세요.")
+    else:
+        # 데이터셋 년도 선택
+        col_year, col_panel = st.columns([1, 2])
+        
+        with col_year:
+            selected_year = st.selectbox("📅 데이터셋 선택", available_years, index=0)
+        
+        # Panel ID 선택 (해당 년도에 대해서만)
+        panel_options = ["전체"] + get_available_panel_ids(selected_year, data_root)
+        panel_names_map = {
+            "blca": "방광암세포주 패널",
+            "prad": "전립선암세포주 패널", 
+            "luad": "폐암세포주 패널",
+            "brca": "유방암세포주 패널",
+            "heme": "혈액암세포주 패널",
+            "paad": "췌장암세포주 패널",
+            "coad": "대장암세포주 패널",
+            "misc12": "뇌암/기타 패널",
+            "misc13": "기타 패널"
+        }
+        
+        with col_panel:
+            if len(panel_options) > 1:
+                # 패널 이름 매핑
+                display_options = ["전체"]
+                for panel_id in panel_options[1:]:  # "전체" 제외
+                    display_name = panel_names_map.get(panel_id, panel_id)
+                    display_options.append(f"{panel_id} ({display_name})")
+                
+                selected_panel_display = st.selectbox("🧬 패널 선택", display_options, index=0)
+                
+                # 실제 panel_id 추출
+                if selected_panel_display == "전체":
+                    selected_panel = None
+                else:
+                    selected_panel = selected_panel_display.split(" (")[0]
+            else:
+                selected_panel = None
+                st.info(f"{selected_year}년 데이터에는 패널 정보가 없습니다.")
 
-        if df is not None:
-            st.subheader("업로드된 데이터 미리보기")
-            st.dataframe(df.head())
-            st.caption("자동 인식된 컬럼 제안값을 확인하세요. 필요 시 변경 가능합니다.")
-            st.session_state['auto_suggestion'] = suggestion
+        # 로드 버튼
+        st.markdown("### 🚀 Gold 데이터 로드")
+        load_text = f"{selected_year}년 Gold 데이터 로드"
+        if selected_panel:
+            panel_name = panel_names_map.get(selected_panel, selected_panel)
+            load_text += f" ({panel_name})"
 
-        st.session_state['df'] = df
-
-        # 2017년 데이터 빠른 로딩 (권장)
-    st.markdown("### 🚀 2017년 데이터 빠른 시작")
-    col1, col2, col3 = st.columns([2, 2, 1])
-
-    with col1:
-        if st.button("📊 2017년 전체 데이터 로드", type="primary", use_container_width=True):
+        if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
             try:
-                with st.spinner("2017년 데이터를 불러오는 중..."):
-                    # 2017년 데이터의 모든 그룹을 하나로 합치기
-                    data_root = "hoon/data"
-                    groups_2017 = list_hoon_groups(data_root, "2017")
+                with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
+                    df_gold = load_hoon_gold_data(
+                        year=selected_year, 
+                        data_root=data_root, 
+                        panel_id=selected_panel
+                    )
 
-                    if groups_2017.empty:
-                        st.error("2017년 데이터가 없습니다.")
-                    else:
-                        all_dfs = []
-                        for _, group in groups_2017.iterrows():
-                            assay_id = group['assay_id'] if group['assay_id'] else None
-                            cell_line = group['cell_line'] if group['cell_line'] else None
-
-                            df_group = load_hoon_group_as_dataframe(
-                                dataset_id="2017",
-                                assay_id=assay_id,
-                                cell_line=cell_line,
-                                data_root=data_root
-                            )
-                            if not df_group.empty:
-                                # 그룹 정보 추가
-                                df_group['assay_id'] = assay_id or ""
-                                df_group['cell_line'] = cell_line or ""
-                                all_dfs.append(df_group)
-
-                        if all_dfs:
-                            df_combined = pd.concat(all_dfs, ignore_index=True)
-                            st.session_state['df'] = df_combined
-                            st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
-                            st.success(f"2017년 전체 데이터 로드 완료! 총 {len(df_combined)}개 레코드")
-                            st.dataframe(df_combined.head())
+                    if df_gold.empty:
+                        if selected_panel:
+                            st.error(f"{selected_year}년 {selected_panel} 패널 데이터가 없습니다.")
                         else:
-                            st.warning("불러올 수 있는 데이터가 없습니다.")
+                            st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
+                    else:
+                        st.session_state['df'] = df_gold
+                        st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
+                        
+                        success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
+                        if selected_panel:
+                            success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
+                        
+                        st.success(success_msg)
+                        st.dataframe(df_gold.head())
+
+                        # Gold 데이터 스키마 정보 표시
+                        st.info("**Gold 데이터 스키마:**\n"
+                               "• SMILES: 표준화된 캐노니컬 SMILES\n"
+                               "• Activity: 표준화된 활성도 값 (value_std)\n"
+                               "• 메타데이터: assay_id, panel_id, cell_line, inchikey 등")
 
             except Exception as e:
-                st.error(f"데이터 로드 실패: {e}")
+                st.error(f"Gold 데이터 로드 실패: {e}")
 
-    with col2:
-        st.markdown("**데이터 정보:**")
-        st.info("2017년 cytotoxicity 데이터\n• 5개 세포주 (253J, 5637, J82, KU-19-19, MBT-2)\n• 각 그룹당 ~107개 화합물\n• 총 ~535개 데이터 포인트")
+    # Gold 데이터 설명
+    with st.expander("📋 Gold 데이터 설명"):
+        st.markdown("""
+        **Gold 데이터셋 특징:**
+        - **표준화된 구조**: `smiles_canonical` (RDKit 캐노니컬 SMILES)
+        - **표준화된 활성도**: `value_std` (단위 정규화된 수치)
+        - **품질 보장**: 빈 값 및 유효하지 않은 SMILES 필터링
+        - **메타데이터**: assay_id, panel_id, cell_line, inchikey 등 분석에 유용한 정보 포함
+        - **패널 기반**: 질환별 세포주 그룹으로 구성 (방광암, 유방암, 폐암 등)
 
-    with col3:
-        if st.button("🔄 새로고침"):
-            st.rerun()
+        **활용 팁:**
+        - base 앱에서 유사도/활성도차 계산 시 `smiles_col=SMILES`, `activity_col=Activity`로 설정
+        - 동일 패널 내에서 비교하면 더 일관성 있는 결과를 얻을 수 있습니다
+        
+        **현재 가용 데이터:**
+        - **2017년**: 9개 패널 (방광암, 유방암, 폐암, 전립선암, 혈액암, 췌장암, 대장암, 기타)
+        - **2018/2020/2021년**: 개발 예정 (현재는 silver 데이터만 존재)
+        """)
 
     st.markdown("---")
-    with st.expander("또는 세부 그룹 선택 (고급)"):
-        data_root = "hoon/data"
-        ds_list = list_hoon_datasets(data_root)
-        if not ds_list:
-            st.info("hoon/data/silver 하위에 데이터셋이 없습니다. 먼저 UDM 파이프라인을 실행하세요 (예: `python hoon/udm_cli.py silver --config hoon/configs/2017.yml --root hoon/data`).")
-        else:
-            colA, colB = st.columns([1, 2])
-            with colA:
-                ds = st.selectbox("데이터셋 선택", ds_list, index=ds_list.index("2017") if "2017" in ds_list else 0, key="hoon_ds")
-                groups_df = list_hoon_groups(data_root, ds)
-                # 안전한 기본값 처리
-                assay_opts = sorted(groups_df['assay_id'].unique().tolist()) if 'assay_id' in groups_df.columns else []
-                cell_opts = sorted(groups_df['cell_line'].unique().tolist()) if 'cell_line' in groups_df.columns else []
-            with colB:
-                assay_sel = st.selectbox("Assay ID", [""] + assay_opts, index=0, key="hoon_assay")
-                cell_sel = st.selectbox("Cell line", [""] + cell_opts, index=0, key="hoon_cell")
+    with st.expander("🛠️ 파이프라인 정보"):
+        st.markdown("""
+        **데이터 파이프라인:**
+        ```
+        Raw Excel → Bronze → Silver → Gold → Activity Cliff
+        ```
+        - **Bronze**: 원천 데이터 수집/검증
+        - **Silver**: 단위 표준화 (`value_std`, `unit_std`, censor 유지)
+        - **Gold**: 분석 친화 테이블 (SMILES + Activity + 메타데이터)
+        - **AC**: Activity Cliff 사전 계산
 
-            if st.button("선택한 그룹 불러오기 (SMILES/Activity)"):
-                try:
-                    df2 = load_hoon_group_as_dataframe(dataset_id=ds, assay_id=(assay_sel or None), cell_line=(cell_sel or None), data_root=data_root)
-                    if df2 is None or df2.empty:
-                        st.warning("선택한 조건에 해당하는 데이터가 없습니다.")
-                    else:
-                        st.success(f"불러오기 성공: {len(df2)}개 레코드")
-                        st.dataframe(df2.head())
-                        st.session_state['df'] = df2
-                        st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
-                except Exception as e:
-                    st.error(f"불러오기 실패: {e}")
+        **Gold 생성 명령어:**
+        ```bash
+        python hoon/udm_cli.py silver --config hoon/configs/2017.yml --root hoon/data
+        python hoon/udm_cli.py smiles --config hoon/configs/2017.yml --root hoon/data  
+        python hoon/udm_cli.py gold --config hoon/configs/2017.yml --root hoon/data
+        ```
+        """)
 
 with tab2:
     st.header("2. Activity Cliff 분석")
