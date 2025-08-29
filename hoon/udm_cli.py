@@ -10,6 +10,7 @@ from src.udm.bronze_validator import BronzeValidator
 from src.udm.silver import build_measurements_std
 from src.udm.qc import qc_reports
 from src.udm.silver_smiles import build_canonical_compounds
+from src.udm.gold import build_measurements_gold
 from src.udm.silver_ac import build_activity_cliffs
 from src.udm.export import export_bronze_release
 
@@ -21,7 +22,7 @@ def load_cfg(cfg_path: str) -> dict:
 
 def main() -> int:
 	parser = argparse.ArgumentParser(description="UDM pipeline CLI")
-	parser.add_argument("stage", choices=["bronze", "silver", "qc", "smiles", "ac", "ac-all", "export"], help="Pipeline stage to run")
+	parser.add_argument("stage", choices=["bronze", "silver", "qc", "smiles", "gold", "ac", "ac-all", "export"], help="Pipeline stage to run")
 	parser.add_argument("--config", default="configs/2017.yml", help="Path to YAML config")
 	parser.add_argument("--root", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"), help="Data root directory (defaults to ./data)")
 	args = parser.parse_args()
@@ -54,6 +55,11 @@ def main() -> int:
 	if args.stage == "smiles":
 		out = build_canonical_compounds(root_dir, cfg)
 		print(f"Wrote canonical compounds: {out}")
+		return 0
+
+	if args.stage == "gold":
+		out = build_measurements_gold(root_dir, cfg)
+		print(f"Wrote gold measurements: {out}")
 		return 0
 
 
