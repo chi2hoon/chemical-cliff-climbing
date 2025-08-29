@@ -94,7 +94,7 @@ def build_measurements_std(root_dir: str, cfg: Dict) -> str:
 
 	# 원본 필드 보존
 	cols_keep = [
-		"compound_id", "assay_id", "cell_line", "value_raw", "value_num", "unit", "censor",
+		"compound_id", "assay_id", "panel_id", "cell_line", "value_raw", "value_num", "unit", "censor",
 		"provenance_file", "provenance_sheet", "provenance_row",
 		"readout", "matrix",
 		"unit_std", "value_std", "std_rule_id", "std_confidence",
