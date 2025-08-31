@@ -1,6 +1,7 @@
 import io
 import re
 from typing import Dict, Optional, Tuple, List
+import yaml
 
 import pandas as pd
 import os
@@ -297,7 +298,7 @@ def parse_hypothesis_md(file_content: str) -> Dict:
     return data
 
 
-def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_id: Optional[str] = None) -> pd.DataFrame:
+def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
     """
     Load gold dataset from hoon/data/gold/{year}/measurements_gold.csv
     and return a DataFrame ready for base app analysis.
@@ -322,6 +323,10 @@ def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_
         # Filter by panel_id if specified
         if panel_id and "panel_id" in df.columns:
             df = df[df["panel_id"] == panel_id]
+
+        # Filter by cell_line if specified
+        if cell_line and "cell_line" in df.columns:
+            df = df[df["cell_line"] == cell_line]
 
         # Convert value_std to float
         def to_float(x):
@@ -412,3 +417,32 @@ def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str
             panel_years[panel].append(year)
     
     return panel_years
+
+
+def load_panel_cell_lines_from_yaml(config_path: str = "hoon/configs/2017.yml") -> Dict[str, List[str]]:
+    """Load panel_id -> cell_line list mapping from YAML config.
+
+    Returns a dict like {"blca": ["KU-19-19", ...], ...}
+    """
+    if not os.path.exists(config_path):
+        return {}
+
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+        panel_defs = cfg.get("parsing", {}).get("panel_definitions", {})
+        mapping: Dict[str, List[str]] = {}
+        for _table, meta in panel_defs.items():
+            pid = meta.get("panel_id")
+            cells = meta.get("cell_lines", []) or []
+            if not pid:
+                continue
+            if pid not in mapping:
+                mapping[pid] = []
+            # extend unique while preserving order
+            for c in cells:
+                if c not in mapping[pid]:
+                    mapping[pid].append(c)
+        return mapping
+    except Exception:
+        return {}

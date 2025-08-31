@@ -16,7 +16,8 @@ from modules.io_utils import (
     load_hoon_ac_pairs,
     get_available_gold_years,
     get_available_panel_ids,
-    get_all_available_panels_and_years
+    get_all_available_panels_and_years,
+    load_panel_cell_lines_from_yaml
 )
 
 # --- Helper Functions ---
@@ -145,38 +146,37 @@ with tab1:
             "misc12": "뇌암/기타 패널",
             "misc13": "기타 패널"
         }
-        
-        # 패널 먼저 선택
-        col_panel, col_year = st.columns([2, 1])
-        
+
+        # 년도(왼쪽) - 패널(오른쪽)
+        col_year, col_panel = st.columns([1, 2])
+
+        with col_year:
+            available_years_all = get_available_gold_years(data_root)
+            selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
+
         with col_panel:
-            # 패널 선택 옵션 구성
+            # 선택된 년도에서 사용 가능한 패널만 표시
+            panel_options = panel_years_map.keys()
+            filtered_panel_ids = [pid for pid in panel_options if selected_year in panel_years_map[pid]]
             panel_display_options = ["전체 패널"]
             panel_id_to_display = {"전체 패널": None}
-            
-            for panel_id in sorted(panel_years_map.keys()):
+            for panel_id in sorted(filtered_panel_ids):
                 display_name = panel_names_map.get(panel_id, panel_id)
                 display_option = f"{panel_id} ({display_name})"
                 panel_display_options.append(display_option)
                 panel_id_to_display[display_option] = panel_id
-            
             selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
             selected_panel = panel_id_to_display[selected_panel_display]
-        
-        with col_year:
-            # 선택된 패널에 따라 사용 가능한 년도 표시
-            if selected_panel is None:
-                # 전체 패널 선택 시 모든 년도 표시
-                available_years = get_available_gold_years(data_root)
-            else:
-                # 특정 패널 선택 시 해당 패널이 있는 년도만 표시
-                available_years = panel_years_map[selected_panel]
-            
-            if available_years:
-                selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years), index=0)
-            else:
-                selected_year = None
-                st.info("선택한 패널에 대한 데이터가 없습니다.")
+
+        # 세포주 셀렉터 (패널 선택 시)
+        selected_cell_line = None
+        if selected_panel:
+            panel_cells_map = load_panel_cell_lines_from_yaml("hoon/configs/2017.yml")
+            cell_lines = panel_cells_map.get(selected_panel, [])
+            if cell_lines:
+                selected_cell_line = st.selectbox("🧫 세포주 선택", ["전체 세포주"] + cell_lines, index=0)
+                if selected_cell_line == "전체 세포주":
+                    selected_cell_line = None
 
         # 로드 버튼 - selected_year가 있을 때만 표시
         if selected_year:
@@ -192,7 +192,8 @@ with tab1:
                         df_gold = load_hoon_gold_data(
                             year=selected_year, 
                             data_root=data_root, 
-                            panel_id=selected_panel
+                            panel_id=selected_panel,
+                            cell_line=selected_cell_line
                         )
 
                         if df_gold.empty:
