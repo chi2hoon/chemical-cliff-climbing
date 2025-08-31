@@ -15,7 +15,8 @@ from modules.io_utils import (
     load_hoon_gold_data,
     load_hoon_ac_pairs,
     get_available_gold_years,
-    get_available_panel_ids
+    get_available_panel_ids,
+    get_all_available_panels_and_years
 )
 
 # --- Helper Functions ---
@@ -127,19 +128,12 @@ with tab1:
 
     # 데이터셋 선택
     data_root = "hoon/data"
-    available_years = get_available_gold_years(data_root)
+    panel_years_map = get_all_available_panels_and_years(data_root)
     
-    if not available_years:
+    if not panel_years_map:
         st.warning("Gold 데이터가 없습니다. hoon 파이프라인에서 `gold` 스테이지를 먼저 실행하세요.")
     else:
-        # 데이터셋 년도 선택
-        col_year, col_panel = st.columns([1, 2])
-        
-        with col_year:
-            selected_year = st.selectbox("📅 데이터셋 선택", available_years, index=0)
-        
-        # Panel ID 선택 (해당 년도에 대해서만)
-        panel_options = ["전체"] + get_available_panel_ids(selected_year, data_root)
+        # 패널 이름 매핑
         panel_names_map = {
             "blca": "방광암세포주 패널",
             "prad": "전립선암세포주 패널", 
@@ -152,65 +146,79 @@ with tab1:
             "misc13": "기타 패널"
         }
         
+        # 패널 먼저 선택
+        col_panel, col_year = st.columns([2, 1])
+        
         with col_panel:
-            if len(panel_options) > 1:
-                # 패널 이름 매핑
-                display_options = ["전체"]
-                for panel_id in panel_options[1:]:  # "전체" 제외
-                    display_name = panel_names_map.get(panel_id, panel_id)
-                    display_options.append(f"{panel_id} ({display_name})")
-                
-                selected_panel_display = st.selectbox("🧬 패널 선택", display_options, index=0)
-                
-                # 실제 panel_id 추출
-                if selected_panel_display == "전체":
-                    selected_panel = None
-                else:
-                    selected_panel = selected_panel_display.split(" (")[0]
+            # 패널 선택 옵션 구성
+            panel_display_options = ["전체 패널"]
+            panel_id_to_display = {"전체 패널": None}
+            
+            for panel_id in sorted(panel_years_map.keys()):
+                display_name = panel_names_map.get(panel_id, panel_id)
+                display_option = f"{panel_id} ({display_name})"
+                panel_display_options.append(display_option)
+                panel_id_to_display[display_option] = panel_id
+            
+            selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
+            selected_panel = panel_id_to_display[selected_panel_display]
+        
+        with col_year:
+            # 선택된 패널에 따라 사용 가능한 년도 표시
+            if selected_panel is None:
+                # 전체 패널 선택 시 모든 년도 표시
+                available_years = get_available_gold_years(data_root)
             else:
-                selected_panel = None
-                st.info(f"{selected_year}년 데이터에는 패널 정보가 없습니다.")
+                # 특정 패널 선택 시 해당 패널이 있는 년도만 표시
+                available_years = panel_years_map[selected_panel]
+            
+            if available_years:
+                selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years), index=0)
+            else:
+                selected_year = None
+                st.info("선택한 패널에 대한 데이터가 없습니다.")
 
-        # 로드 버튼
-        st.markdown("### 🚀 Gold 데이터 로드")
-        load_text = f"{selected_year}년 Gold 데이터 로드"
-        if selected_panel:
-            panel_name = panel_names_map.get(selected_panel, selected_panel)
-            load_text += f" ({panel_name})"
+        # 로드 버튼 - selected_year가 있을 때만 표시
+        if selected_year:
+            st.markdown("### 🚀 Gold 데이터 로드")
+            load_text = f"{selected_year}년 Gold 데이터 로드"
+            if selected_panel:
+                panel_name = panel_names_map.get(selected_panel, selected_panel)
+                load_text += f" ({panel_name})"
 
-        if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
-            try:
-                with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
-                    df_gold = load_hoon_gold_data(
-                        year=selected_year, 
-                        data_root=data_root, 
-                        panel_id=selected_panel
-                    )
+            if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
+                try:
+                    with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
+                        df_gold = load_hoon_gold_data(
+                            year=selected_year, 
+                            data_root=data_root, 
+                            panel_id=selected_panel
+                        )
 
-                    if df_gold.empty:
-                        if selected_panel:
-                            st.error(f"{selected_year}년 {selected_panel} 패널 데이터가 없습니다.")
+                        if df_gold.empty:
+                            if selected_panel:
+                                st.error(f"{selected_year}년 {selected_panel} 패널 데이터가 없습니다.")
+                            else:
+                                st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
                         else:
-                            st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
-                    else:
-                        st.session_state['df'] = df_gold
-                        st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
-                        
-                        success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
-                        if selected_panel:
-                            success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
-                        
-                        st.success(success_msg)
-                        st.dataframe(df_gold.head())
+                            st.session_state['df'] = df_gold
+                            st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
+                            
+                            success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
+                            if selected_panel:
+                                success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
+                            
+                            st.success(success_msg)
+                            st.dataframe(df_gold.head())
 
-                        # Gold 데이터 스키마 정보 표시
-                        st.info("**Gold 데이터 스키마:**\n"
-                               "• SMILES: 표준화된 캐노니컬 SMILES\n"
-                               "• Activity: 표준화된 활성도 값 (value_std)\n"
-                               "• 메타데이터: assay_id, panel_id, cell_line, inchikey 등")
+                            # Gold 데이터 스키마 정보 표시
+                            st.info("**Gold 데이터 스키마:**\n"
+                                   "• SMILES: 표준화된 캐노니컬 SMILES\n"
+                                   "• Activity: 표준화된 활성도 값 (value_std)\n"
+                                   "• 메타데이터: assay_id, panel_id, cell_line, inchikey 등")
 
-            except Exception as e:
-                st.error(f"Gold 데이터 로드 실패: {e}")
+                except Exception as e:
+                    st.error(f"Gold 데이터 로드 실패: {e}")
 
     # Gold 데이터 설명
     with st.expander("📋 Gold 데이터 설명"):

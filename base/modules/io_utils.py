@@ -390,3 +390,25 @@ def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") ->
         return []
     except Exception:
         return []
+
+
+def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str, List[str]]:
+    """Get all available panels across all years.
+    
+    Returns:
+        Dict[str, List[str]]: Dictionary mapping panel_id to list of years where it's available
+    """
+    panel_years = {}
+    
+    # Get all available years
+    years = get_available_gold_years(data_root)
+    
+    # For each year, get its panels
+    for year in years:
+        panels = get_available_panel_ids(year, data_root)
+        for panel in panels:
+            if panel not in panel_years:
+                panel_years[panel] = []
+            panel_years[panel].append(year)
+    
+    return panel_years
