@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 import os
-from typing import Dict, List, Tuple
 
 import pandas as pd
 
@@ -17,7 +14,7 @@ def _try_import_rdkit():
 		raise RuntimeError("RDKit is required for activity cliff calculation. Use an environment with rdkit.")
 
 
-def _load_measurements_std(data_root: str, cfg: Dict) -> pd.DataFrame:
+def _load_measurements_std(data_root: str, cfg: dict) -> pd.DataFrame:
 	silver_dir = os.path.join(data_root, "silver", cfg.get("dataset_id", ""))
 	path = os.path.join(silver_dir, "measurements_std.csv")
 	if not os.path.exists(path):
@@ -27,7 +24,7 @@ def _load_measurements_std(data_root: str, cfg: Dict) -> pd.DataFrame:
 	return df
 
 
-def _load_canonical_compounds(data_root: str, cfg: Dict) -> pd.DataFrame:
+def _load_canonical_compounds(data_root: str, cfg: dict) -> pd.DataFrame:
 	silver_dir = os.path.join(data_root, "silver", cfg.get("dataset_id", ""))
 	path = os.path.join(silver_dir, "compounds_canonical.csv")
 	if not os.path.exists(path):
@@ -45,7 +42,7 @@ def _load_canonical_compounds(data_root: str, cfg: Dict) -> pd.DataFrame:
 
 def build_activity_cliffs(
 	data_root: str,
-	cfgs: List[Dict],
+	cfgs: list[dict],
 	similarity_threshold: float = 0.85,
 	delta_threshold: float = 1.0,
 ) -> str:
@@ -57,8 +54,8 @@ def build_activity_cliffs(
 	Chem, AllChem, DataStructs = _try_import_rdkit()
 
 	# 측정값 로드 및 결합
-	meas_list: List[pd.DataFrame] = []
-	comp_map_list: List[pd.DataFrame] = []
+	meas_list: list[pd.DataFrame] = []
+	comp_map_list: list[pd.DataFrame] = []
 	for cfg in cfgs:
 		m = _load_measurements_std(data_root, cfg)
 		if not m.empty:
@@ -76,7 +73,7 @@ def build_activity_cliffs(
 	meas = meas.merge(comp_map, on=["compound_id"], how="left")
 
 	# 지문 캐시 준비
-	fp_cache: Dict[str, object] = {}
+	fp_cache: dict[str, object] = {}
 	def get_fp(smiles: str):
 		if not isinstance(smiles, str) or smiles == "":
 			return None
@@ -103,7 +100,7 @@ def build_activity_cliffs(
 	if not group_cols:
 		group_cols = ["assay_id"] if "assay_id" in meas.columns else []
 
-	rows: List[Dict] = []
+	rows: list[dict] = []
 	for group_key, g in meas.groupby(group_cols):
 		g = g.dropna(subset=["compound_id"])  # keep valid compounds
 		g = g[(g["value_std_num"].notna()) & (g["smiles_canonical"].astype(str).str.len() > 0)]
@@ -128,7 +125,7 @@ def build_activity_cliffs(
 				sim = DataStructs.TanimotoSimilarity(fp_i, fp_j)
 				delta = abs(ci["value_std_num"] - cj["value_std_num"])
 				if sim >= similarity_threshold and delta >= delta_threshold:
-					row: Dict[str, object] = {
+					row: dict[str, object] = {
 						"assay_id": g["assay_id"].iloc[0] if "assay_id" in g.columns else "",
 						"cell_line": g["cell_line"].iloc[0] if "cell_line" in g.columns else "",
 						"compound_id_1": ci["compound_id"],

@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 import os
-from typing import Dict, List, Optional
 
 import pandas as pd
 
@@ -9,7 +6,7 @@ from .io_csv import read_csv_safe, write_csv_safe
 from .parsers import normalize_unit_label
 
 
-def _convert_unit(value: Optional[float], unit: Optional[str], target: Optional[str]) -> Optional[float]:
+def _convert_unit(value: float | None, unit: str | None, target: str | None) -> float | None:
 	if value is None:
 		return None
 	if unit is None or target is None or unit == target:
@@ -29,7 +26,7 @@ def _convert_unit(value: Optional[float], unit: Optional[str], target: Optional[
 	return value * f
 
 
-def build_measurements_std(root_dir: str, cfg: Dict) -> str:
+def build_measurements_std(root_dir: str, cfg: dict) -> str:
 	"""
 	Create standardized measurements based on YAML config.
 	- Preserve censor
@@ -64,7 +61,7 @@ def build_measurements_std(root_dir: str, cfg: Dict) -> str:
 	identity_for_cell_um = cfg["rules"]["silver"].get("identity_for_cell_um", False)
 	identity_rules = cfg["rules"]["silver"].get("identity_rules", [])
 
-	def decide_target_unit(row: pd.Series) -> Optional[str]:
+	def decide_target_unit(row: pd.Series) -> str | None:
 		readout = row.get("readout")
 		matrix = row.get("matrix")
 		if isinstance(readout, str) and readout in target_units:
@@ -79,7 +76,7 @@ def build_measurements_std(root_dir: str, cfg: Dict) -> str:
 	df_elig["unit_std"] = df_elig.apply(decide_target_unit, axis=1)
 
 	# 가능한 단위 변환으로 value_std 계산; 검열 값 보존
-	def to_float_safe(x: object) -> Optional[float]:
+	def to_float_safe(x: object) -> float | None:
 		try:
 			return float(x)
 		except Exception:

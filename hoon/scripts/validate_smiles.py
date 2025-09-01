@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import argparse
 import os
-from typing import Dict
 
 import pandas as pd
 import yaml
@@ -12,12 +10,12 @@ from src.udm.io_csv import read_csv_safe, write_csv_safe
 from src.udm.silver_smiles import _try_import_rdkit
 
 
-def load_cfg(cfg_path: str) -> Dict:
-    with open(cfg_path, "r", encoding="utf-8") as f:
+def load_cfg(cfg_path: str) -> dict:
+    with open(cfg_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
-def compute_canonical(smiles_raw: str) -> Dict[str, str]:
+def compute_canonical(smiles_raw: str) -> dict[str, str]:
     Chem, inchi = _try_import_rdkit()
     can = ""
     ik = ""

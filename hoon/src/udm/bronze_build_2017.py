@@ -1,8 +1,5 @@
-from __future__ import annotations
-
 import os
 import re
-from typing import Dict, List, Optional, Tuple, Set
 
 import pandas as pd
 
@@ -23,7 +20,7 @@ def _is_numeric_value(text: object) -> bool:
     return bool(NUMERIC_VALUE_RE.match(s))
 
 
-def _is_plausible_smiles(text: Optional[str]) -> bool:
+def _is_plausible_smiles(text: str | None) -> bool:
     if text is None:
         return False
     val = str(text).strip()
@@ -53,7 +50,7 @@ def _detect_header_row(df: pd.DataFrame, max_scan: int = 60) -> int:
     return 0
 
 
-def _find_col(cols: List[str], keywords: List[str]) -> Optional[str]:
+def _find_col(cols: list[str], keywords: list[str]) -> str | None:
     # match allowing whitespace variants (e.g., '화 합물' vs '화합물')
     cols_l = [str(c).strip().lower() for c in cols]
     for kw in keywords:
@@ -71,17 +68,17 @@ def _norm_cell_for_id(s: str) -> str:
     return s.strip("-")
 
 
-def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
-    outputs: Dict[str, str] = {}
+def build_bronze_from_raw(root_dir: str, cfg: dict) -> dict[str, str]:
+    outputs: dict[str, str] = {}
     raw_path = os.path.join(root_dir, cfg["paths"]["raw_file"])
     bronze_dir = os.path.join(root_dir, cfg["paths"]["bronze_dir"])
     os.makedirs(bronze_dir, exist_ok=True)
 
     # accumulators
-    comp_rows: Dict[int, Dict[str, str]] = {}
-    assay_rows: Dict[str, Dict[str, str]] = {}
-    meas_rows: List[Dict[str, object]] = []
-    panel_meta_acc: Dict[str, Dict[str, object]] = {}
+    comp_rows: dict[int, dict[str, str]] = {}
+    assay_rows: dict[str, dict[str, str]] = {}
+    meas_rows: list[dict[str, object]] = []
+    panel_meta_acc: dict[str, dict[str, object]] = {}
 
     parsing = cfg.get("parsing", {})
     allowed_compound_sheets = parsing.get("compounds_from_sheets", None)
@@ -90,9 +87,9 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
     panel_defs = parsing.get("panel_definitions", {})
 
     # assay patterns exact mapping and allowed cell columns
-    col_to_assign: Dict[str, Dict[str, object]] = {}
-    norm_to_assign: Dict[str, Dict[str, object]] = {}
-    allowed_labels: Set[str] = set()
+    col_to_assign: dict[str, dict[str, object]] = {}
+    norm_to_assign: dict[str, dict[str, object]] = {}
+    allowed_labels: set[str] = set()
     for p in parsing.get("assay_patterns", []):
         assign = dict(p.get("assign", {}))
         for col in p.get("columns", []):
@@ -112,7 +109,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
         # compounds collection (표3)
         df_all = xl.parse(sheet_name, header=None)
         # detect all header rows (rows containing '화합물') within the sheet
-        header_rows: List[int] = []
+        header_rows: list[int] = []
         for i in range(len(df_all)):
             vals = [str(x) for x in df_all.iloc[i].tolist()]
             def _norm_txt(s: str) -> str:
@@ -215,7 +212,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
                 val_num = None
                 if number_text is not None and not is_percent:
                     val_num, _ = parse_scientific_notation(number_text)
-                mrow: Dict[str, object] = {
+                mrow: dict[str, object] = {
                     "compound_id": comp_id,
                     "assay_id": assay_id,
                     "panel_id": panel_id,
@@ -241,7 +238,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
                         "cell_lines": set(),
                     })
                     try:
-                        cast: Set[str] = pm["cell_lines"]  # type: ignore
+                        cast: set[str] = pm["cell_lines"]  # type: ignore
                         cast.add(str(cell_line))
                     except Exception:
                         pass

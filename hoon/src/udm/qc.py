@@ -1,8 +1,5 @@
-from __future__ import annotations
-
 import os
 import re
-from typing import Dict, List, Tuple
 
 import pandas as pd
 
@@ -10,7 +7,7 @@ from .io_csv import read_csv_safe, write_csv_safe
 
 
 
-def _save_csv(df: pd.DataFrame, root_dir: str, cfg: Dict, filename: str) -> str:
+def _save_csv(df: pd.DataFrame, root_dir: str, cfg: dict, filename: str) -> str:
 	out_dir = os.path.join(root_dir, cfg["paths"]["bronze_dir"])  # unify under bronze/{year}
 	os.makedirs(out_dir, exist_ok=True)
 	path = os.path.join(out_dir, filename)
@@ -18,7 +15,7 @@ def _save_csv(df: pd.DataFrame, root_dir: str, cfg: Dict, filename: str) -> str:
 	return path
 
 
-def qc_reports(root_dir: str, cfg: Dict) -> Dict[str, str]:
+def qc_reports(root_dir: str, cfg: dict) -> dict[str, str]:
 	paths = cfg["paths"]["bronze_files"]
 	measurements_path = os.path.join(root_dir, paths["measurements"])  # bronze source
 	assays_path = os.path.join(root_dir, paths["assays"])  # for assay_id
@@ -27,7 +24,7 @@ def qc_reports(root_dir: str, cfg: Dict) -> Dict[str, str]:
 	df_m = read_csv_safe(measurements_path)
 	df_a = read_csv_safe(assays_path)
 
-	outputs: Dict[str, str] = {}
+	outputs: dict[str, str] = {}
 
 	# qc_bad_compound_id.csv
 	bad_re = re.compile(cfg["qc"]["bad_id_regex"]) if cfg["qc"].get("bad_id_regex") else None
@@ -75,7 +72,7 @@ def qc_reports(root_dir: str, cfg: Dict) -> Dict[str, str]:
 	missing_pct = (df_m.isna() | (df_m.astype(str) == "")).mean().round(3)
 	# 검열 분포
 	censor_counts = df_m["censor"].value_counts(dropna=False).to_dict() if "censor" in df_m.columns else {}
-	md_lines: List[str] = []
+	md_lines: list[str] = []
 	md_lines.append(f"# QC Overall - {cfg.get('dataset_id','')}\n")
 	md_lines.append(f"Total rows: {rows_total}\n")
 	md_lines.append("\n## Missing percent by column\n")

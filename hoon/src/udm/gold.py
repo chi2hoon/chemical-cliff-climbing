@@ -1,21 +1,18 @@
-from __future__ import annotations
-
 import os
-from typing import Dict, List, Optional
 
 import pandas as pd
 
 from .io_csv import read_csv_safe, write_csv_safe
 
 
-def _to_float(x: object) -> Optional[float]:
+def _to_float(x: object) -> float | None:
 	try:
 		return float(x)
 	except Exception:
 		return None
 
 
-def _load_measurements_std(root_dir: str, cfg: Dict) -> pd.DataFrame:
+def _load_measurements_std(root_dir: str, cfg: dict) -> pd.DataFrame:
 	silver_dir = os.path.join(root_dir, "silver", cfg.get("dataset_id", ""))
 	path = os.path.join(silver_dir, "measurements_std.csv")
 	if not os.path.exists(path):
@@ -25,7 +22,7 @@ def _load_measurements_std(root_dir: str, cfg: Dict) -> pd.DataFrame:
 	return df
 
 
-def _load_compounds_canonical(root_dir: str, cfg: Dict) -> pd.DataFrame:
+def _load_compounds_canonical(root_dir: str, cfg: dict) -> pd.DataFrame:
 	silver_dir = os.path.join(root_dir, "silver", cfg.get("dataset_id", ""))
 	path = os.path.join(silver_dir, "compounds_canonical.csv")
 	if not os.path.exists(path):
@@ -36,7 +33,7 @@ def _load_compounds_canonical(root_dir: str, cfg: Dict) -> pd.DataFrame:
 	return df[keep]
 
 
-def build_measurements_gold(root_dir: str, cfg: Dict) -> str:
+def build_measurements_gold(root_dir: str, cfg: dict) -> str:
 	"""
 	Create gold dataset by joining standardized measurements with canonical SMILES and InChIKey.
 
@@ -73,7 +70,7 @@ def build_measurements_gold(root_dir: str, cfg: Dict) -> str:
 	merged["value_std"] = merged["value_std_num"].astype(float)
 
 	# select and order columns
-	front_cols: List[str] = [
+	front_cols: list[str] = [
 		"compound_id", "dataset_id", "assay_id", "panel_id", "cell_line",
 		"smiles_canonical", "inchikey",
 		"value_std", "unit_std", "censor",

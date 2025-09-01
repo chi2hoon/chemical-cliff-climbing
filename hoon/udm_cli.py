@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import argparse
 import os
@@ -16,7 +15,7 @@ from src.udm.export import export_bronze_release
 
 
 def load_cfg(cfg_path: str) -> dict:
-	with open(cfg_path, "r", encoding="utf-8") as f:
+	with open(cfg_path, encoding="utf-8") as f:
 		return yaml.safe_load(f)
 
 

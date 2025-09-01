@@ -1,8 +1,5 @@
-from __future__ import annotations
-
 import re
 from dataclasses import dataclass
-from typing import List, Optional, Tuple
 
 
 MU = "μ"
@@ -16,7 +13,7 @@ class AuditNote:
 	message: str
 
 
-def normalize_unit_label(unit: Optional[str]) -> Optional[str]:
+def normalize_unit_label(unit: str | None) -> str | None:
 	"""단위 레이블 변형 정규화: μΜ/uM->μM, None/empty는 그대로 유지."""
 	if unit is None:
 		return None
@@ -39,7 +36,7 @@ _CENSOR_RE = re.compile(r"^\s*((?:>=|<=|[<>＝=＜＞])?)[\s\t]*([+-]?(?:\d+(?:\
 _MALFORMED_NUM_RE = re.compile(r"^(\d+)\s*[-\u2212]\s*\.?(\d+)\s*$")
 
 
-def split_censor_and_value(value_raw: Optional[str]) -> Tuple[Optional[str], Optional[str], Optional[str]]:
+def split_censor_and_value(value_raw: str | None) -> tuple[str | None, str | None, str | None]:
 	"""
 	원본 값 문자열에서 검열 기호와 숫자 부분을 분리합니다.
 
@@ -84,7 +81,7 @@ def split_censor_and_value(value_raw: Optional[str]) -> Tuple[Optional[str], Opt
 _SCI_RE = re.compile(r"^([+-]?(?:\d+(?:\.\d*)?|\.\d+))\s*([tTeE])\s*([+-]?\d+)$")
 
 
-def parse_scientific_notation(num_text: str) -> Tuple[Optional[float], Optional[AuditNote]]:
+def parse_scientific_notation(num_text: str) -> tuple[float | None, AuditNote | None]:
 	"""
 	8.8E-07 또는 8.8TE-07과 같은 숫자를 파싱합니다 (잘못된 'T' 포함).
 	'T'가 발견되면 'E'로 수정하고 AuditNote를 반환합니다.
@@ -100,7 +97,7 @@ def parse_scientific_notation(num_text: str) -> Tuple[Optional[float], Optional[
 		except Exception:
 			return None, None
 	base, exponent_letter, exponent_power = m.groups()
-	audit: Optional[AuditNote] = None
+	audit: AuditNote | None = None
 	if exponent_letter in {"t", "T"}:
 		corrected = f"{base}E{exponent_power}"
 		audit = AuditNote(field="value_num", original=text, corrected=corrected, message="과학적 표기법에서 'TE'를 'E'로 수정")

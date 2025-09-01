@@ -1,12 +1,9 @@
-from __future__ import annotations
-
 import os
 import re
-from typing import Dict, List, Optional, Tuple, Set
 
 import pandas as pd
 
-from .io_csv import read_csv_safe, write_csv_safe, ensure_parent_dir
+from .io_csv import write_csv_safe
 from .parsers import split_censor_and_value, normalize_unit_label, parse_scientific_notation
 
 # --- 측정 셀용 숫자 토큰 화이트리스트 ---
@@ -22,7 +19,7 @@ def _is_numeric_value(text: object) -> bool:
 
 # --- 2017 특정 헬퍼 (패널 매핑, 세포주 정규화) ---
 # 2017 데이터셋의 표 ID별 패널 코드
-PANEL_ID_BY_TABLE_2017: Dict[str, Dict[str, str]] = {
+PANEL_ID_BY_TABLE_2017: dict[str, dict[str, str]] = {
     # table_id: {panel_id, panel_label, disease_area}
     "table5":  {"panel_id": "blca", "panel_label": "Bladder cancer panel",   "disease_area": "bladder"},
     "table6":  {"panel_id": "prad", "panel_label": "Prostate cancer panel",  "disease_area": "prostate"},
@@ -43,8 +40,8 @@ def _norm_cell_for_id(s: str) -> str:
     return s.strip("-")
 
 # --- YAML 정규식 패턴 컴파일 (header_regex + capture_to_extras) ---
-def _compile_yaml_patterns(cfg: Dict) -> List[Tuple[re.Pattern, Dict[str, object], Dict[str, str]]]:
-    patterns: List[Tuple[re.Pattern, Dict[str, object], Dict[str, str]]] = []
+def _compile_yaml_patterns(cfg: dict) -> list[tuple[re.Pattern, dict[str, object], dict[str, str]]]:
+    patterns: list[tuple[re.Pattern, dict[str, object], dict[str, str]]] = []
     for p in cfg.get("parsing", {}).get("assay_patterns", []):
         header_regex = p.get("header_regex")
         assign = dict(p.get("assign", {}))
@@ -62,7 +59,7 @@ def _slugify(text: str) -> str:
 	return text or "unnamed"
 
 
-def _is_plausible_smiles(text: Optional[str]) -> bool:
+def _is_plausible_smiles(text: str | None) -> bool:
 	"""보수적인 SMILES 타당성 검사를 통해 주석 문자열이 SMILES로 수집되는 것을 방지합니다.
 
 	- 일반적인 SMILES 문자만 허용
@@ -135,20 +132,20 @@ def _year_rules(dataset_id: str):
 	- postprocess_func(match) -> (assay_id: str, extras_overrides: Dict)
 	"""
 	year = str(dataset_id)
-	rules: List[Tuple[re.Pattern, Dict[str, object], object]] = []
+	rules: list[tuple[re.Pattern, dict[str, object], object]] = []
 	if year == "2021":
 		# 2021 PRMT5 (표 19)
 		# 효소 Ki (방법 A/B)
 		pat_ki = re.compile(r"prmt5.*mtase\s*glo.*ki\(n?m,meth\.([ab])\)")
 		assign_ki = {"target": "PRMT5", "readout": "Ki", "matrix": "enzyme", "unit": "nM"}
-		def post_ki(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_ki(m: re.Match) -> tuple[str, dict[str, str]]:
 			method = m.group(1).upper()
 			return f"prmt5_ki_meth{method}", {"method": method}
 		# 세포 IC50 (HCT116 MTAP-null / WT)
 		# 사양에 따른 세포 IC50 매핑
 		pat_cell = re.compile(r"prolif\s+hct116[-–]?(mtap\s+null|wt)\s+ic50\s*\((?:um|μμ)\)")
 		assign_cell = {"target": "PRMT5", "readout": "IC50", "matrix": "cell", "unit": "μM", "extras": {"cell_line": "HCT116"}}
-		def post_cell(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_cell(m: re.Match) -> tuple[str, dict[str, str]]:
 			geno_cap = m.group(1).strip()
 			geno_norm = "mtap null" if geno_cap.lower().startswith("mtap") else "wt"
 			assay_suffix = "mtapnull" if geno_norm == "mtap null" else "wt"
@@ -161,19 +158,19 @@ def _year_rules(dataset_id: str):
 		# 2018 KRAS/EGFR
 		pat_bind = re.compile(r"kras.*sos1.*interaction")
 		assign_bind = {"target": "KRAS", "readout": "binding", "matrix": "biochemical", "unit_base": "M"}
-		def post_bind(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_bind(m: re.Match) -> tuple[str, dict[str, str]]:
 			return "kras_sos1_interaction", {}
 		pat_act_hi = re.compile(r"kras.*activation.*highgtp")
 		assign_act_hi = {"target": "KRAS", "readout": "activation_highGTP", "matrix": "biochemical", "unit_base": "M"}
-		def post_act_hi(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_act_hi(m: re.Match) -> tuple[str, dict[str, str]]:
 			return "kras_activation_highgtp", {}
 		pat_act_no = re.compile(r"kras.*activation.*nogtp")
 		assign_act_no = {"target": "KRAS", "readout": "activation_noGTP", "matrix": "biochemical", "unit_base": "M"}
-		def post_act_no(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_act_no(m: re.Match) -> tuple[str, dict[str, str]]:
 			return "kras_activation_nogtp", {}
 		pat_egfr = re.compile(r"egfr.*kinase.*ic50")
 		assign_egfr = {"target": "EGFR", "readout": "IC50", "matrix": "enzyme", "unit_base": "M", "right_censor_limit": 20e-6}
-		def post_egfr(m: re.Match) -> Tuple[str, Dict[str, str]]:
+		def post_egfr(m: re.Match) -> tuple[str, dict[str, str]]:
 			return "egfr_ic50", {}
 		rules = [
 			(pat_bind, assign_bind, post_bind),
@@ -211,7 +208,7 @@ def _detect_header_row(df: pd.DataFrame, max_scan: int = 30) -> int:
 	return 0
 
 
-def _find_col(cols: List[str], keywords: List[str]) -> Optional[str]:
+def _find_col(cols: list[str], keywords: list[str]) -> str | None:
 	cols_l = [c.lower() for c in cols]
 	for kw in keywords:
 		for c, lc in zip(cols, cols_l):
@@ -220,7 +217,7 @@ def _find_col(cols: List[str], keywords: List[str]) -> Optional[str]:
 	return None
 
 
-def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
+def build_bronze_from_raw(root_dir: str, cfg: dict) -> dict[str, str]:
 	"""
 	일반 빌더: 최소 브론즈 아티팩트를 채우기 위해 원본 Excel을 스캔합니다.
 	- compounds.csv: compound_id, smiles_raw + provenance + dataset_id
@@ -228,28 +225,28 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 	- measurements.csv: 어세이 열에서 녹인 긴 형식; 검열 분리; value_raw 보존
 	- panel_block_meta.csv: 표(panel) 단위 메타데이터 집계(table_id, cell_lines, max_test_conc)
 	"""
-	outputs: Dict[str, str] = {}
+	outputs: dict[str, str] = {}
 	raw_path = os.path.join(root_dir, cfg["paths"]["raw_file"])
 	bronze_dir = os.path.join(root_dir, cfg["paths"]["bronze_dir"])
 	os.makedirs(bronze_dir, exist_ok=True)
 
 	# 홀더 준비
 	# compounds는 중복키를 방지하기 위해 dict로 수집 (키: 정수 compound_id)
-	comp_rows: Dict[int, Dict[str, str]] = {}
-	assay_rows: Dict[str, Dict[str, str]] = {}
-	meas_rows: List[Dict[str, str]] = []
+	comp_rows: dict[int, dict[str, str]] = {}
+	assay_rows: dict[str, dict[str, str]] = {}
+	meas_rows: list[dict[str, str]] = []
 	# panel 메타 집계 (table_id 단위)
-	panel_acc: Dict[str, Dict[str, object]] = {}
+	panel_acc: dict[str, dict[str, object]] = {}
 	# 원본 표의 열 순서 보존을 위한 (sheet_name, original_column_label) → order 인덱스 맵
-	sheet_col_order: Dict[Tuple[str, str], int] = {}
+	sheet_col_order: dict[tuple[str, str], int] = {}
 
 	# 2017: 패널 메타(패널 단위) 누적용
-	panel_meta_acc: Dict[str, Dict[str, object]] = {}
+	panel_meta_acc: dict[str, dict[str, object]] = {}
 
 	# YAML에서 어세이 패턴 맵 준비 (선택사항, 정확한 헤더 매치 폴백)
 	patterns = cfg.get("parsing", {}).get("assay_patterns", [])
-	col_to_assign: Dict[str, Dict[str, str]] = {}
-	norm_to_assign: Dict[str, Dict[str, str]] = {}
+	col_to_assign: dict[str, dict[str, str]] = {}
+	norm_to_assign: dict[str, dict[str, str]] = {}
 	for p in patterns:
 		assign_map = p.get("assign", {})
 		for col in p.get("columns", []):
@@ -264,20 +261,20 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 	# YAML header_regex 패턴 컴파일
 	regex_from_yaml = _compile_yaml_patterns(cfg)
 	# 패널명 매핑(선택): panel_block_meta에 기록
-	panel_name_map: Dict[str, str] = cfg.get("parsing", {}).get("panel_names", {})
+	panel_name_map: dict[str, str] = cfg.get("parsing", {}).get("panel_names", {})
 
 	# Excel 로드
 	xl = pd.ExcelFile(raw_path)
 	# config에서 compounds를 수집할 시트를 선택적으로 제한
 	allowed_compound_sheets = cfg.get("parsing", {}).get("compounds_from_sheets", None)
 	# 2017: assay 시트 화이트리스트 정규식 (표5~14만 인제스트)
-	assay_whitelist_re: Optional[str] = cfg.get("parsing", {}).get("assay_sheets_whitelist_regex")
+	assay_whitelist_re: str | None = cfg.get("parsing", {}).get("assay_sheets_whitelist_regex")
 	# 2017: 세포주 동의어 병합 맵
 	cell_syn = cfg.get("parsing", {}).get("cell_synonyms", {})
 	cell_map_yaml = cfg.get("parsing", {}).get("cell_line_map", {})
-	merged_cell_map: Dict[str, str] = {**cell_map_yaml, **cell_syn}
+	merged_cell_map: dict[str, str] = {**cell_map_yaml, **cell_syn}
 	# 2017: 패널 정의(YAML 우선)
-	panel_defs_yaml: Dict[str, Dict[str, object]] = cfg.get("parsing", {}).get("panel_definitions", {})
+	panel_defs_yaml: dict[str, dict[str, object]] = cfg.get("parsing", {}).get("panel_definitions", {})
 	for sheet_name in xl.sheet_names:
 		is_2017 = str(cfg.get("dataset_id", "")) == "2017"
 		assay_ingest_allowed = True
@@ -292,10 +289,10 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 		df = xl.parse(sheet_name, header=header_row)
 		# 열 정규화 및 기준 정규화 헤더 맵 구축 (단일 행 헤더)
 		df.columns = [str(c).strip() for c in df.columns]
-		norm_map: Dict[str, str] = {orig: normalize_label(str(orig)) for orig in df.columns}
+		norm_map: dict[str, str] = {orig: normalize_label(str(orig)) for orig in df.columns}
 
-		def _to_flat_columns(df_multi: pd.DataFrame) -> List[str]:
-			cols: List[str] = []
+		def _to_flat_columns(df_multi: pd.DataFrame) -> list[str]:
+			cols: list[str] = []
 			for tup in df_multi.columns.to_flat_index():
 				parts = [str(x).strip() for x in tup if str(x).strip() != "" and str(x).lower() != "nan"]
 				cols.append(" ".join(parts))
@@ -318,7 +315,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 			double_candidate = None
 
 		# 폴백: 최대 정규식 매치로 대안 헤더 행 검색
-		def _match_score(cols_map: Dict[str, str]) -> int:
+		def _match_score(cols_map: dict[str, str]) -> int:
 			"""YAML 정확 매치 또는 정규식 규칙과 일치하는 열 수를 계산합니다."""
 			score = 0
 			for orig, norm in cols_map.items():
@@ -342,7 +339,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 
 		# 휴리스틱: 단일 행 헤더에는 'compound'와 'smiles/structure'가 모두 없지만,
 		# 2행 헤더에는 둘 다 존재하면 2행 헤더를 채택
-		def _has_comp_and_smiles(cols: List[str]) -> bool:
+		def _has_comp_and_smiles(cols: list[str]) -> bool:
 			lc = [str(c).strip().lower() for c in cols]
 			comp_kws = [
 				"compound #", "compound no", "compound", "cmpd", "entry", "id", "num",
@@ -392,9 +389,9 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 					print(f"[HDR2021] sheet={sheet_name} orig={orig} norm={norm}")
 
 		# 여러 헤더 변형 후보를 수집하여(2017 복수 테이블 대응) 순차 처리
-		header_variants: List[Tuple[pd.DataFrame, Dict[str, str]]] = []
+		header_variants: list[tuple[pd.DataFrame, dict[str, str]]] = []
 		header_variants.append((df, norm_map))
-		seen_fps: Set[str] = set()
+		seen_fps: set[str] = set()
 		seen_fps.add("|".join(sorted([f"{k}:{v}" for k, v in norm_map.items()])))
 		# 같은 시트의 다른 표를 잡기 위해 추가 헤더 행 스캔
 		limit_scan = min(120, len(head_df))
@@ -479,7 +476,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 						continue
 					if not _is_plausible_smiles(smiles_raw):
 						continue
-					row_rec: Dict[str, str] = {
+					row_rec: dict[str, str] = {
 						"compound_id": str(cid),
 						"smiles_raw": smiles_raw,
 						"dataset_id": str(cfg.get("dataset_id", "")),
@@ -492,7 +489,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 					# 그렇지 않으면 첫 번째 유지
 
 			# 타당한 어세이 열 탐지: 숫자형 또는 assay_patterns에 나열된 열
-			numeric_like_cols: List[str] = []
+			numeric_like_cols: list[str] = []
 			if assay_ingest_allowed:
 				for c in cur_df.columns:
 					if c == compound_col or c == smiles_col:
@@ -518,7 +515,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 					assign = norm_to_assign.get(norm_label, {})
 				is_pattern_listed_here = (orig_label in col_to_assign) or (norm_label in norm_to_assign)
 				assay_id: str
-				post_extras: Dict[str, str] = {}
+				post_extras: dict[str, str] = {}
 				matched = False
 
 				# 1) 먼저 연도별 정규식 규칙 시도
@@ -605,7 +602,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 							assay_id = f"{assay_id}.{tbl}"
 				# 어세이 메타데이터 등록 (추적성을 위한 선택적 target/unit 필드 포함)
 				if assay_id not in assay_rows:
-					row_assay: Dict[str, str] = {
+					row_assay: dict[str, str] = {
 						"assay_id": assay_id,
 						"readout": readout,
 						"matrix": matrix,
@@ -660,11 +657,11 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 								censor, number_text, unit_tok = split_censor_and_value(value_raw)
 								unit_from_cell = normalize_unit_label(unit_tok) if unit_tok else None
 								unit_final = "%" if is_percent else (unit_from_cell or unit_base or unit_default or "")
-								value_num: Optional[float] = None
+								value_num: float | None = None
 								if number_text is not None and not is_percent:
 									val, _ = parse_scientific_notation(number_text)
 									value_num = val
-								row_meas: Dict[str, object] = {
+								row_meas: dict[str, object] = {
 									"compound_id": compound_id,
 									"assay_id": assay_id,
 									"value_raw": value_raw,
@@ -714,7 +711,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 										"cell_lines": set(),
 									})
 									try:
-										cast_set: Set[str] = pmeta["cell_lines"]  # type: ignore
+										cast_set: set[str] = pmeta["cell_lines"]  # type: ignore
 										cast_set.add(str(extras.get("cell_line", "")))
 									except Exception:
 										pass
@@ -727,7 +724,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 				assign = norm_to_assign.get(norm_label, {})
 			is_pattern_listed_here = (orig_label in col_to_assign) or (norm_label in norm_to_assign)
 			assay_id: str
-			post_extras: Dict[str, str] = {}
+			post_extras: dict[str, str] = {}
 			matched = False
 
 			# 1) try year-specific regex rules first
@@ -814,7 +811,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 						assay_id = f"{assay_id}.{tbl}"
 			# 어세이 메타데이터 등록 (추적성을 위한 선택적 target/unit 필드 포함)
 			if assay_id not in assay_rows:
-				row_assay: Dict[str, str] = {
+				row_assay: dict[str, str] = {
 					"assay_id": assay_id,
 					"readout": readout,
 					"matrix": matrix,
@@ -872,11 +869,11 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 						unit_from_cell = normalize_unit_label(unit_tok) if unit_tok else None
 						unit_final = "%" if is_percent else (unit_from_cell or unit_base or unit_default or "")
 						# 사용 가능한 경우 숫자 문자열을 value_num의 float로 변환
-						value_num: Optional[float] = None
+						value_num: float | None = None
 						if number_text is not None and not is_percent:
 							val, _ = parse_scientific_notation(number_text)
 							value_num = val
-						row_meas: Dict[str, object] = {
+						row_meas: dict[str, object] = {
 							"compound_id": compound_id,
 							"assay_id": assay_id,
 							"value_raw": value_raw,
@@ -933,7 +930,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 								"cell_lines": set(),
 							})
 							try:
-								cast_set: Set[str] = pmeta["cell_lines"]  # type: ignore
+								cast_set: set[str] = pmeta["cell_lines"]  # type: ignore
 								cast_set.add(str(extras.get("cell_line", "")))
 							except Exception:
 								pass
@@ -974,7 +971,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 
 	# panel 메타 집계 마무리: table_id별 max_test_conc 산출 및 측정치에 주입
 	from collections import Counter
-	max_conc_map: Dict[str, str] = {}
+	max_conc_map: dict[str, str] = {}
 	for tbl, acc in panel_acc.items():
 		thrs = acc.get("thresholds", []) or []
 		thr_val: str = ""
@@ -988,7 +985,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 
 	# panel_block_meta.csv 생성
 	if str(cfg.get("dataset_id", "")) == "2017" and len(panel_meta_acc) > 0:
-		panel_rows: List[Dict[str, str]] = []
+		panel_rows: list[dict[str, str]] = []
 		for pid, meta in sorted(panel_meta_acc.items(), key=lambda kv: kv[0]):
 			cells = sorted(list(meta.get("cell_lines", set()))) if isinstance(meta.get("cell_lines"), (set, list)) else []
 			panel_rows.append({
@@ -1000,7 +997,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 			})
 		panel_meta_df = pd.DataFrame(panel_rows, columns=["panel_id", "panel_label", "disease_area", "provenance_sheet", "cell_lines"]).drop_duplicates()
 	else:
-		panel_rows: List[Dict[str, str]] = []
+		panel_rows: list[dict[str, str]] = []
 		for tbl, acc in sorted(panel_acc.items(), key=lambda kv: kv[0]):
 			cell_lines_sorted = ",".join(sorted(list(acc.get("cell_lines", set()))))
 			panel_rows.append({

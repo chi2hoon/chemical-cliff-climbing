@@ -1,10 +1,6 @@
-from __future__ import annotations
-
 import os
 import shutil
-from typing import Dict
 
-import pandas as pd
 
 from .io_csv import read_csv_safe, write_csv_safe
 
@@ -21,7 +17,7 @@ def _to_relative(path_value: str, root_dir: str) -> str:
     return path_value
 
 
-def export_bronze_release(root_dir: str, cfg: Dict, mode: str = "relative") -> str:
+def export_bronze_release(root_dir: str, cfg: dict, mode: str = "relative") -> str:
     """
     Create a sanitized export of bronze artifacts under data/bronze_release/{year}/.
     - For CSVs containing provenance_file, convert to root-relative paths (mode='relative').

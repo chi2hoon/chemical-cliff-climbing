@@ -1,35 +1,32 @@
-from __future__ import annotations
-
 import os
-from typing import Dict, List, Tuple
 
 import pandas as pd
 
 from .io_csv import read_csv_safe, write_csv_safe
 from .parsers import normalize_unit_label, split_censor_and_value, parse_scientific_notation
 
-def _get_bronze_builder(cfg: Dict):
+def _get_bronze_builder(cfg: dict):
     # Centralized dispatcher for year-aware bronze building
     from .bronze_build_dispatch import build_bronze_from_raw as builder
     return builder
 
 
 class BronzeValidator:
-	def __init__(self, cfg: Dict):
+	def __init__(self, cfg: dict):
 		self.cfg = cfg
 		self.paths = cfg["paths"]
 		self.schema = cfg["schema"]
 		self.rules = cfg["rules"]["bronze"]
 
-	def _required_ok(self, df: pd.DataFrame, required_cols: List[str]) -> Tuple[bool, List[str]]:
+	def _required_ok(self, df: pd.DataFrame, required_cols: list[str]) -> tuple[bool, list[str]]:
 		missing = [c for c in required_cols if c not in df.columns]
 		return len(missing) == 0, missing
 
-	def validate_csv(self, path: str, entity: str) -> Tuple[bool, List[str]]:
+	def validate_csv(self, path: str, entity: str) -> tuple[bool, list[str]]:
 		df = read_csv_safe(path)
 		required = self.schema[entity]["required"]
 		ok, missing = self._required_ok(df, required)
-		errors: List[str] = []
+		errors: list[str] = []
 		if not ok:
 			errors.append(f"Missing required columns in {entity}: {missing}")
 		return len(errors) == 0, errors
@@ -40,8 +37,8 @@ class BronzeValidator:
 			df["unit"] = df["unit"].map(normalize_unit_label)
 		# 요청되고 value_num이 누락/유효하지 않은 경우에만 value_raw에서 censor/value 분리
 		if self.rules.get("split_censor", True) and "value_raw" in df.columns:
-			new_censor: List[str] = []
-			new_value_num: List[str] = []
+			new_censor: list[str] = []
+			new_value_num: list[str] = []
 			for raw in df["value_raw"].tolist():
 				censor, number_text, unit_token = split_censor_and_value(raw)
 				if number_text is not None:
@@ -71,11 +68,11 @@ class BronzeValidator:
 			df["provenance_file"] = df["provenance_file"].map(_to_rel)
 		return df
 
-	def build_or_validate(self, root_dir: str) -> Dict[str, List[str]]:
+	def build_or_validate(self, root_dir: str) -> dict[str, list[str]]:
 		"""Validate existing bronze CSVs under bronze/{year}; fix only deviations in measurements."""
 		bronze_dir = os.path.join(root_dir, self.paths["bronze_dir"])
 		files = self.paths["bronze_files"]
-		results: Dict[str, List[str]] = {"errors": [], "fixed": []}
+		results: dict[str, list[str]] = {"errors": [], "fixed": []}
 
 		# YAML에 assay_patterns가 존재하는 경우 새 규칙을 적용하기 위해 raw에서 재구축
 		assay_patterns = self.cfg.get("parsing", {}).get("assay_patterns", [])

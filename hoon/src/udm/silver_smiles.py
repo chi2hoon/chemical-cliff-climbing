@@ -1,7 +1,4 @@
-from __future__ import annotations
-
 import os
-from typing import Dict
 
 import pandas as pd
 
@@ -18,7 +15,7 @@ def _try_import_rdkit():
 		raise RuntimeError("RDKit is required for SMILES canonicalization. Use an environment with rdkit.")
 
 
-def build_canonical_compounds(root_dir: str, cfg: Dict) -> str:
+def build_canonical_compounds(root_dir: str, cfg: dict) -> str:
 	"""
 	data/silver/{dataset_id}/compounds_canonical.csv에 데이터셋별 표준화된 화합물 테이블 생성
 	열: compound_id, dataset_id, smiles_raw, smiles_canonical, inchikey

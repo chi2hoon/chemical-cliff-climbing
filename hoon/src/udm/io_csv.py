@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, Optional
+from typing import Any
 
 import pandas as pd
 
@@ -20,7 +20,7 @@ def read_csv_safe(path: str, **kwargs: Any) -> pd.DataFrame:
 	- keep_default_na=False
 	- na_filter=False
 	"""
-	read_kwargs: Dict[str, Any] = {
+	read_kwargs: dict[str, Any] = {
 		"dtype": str,
 		"keep_default_na": False,
 		"na_filter": False,
@@ -39,7 +39,7 @@ def write_csv_safe(df: pd.DataFrame, path: str, **kwargs: Any) -> None:
 	- float_format="%.8g"
 	"""
 	ensure_parent_dir(path)
-	write_kwargs: Dict[str, Any] = {
+	write_kwargs: dict[str, Any] = {
 		"encoding": "utf-8",
 		"index": False,
 		"float_format": "%.8g",

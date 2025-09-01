@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 
 import argparse
 import os
-from typing import Dict, List
 
 import pandas as pd
 import yaml
@@ -11,8 +9,8 @@ import yaml
 from src.udm.io_csv import read_csv_safe, write_csv_safe
 
 
-def load_cfg(cfg_path: str) -> Dict:
-    with open(cfg_path, "r", encoding="utf-8") as f:
+def load_cfg(cfg_path: str) -> dict:
+    with open(cfg_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
