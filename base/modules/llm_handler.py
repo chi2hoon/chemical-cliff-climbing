@@ -45,8 +45,8 @@ def generate_hypothesis(
     activity2: float,
     structural_difference_description: str,
     similarity: float,
-    model: str = "gpt-5",
-    max_tokens: int = 4096,
+    model: str = "gpt-5-nano",
+    max_tokens: int = 1200,
 ) -> str:
     """
     두 분자의 구조-활성 관계(SAR)에 대한 화학적 가설을 생성합니다.
@@ -162,8 +162,8 @@ def evaluate_hypothesis(
     smiles2: str,
     activity2: float,
     structural_difference_description: str,
-    model: str = "gpt-5",
-    max_tokens: int = 4096,
+    model: str = "gpt-5-nano",
+    max_tokens: int = 1200,
 ) -> str:
     """
     기존에 생성된 SAR 가설을 평가합니다.
@@ -249,7 +249,7 @@ def revise_hypothesis(
     smiles2: str,
     activity2: float,
     structural_difference_description: str,
-    model: str = "gpt-5",
+    model: str = "gpt-5-nano",
     max_tokens: int = 4096,
 ) -> str:
     """

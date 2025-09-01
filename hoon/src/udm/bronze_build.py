@@ -9,7 +9,7 @@ import pandas as pd
 from .io_csv import read_csv_safe, write_csv_safe, ensure_parent_dir
 from .parsers import split_censor_and_value, normalize_unit_label, parse_scientific_notation
 
-# --- numeric token whitelist for measurement cells ---
+# --- 측정 셀용 숫자 토큰 화이트리스트 ---
 NUMERIC_VALUE_RE = re.compile(r'^(?:\s*(?:>=|<=|[<>＝＝＜＞=])\s*)?[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?(?:\s*(?:μM|uM|µM|nM|mM|mg/kg))?\s*$')
 
 def _is_numeric_value(text: object) -> bool:
@@ -20,8 +20,8 @@ def _is_numeric_value(text: object) -> bool:
         return False
     return bool(NUMERIC_VALUE_RE.match(s))
 
-# --- 2017 specific helpers (panel mapping, cell-line normalization) ---
-# Panel code by table id for 2017 dataset
+# --- 2017 특정 헬퍼 (패널 매핑, 세포주 정규화) ---
+# 2017 데이터셋의 표 ID별 패널 코드
 PANEL_ID_BY_TABLE_2017: Dict[str, Dict[str, str]] = {
     # table_id: {panel_id, panel_label, disease_area}
     "table5":  {"panel_id": "blca", "panel_label": "Bladder cancer panel",   "disease_area": "bladder"},
@@ -30,7 +30,7 @@ PANEL_ID_BY_TABLE_2017: Dict[str, Dict[str, str]] = {
     "table8":  {"panel_id": "brca", "panel_label": "Breast cancer panel",    "disease_area": "breast"},
     "table9":  {"panel_id": "heme", "panel_label": "Hematologic panel",      "disease_area": "hematologic"},
     "table10": {"panel_id": "paad", "panel_label": "Pancreatic cancer panel","disease_area": "pancreas"},
-    # Tables 11–13 are mixed/other in the source; keep generic labels
+    # 표 11-13은 소스에서 혼합/기타이므로 일반 레이블 유지
     "table11": {"panel_id": "gi",   "panel_label": "GI/Other panel",         "disease_area": "gi"},
     "table12": {"panel_id": "misc", "panel_label": "Misc tumor panel",       "disease_area": "misc"},
     "table13": {"panel_id": "misc", "panel_label": "Misc tumor panel",       "disease_area": "misc"},
@@ -42,7 +42,7 @@ def _norm_cell_for_id(s: str) -> str:
     s = re.sub(r"[^a-z0-9]+", "-", s)
     return s.strip("-")
 
-# --- compile YAML regex patterns (header_regex + capture_to_extras) ---
+# --- YAML 정규식 패턴 컴파일 (header_regex + capture_to_extras) ---
 def _compile_yaml_patterns(cfg: Dict) -> List[Tuple[re.Pattern, Dict[str, object], Dict[str, str]]]:
     patterns: List[Tuple[re.Pattern, Dict[str, object], Dict[str, str]]] = []
     for p in cfg.get("parsing", {}).get("assay_patterns", []):
@@ -73,7 +73,7 @@ def _is_plausible_smiles(text: Optional[str]) -> bool:
 	val = str(text).strip()
 	if val == "":
 		return False
-	# common null markers should not be treated as SMILES
+	# 일반적인 null 마커는 SMILES로 취급하지 말아야 함
 	if val.lower() in {"nan", "none", "null", "na", "n/a"}:
 		return False
 	# 공백/콤마 포함 문자열 배제 (문장형/화학명 제거)
@@ -396,7 +396,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 		header_variants.append((df, norm_map))
 		seen_fps: Set[str] = set()
 		seen_fps.add("|".join(sorted([f"{k}:{v}" for k, v in norm_map.items()])))
-		# scan additional header rows to catch other tables in the same sheet
+		# 같은 시트의 다른 표를 잡기 위해 추가 헤더 행 스캔
 		limit_scan = min(120, len(head_df))
 		for cand in range(0, limit_scan):
 			try:
@@ -408,7 +408,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 				if s > 0 and fp not in seen_fps:
 					header_variants.append((df2, n2))
 					seen_fps.add(fp)
-					# also try two-row header for this candidate
+					# 이 후보에 대해서도 2행 헤더 시도
 					try:
 						df2b = xl.parse(sheet_name, header=[cand, cand + 1])
 						df2b.columns = _to_flat_columns(df2b)
@@ -489,7 +489,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 					}
 					if cid not in comp_rows:
 						comp_rows[cid] = row_rec
-					# else: keep first
+					# 그렇지 않으면 첫 번째 유지
 
 			# 타당한 어세이 열 탐지: 숫자형 또는 assay_patterns에 나열된 열
 			numeric_like_cols: List[str] = []
@@ -521,7 +521,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 				post_extras: Dict[str, str] = {}
 				matched = False
 
-				# 1) try year-specific regex rules first
+				# 1) 먼저 연도별 정규식 규칙 시도
 				for pat, assign_dict, post_fn in regex_rules:
 					m = pat.search(norm_label)
 					if m:
@@ -531,7 +531,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 						post_extras = extra or {}
 						break
 
-				# 2) if not matched, try YAML header_regex patterns
+				# 2) 일치하지 않으면 YAML header_regex 패턴 시도
 				if not matched:
 					for pat, assign_dict, capmap in regex_from_yaml:
 						m = pat.search(norm_label)
@@ -551,12 +551,12 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 							assign["extras"] = extras
 							break
 
-				# 3) if still not matched but exact columns listed, accept it
+				# 3) 여전히 일치하지 않지만 정확한 열이 나열되어 있으면 수락
 				if not matched and is_pattern_listed_here:
 					matched = True
 					assay_id = assign.get("assay_id") or f"assay.unknown.{_slugify(orig_label)}"
 
-				# 4) if still not matched, skip this column entirely
+				# 4) 여전히 일치하지 않으면 이 열 전체를 건너뜀
 				if not matched:
 					continue
 
@@ -645,10 +645,10 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 										_cid_int = int(float(compound_id))
 									except Exception:
 										continue
-								# filter out header/label strings like RT4, LoVo, 암종명 등
+								# RT4, LoVo, 암종명 등과 같은 헤더/레이블 문자열 필터링
 								if not _is_numeric_value(value_raw):
 									continue
-								# use normalized numeric id (table14는 숫자 추출 가능 시만)
+								# 정규화된 숫자 ID 사용 (table14는 숫자 추출 가능 시만)
 								if not is_table14_here:
 									compound_id = str(_cid_int)
 								else:
@@ -850,15 +850,15 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 						# 2017 table14는 자유 텍스트 허용, 그 외는 숫자 강제
 						is_table14_here = is_2017 and str(extras.get("table_id", "")).strip().lower() == "table14"
 						if not is_table14_here:
-							# enforce numeric compound ids to avoid header leakage
+							# 헤더 누출을 방지하기 위해 숫자 화합물 ID 강제 적용
 							try:
 								_cid_int = int(float(compound_id))
 							except Exception:
 								continue
-						# filter out header/label strings like RT4, LoVo, 암종명 등
+						# RT4, LoVo, 암종명 등과 같은 헤더/레이블 문자열 필터링
 						if not _is_numeric_value(value_raw):
 							continue
-						# use normalized numeric id (table14는 숫자 추출 가능 시만)
+						# 정규화된 숫자 ID 사용 (table14는 숫자 추출 가능 시만)
 						if not is_table14_here:
 							compound_id = str(_cid_int)
 						else:
