@@ -22,8 +22,14 @@ def normalize_unit_label(unit: Optional[str]) -> Optional[str]:
 		return None
 	orig = unit
 	val = unit.strip()
-	# 그리스어 대문자 Mu (Μ)를 M으로 잘못 인식한 경우
-	val = val.replace("μΜ", "μM").replace("uM", f"{MU}M")
+	# 변종 통일: 'μΜ'(그리스 대문자 Mu), 'µ'(micro sign), 'uM', 'μ M'
+	val = (
+		val
+		.replace("μΜ", "μM")
+		.replace("µM", f"{MU}M")
+		.replace("uM", f"{MU}M")
+		.replace("μ M", f"{MU}M")
+	)
 	return val
 
 

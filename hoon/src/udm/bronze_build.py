@@ -718,7 +718,7 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 										cast_set.add(str(extras.get("cell_line", "")))
 									except Exception:
 										pass
-							meas_rows.append(row_meas)
+								meas_rows.append(row_meas)
 				continue
 				orig_label = str(col)
 			norm_label = norm_map.get(orig_label, normalize_label(orig_label))
@@ -833,13 +833,13 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 					row_assay["disease_area"] = str(extras.get("disease_area", ""))
 					row_assay["meas_kind"] = "IC50"
 				assay_rows[assay_id] = row_assay
-				# 측정값으로 녹이기
-					if compound_col and (compound_col in cur_df.columns):
-						try:
-							iter_frame = cur_df[[compound_col, col]].dropna(how="all")
-						except Exception:
-							continue
-						for idx, cell in iter_frame.iterrows():
+			# 측정값으로 녹이기
+				if compound_col and (compound_col in cur_df.columns):
+					try:
+						iter_frame = cur_df[[compound_col, col]].dropna(how="all")
+					except Exception:
+						continue
+					for idx, cell in iter_frame.iterrows():
 						compound_id = str(cell[compound_col]).strip()
 						value_raw = str(cell[col]).strip()
 						if compound_id == "" and value_raw == "":
@@ -963,6 +963,9 @@ def build_bronze_from_raw(root_dir: str, cfg: Dict) -> Dict[str, str]:
 		meas_df = meas_df.sort_values(["provenance_sheet", "__prov_row_num", "__col_ord"])\
 			.reset_index(drop=True)
 		meas_df = meas_df.drop(columns=["__prov_row_num", "__col_ord"], errors="ignore")
+		# 2017 특이사항: 같은 시트/페이지 중복 세그먼트 발생 시 (compound_id, assay_id) 기준으로 최초 1건만 보존
+		if str(cfg.get("dataset_id", "")) == "2017":
+			meas_df = meas_df.drop_duplicates(subset=["compound_id", "assay_id"], keep="first").reset_index(drop=True)
 
 	comp_path = os.path.join(bronze_dir, "compounds.csv")
 	assay_path = os.path.join(bronze_dir, "assays.csv")

@@ -1,7 +1,7 @@
 dataset_id: "2020"
 
 paths:
-  raw_file: "raw/2020_WO2020132269_raw.xlsx"
+  raw_file: "raw/2020_raw.xlsx"
   bronze_dir: "bronze/2020"
   bronze_files:
     compounds: "bronze/2020/compounds.csv"
