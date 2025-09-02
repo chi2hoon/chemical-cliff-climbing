@@ -26,6 +26,7 @@ def main() -> int:
 	parser.add_argument("--root", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"), help="Data root directory (defaults to ./data)")
 	args = parser.parse_args()
 
+	print("[경고] hoon/udm_cli.py는 곧 폐기 예정입니다. pipeline/cli를 사용하세요.")
 	cfg = load_cfg(args.config)
 	root_dir = args.root
 
@@ -89,5 +90,4 @@ def main() -> int:
 
 if __name__ == "__main__":
 	sys.exit(main())
-
 
