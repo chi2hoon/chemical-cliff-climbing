@@ -74,9 +74,9 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
             data = apply_header(blk, header_off, nrows=1)
             data = sanitize_strings(data)
             data = _apply_rename(data, t.get("rename", {}))
-            # 색상 플래그 주입
-            flags_cfg = cfg.get("flags_from_color") or {}
-            if flags_cfg:
+            # 색상 플래그 주입 (테이블 우선 → 전역)
+            flags_cfg_any = t.get("flags_from_color") or cfg.get("flags_from_color") or {}
+            if flags_cfg_any:
                 # A1 시작 좌표 계산
                 def _a1_start(a1):
                     import re
@@ -94,25 +94,36 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
                     c1, r1, c2, r2 = m.groups()
                     return int(r1) - 1, col_to_idx(c1)
                 start_r, start_c = _a1_start(a1)
-                col_idx = int(flags_cfg.get("col_index", -1))
-                fmap = flags_cfg.get("map", {})
-                if col_idx >= 0 and isinstance(fmap, dict) and len(fmap) > 0:
+                # 단일/다중 컬럼 매핑 모두 허용
+                entries = []
+                if isinstance(flags_cfg_any, dict):
+                    entries = [flags_cfg_any]
+                elif isinstance(flags_cfg_any, list):
+                    entries = flags_cfg_any
+                if entries:
                     colors = read_cell_colors(xls_path, sheet_name)
-                    # 플래그 컬럼 생성
-                    for hexval, colname in fmap.items():
-                        if colname not in data.columns:
-                            data[colname] = False
-                    # 데이터 행 루프
                     data = data.reset_index(drop=True)
-                    for i in range(len(data)):
-                        abs_row = start_r + header_off + 1 + i
-                        rgb = colors.get((abs_row, col_idx))
-                        if rgb and rgb in fmap:
-                            colname = fmap[rgb]
-                            try:
-                                data.at[i, colname] = True
-                            except Exception:
-                                pass
+                    for ent in entries:
+                        if not isinstance(ent, dict):
+                            continue
+                        col_idx = int(ent.get("col_index", -1))
+                        fmap = ent.get("map", {}) or {}
+                        if col_idx < 0 or not fmap:
+                            continue
+                        # 플래그 컬럼 생성
+                        for hexval, colname in fmap.items():
+                            if colname not in data.columns:
+                                data[colname] = False
+                        # 데이터 행 루프
+                        for i in range(len(data)):
+                            abs_row = start_r + header_off + 1 + i
+                            rgb = colors.get((abs_row, col_idx))
+                            if rgb and rgb in fmap:
+                                colname = fmap[rgb]
+                                try:
+                                    data.at[i, colname] = True
+                                except Exception:
+                                    pass
 
             data = data.copy()
             data["provenance_file"] = os.path.relpath(xls_path, root)
@@ -169,4 +180,15 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
             manifest["rows_out"][f"matrix_{m.get('id','matrix')}_long"] = int(len(long_df))
 
     write_manifest(year, manifest)
+    # 표준화된 테이블 이름 정리: 이전 구버전과의 중복 파일 제거(2017 전용)
+    try:
+        if str(year) == "2017":
+            tdir = os.path.join(out_dir, "tables")
+            for old, new in [("table1.csv","table_1.csv"),("table2.csv","table_2.csv")]:
+                op = os.path.join(tdir, old)
+                np = os.path.join(tdir, new)
+                if os.path.exists(op) and os.path.exists(np):
+                    os.remove(op)
+    except Exception:
+        pass
     return result

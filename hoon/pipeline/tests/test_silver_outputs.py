@@ -3,7 +3,7 @@ import pandas as pd
 
 
 def test_silver_assay_columns_2018():
-    path = os.path.join("data", "refined", "2018", "assay_readings_silver.csv")
+    path = os.path.join("data", "silver", "2018", "assay_readings_silver.csv")
     assert os.path.exists(path)
     df = pd.read_csv(path)
     required = [
@@ -25,7 +25,7 @@ def test_manifest_2018_exists():
 
 def test_silver_compounds_columns_2020_2021():
     for y in ("2020", "2021"):
-        path = os.path.join("data", "refined", y, "compounds_silver.csv")
+        path = os.path.join("data", "silver", y, "compounds_silver.csv")
         assert os.path.exists(path)
         df = pd.read_csv(path)
         for c in ["compound_id", "smiles_raw", "provenance_file", "provenance_sheet", "provenance_row"]:
@@ -34,5 +34,5 @@ def test_silver_compounds_columns_2020_2021():
 
 def test_silver_2017_bridge_outputs_exist():
     for fname in ("compounds_silver.csv", "assay_readings_silver.csv"):
-        path = os.path.join("data", "refined", "2017", fname)
+        path = os.path.join("data", "silver", "2017", fname)
         assert os.path.exists(path)

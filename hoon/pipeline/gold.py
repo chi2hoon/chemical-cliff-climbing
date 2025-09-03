@@ -23,7 +23,7 @@ def build_gold(years):
     results = {}
     for y in years:
         # assays per year
-        assay_path_in = os.path.join("data", "refined", y, "assay_readings_silver.csv")
+        assay_path_in = os.path.join("data", "silver", y, "assay_readings_silver.csv")
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
@@ -40,7 +40,7 @@ def build_gold(years):
             assays = stable_sort(assays, ["compound_id","assay_id","provenance_row"])
 
         # compounds per year
-        comp_path_in = os.path.join("data", "refined", y, "compounds_silver.csv")
+        comp_path_in = os.path.join("data", "silver", y, "compounds_silver.csv")
         comps = pd.DataFrame(columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"])
         if os.path.exists(comp_path_in):
             dfc = pd.read_csv(comp_path_in, dtype=str)
@@ -71,5 +71,12 @@ def build_gold(years):
         comps_path = os.path.join(out_dir, "compounds.csv")
         assays_ok.to_csv(assays_path, index=False, encoding="utf-8")
         comps_ok.to_csv(comps_path, index=False, encoding="utf-8")
+        # meta: assay_context
+        meta_in = os.path.join("data","silver", y, "assay_context_silver.csv")
+        if os.path.exists(meta_in):
+            meta_df = pd.read_csv(meta_in, dtype=str)
+            meta_df = stable_sort(meta_df, [c for c in ["compound_id","provenance_row"] if c in meta_df.columns])
+            meta_out = os.path.join(out_dir, "assay_context.csv")
+            meta_df.to_csv(meta_out, index=False, encoding="utf-8")
         results[y] = {"assay_readings": assays_path, "compounds": comps_path}
     return results

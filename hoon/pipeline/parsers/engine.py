@@ -129,15 +129,39 @@ def matrix_to_long(block, cfg):
         return parse_measure(s, default_unit=(vp or {}).get("unit_default"))
 
     vp = cfg.get("value_parser") or {}
+    panel_from_header_enabled = True
+    # 패널 헤더 전파(좌->우 채움)
+    panel_labels = []
+    last_label = ""
+    for i in range(len(header_panel)):
+        val = header_panel.iloc[i]
+        sval = str(val).strip() if val is not None else ""
+        if sval and sval.lower() != "nan":
+            last_label = sval
+        panel_labels.append(last_label)
+
     for r in range(data_start, len(block)):
         rid = block.iloc[r, id_col]
         for p in panels:
-            pname = str(p.get("name", "")).strip()
+            name_from_header = bool(p.get("name_from_header", False))
+            default_name = str(p.get("name", "panel")).strip() or "panel"
             for c in p.get("cols", []) or []:
                 c = int(c)
+                # 헤더의 세포주/라벨 추출
                 cell_line = str(header_cell.iloc[c]) if c < len(header_cell) else ""
+                if not cell_line or str(cell_line).strip().lower() in {"nan", ""}:
+                    continue
+                if name_from_header:
+                    pname = panel_labels[c] if c < len(panel_labels) else default_name
+                else:
+                    pname = default_name
                 raw = block.iloc[r, c] if c < block.shape[1] else None
+                if raw is None or str(raw).strip() == "" or str(raw).strip().lower() == "nan":
+                    continue
                 q, v, u = parse_by_rules(raw, vp)
+                # 값/단위가 전혀 파싱되지 않으면 스킵
+                if (q is None) and (v is None) and (u is None):
+                    continue
                 rows.append({
                     "row_id": rid,
                     "panel": pname,

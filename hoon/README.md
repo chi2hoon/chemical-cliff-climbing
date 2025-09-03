@@ -9,7 +9,7 @@
   - bronze/
     - artifacts/: 엑셀 원본(브론즈 원천)
     - {year}/: 시트→테이블/매트릭스 롱 CSV + manifest.json
-  - refined/: Silver 표준화(compounds_silver.csv, assay_readings_silver.csv)
+  - silver/: Silver 표준화(compounds_silver.csv, assay_readings_silver.csv)
   - gold/: Gold 고정 스키마(compounds.csv, assay_readings.csv)
   - quarantine/: 검증 실패/플래그 격리 CSV
 - logs/manifest/: 실행 매니페스트(JSON)

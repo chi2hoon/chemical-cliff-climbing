@@ -128,3 +128,43 @@ def parse_dose(text):
     route, val, unit = m.groups()
     return route, val, unit
 
+
+def parse_ratio(text):
+    """Args: text(str|None) -> (pct,str,str)
+
+    "0 (0/2)" 또는 "0/10" 같은 표기를 파싱해 (percent, n, k)를 반환한다.
+    percent가 명시되지 않으면 None.
+    """
+    if text is None:
+        return None, None, None
+    s = str(text).strip()
+    if s == "" or s.lower() == "nan":
+        return None, None, None
+    import re
+    # 패턴 1: "<pct> (<n>/<k>)"
+    m = re.match(r"^\s*([\d\.]+)\s*\((\d+)\s*/\s*(\d+)\)\s*$", s)
+    if m:
+        return m.group(1), m.group(2), m.group(3)
+    # 패턴 2: "<n>/<k>"
+    m = re.match(r"^\s*(\d+)\s*/\s*(\d+)\s*$", s)
+    if m:
+        return None, m.group(1), m.group(2)
+    # 패턴 3: "a.b" → a/10 (엑셀 날짜 오인 방지를 위한 보정)
+    m = re.match(r"^\s*(\d+)\.(\d+)\s*$", s)
+    if m:
+        return None, m.group(1), "10"
+    return None, None, None
+
+
+def parse_percent(text):
+    """Args: text(str|None) -> str|None
+
+    "46.2" 또는 "46.2%"를 숫자 문자열로 반환.
+    """
+    if text is None:
+        return None
+    s = str(text).strip()
+    if s == "" or s.lower() == "nan":
+        return None
+    s = s.replace("%", "").strip()
+    return s if s != "" else None

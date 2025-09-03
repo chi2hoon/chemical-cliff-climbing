@@ -25,7 +25,7 @@ def _ensure_dir(p):
 
 
 def _year_refined_dir(year):
-    return os.path.join("data", "refined", str(year))
+    return os.path.join("data", "silver", str(year))
 
 
 def build_silver(year, yaml_path=None):
@@ -174,6 +174,88 @@ def build_silver(year, yaml_path=None):
     assay_df = pd.DataFrame(rows, columns=assay_cols) if rows else pd.DataFrame(columns=assay_cols)
     assay_df = stable_sort(assay_df, ["compound_id","assay_id","provenance_row"])
 
+    # meta 처리: assay_context 등
+    meta_blocks = (silver_cfg.get("meta") or [])
+    meta_rows = []
+    def _coerce_na(x):
+        return None if x is None or str(x).strip().lower() in {"nan", ""} else x
+    if meta_blocks:
+        for mb in meta_blocks:
+            src = mb.get("from")
+            if not src:
+                continue
+            path = src
+            if not os.path.isabs(path):
+                path = os.path.join(_repo_root(), src)
+            if not os.path.exists(path):
+                # 상대경로가 아닌 경우 bronze/{year}/tables 기준으로도 시도
+                alt = os.path.join("data","bronze",year,"tables", os.path.basename(src))
+                path = alt if os.path.exists(alt) else path
+            try:
+                mdf = pd.read_csv(path, dtype=str)
+            except Exception:
+                continue
+            mdf = sanitize_strings(mdf)
+            inj = mb.get("inject") or {}
+            parse = mb.get("parse") or {}
+            # 공백/대시 처리
+            for c in mdf.columns:
+                mdf[c] = mdf[c].map(_coerce_na)
+            # 주입 상수 적용
+            for k, v in inj.items():
+                mdf[k] = v
+            # 파싱 규칙
+            from pipeline.transforms.normalize import parse_dose, parse_ratio, parse_percent
+            # dose
+            dose_cfg = parse.get("dose") or {}
+            if dose_cfg:
+                col = dose_cfg.get("col")
+                into = dose_cfg.get("into") or {}
+                if col in mdf.columns:
+                    res = mdf[col].map(lambda s: parse_dose(s))
+                    mdf[into.get("dose_route","dose_route")] = res.map(lambda x: x[0] if x else None)
+                    mdf[into.get("dose_value","dose_value")] = res.map(lambda x: x[1] if x else None)
+                    mdf[into.get("dose_unit","dose_unit")] = res.map(lambda x: x[2] if x else None)
+            # ratio
+            ratio_cfg = parse.get("ratio") or {}
+            if ratio_cfg:
+                col = ratio_cfg.get("col")
+                into = ratio_cfg.get("into") or {}
+                if col in mdf.columns:
+                    res = mdf[col].map(lambda s: parse_ratio(s))
+                    mdf[into.get("mortality_pct","mortality_pct")] = res.map(lambda x: x[0] if x else None)
+                    mdf[into.get("mortality_n","mortality_n")] = res.map(lambda x: x[1] if x else None)
+                    mdf[into.get("mortality_k","mortality_k")] = res.map(lambda x: x[2] if x else None)
+            # percent
+            pct_cfg = parse.get("percent") or {}
+            if pct_cfg:
+                col = pct_cfg.get("col")
+                into = pct_cfg.get("into") or {}
+                if col in mdf.columns:
+                    mdf[into.get("hr_change_pct","hr_change_pct")] = mdf[col].map(lambda s: parse_percent(s))
+            # compound_id_from_text
+            cid_cfg = parse.get("compound_id_from_text") or {}
+            if cid_cfg:
+                col = cid_cfg.get("col")
+                into = cid_cfg.get("into") or {}
+                keep_as = cid_cfg.get("keep_original_as")
+                regex = cid_cfg.get("regex") or r"(\d+)"
+                import re
+                if col in mdf.columns:
+                    if keep_as:
+                        mdf[keep_as] = mdf[col]
+                    mdf[into.get("compound_id","compound_id")] = mdf[col].map(lambda s: (re.search(regex, s).group(1) if (s and re.search(regex, s)) else None))
+            # text_pass (그대로 보존)
+            # 나머지는 그대로 둠
+            # provenance 컬럼은 브론즈에서 이미 주입됨
+            meta_rows.append(mdf)
+
+    meta_out_path = None
+    if meta_rows:
+        meta_df = pd.concat(meta_rows, ignore_index=True)
+        meta_df = stable_sort(meta_df, ["compound_id","provenance_row"]) if "compound_id" in meta_df.columns else meta_df
+        meta_out_path = os.path.join(outdir, "assay_context_silver.csv")
+        meta_df.to_csv(meta_out_path, index=False, encoding="utf-8")
     # matrix 기반 정의 처리
     if assay_cfg.get("from_matrix"):
         fm = assay_cfg.get("from_matrix")
@@ -183,7 +265,9 @@ def build_silver(year, yaml_path=None):
         raw_file = cfg.get("file")
         if raw_file and not os.path.isabs(raw_file):
             raw_file = os.path.join(_repo_root(), raw_file)
-        target_map = ((cfg.get("silver") or {}).get("assays") or {}).get("target_map", {})
+        ases = (cfg.get("silver") or {}).get("assays") or {}
+        target_map = ases.get("target_map", {})
+        cell_line_map = ases.get("cell_line_map", {})
         for spec in fm:
             sheet = spec.get("sheet") or spec.get("name")
             if not sheet:
@@ -191,41 +275,60 @@ def build_silver(year, yaml_path=None):
             from pipeline.parsers.engine import read_excel, extract_block, matrix_to_long
             df_all = read_excel(raw_file, sheet)
             a1 = (spec.get("matrix") or {}).get("range")
-            blk = extract_block(df_all, a1) if a1 else df_all
-            long_df = matrix_to_long(blk, spec.get("matrix") or {})
-            # provenance
-            long_df["provenance_file"] = os.path.relpath(raw_file, _repo_root())
-            long_df["provenance_sheet"] = sheet
-            long_df["provenance_row"] = None
-            # 규칙: qualifier/value/unit → value_std/unit_std
-            for _, r in long_df.iterrows():
-                q = r.get("qualifier"); v = r.get("value"); u = r.get("unit")
-                v_std, u_std = convert_unit(v, u, ascii_units(u or "uM"))
-                # target_id 매핑(있으면 우선)
-                cell_line = r.get("cell_line")
-                if target_map and cell_line in target_map:
-                    tgt = target_map[cell_line]
+            matrix_cfg = spec.get("matrix") or {}
+            detect = bool(matrix_cfg.get("detect_blocks", False))
+            blocks = []
+            if detect:
+                # 라벨 행("table X")으로 블록을 자동 분할
+                id_col = int(matrix_cfg.get("id_col", 0))
+                first_col = df_all.iloc[:, id_col].map(lambda x: str(x).strip().lower() if x is not None else "")
+                starts = [i for i, v in enumerate(first_col.tolist()) if v.startswith("table ")]
+                if starts:
+                    for i, st in enumerate(starts):
+                        en = starts[i+1] if i+1 < len(starts) else len(df_all)
+                        blocks.append(df_all.iloc[st:en, :])
                 else:
-                    pnl = r.get("panel") or "panel"
-                    cln = (cell_line or "").replace(" ", "").replace("/", "-")
-                    tgt = f"cell:{pnl}.{cln}" if cln else f"cell:{pnl}"
-                row = {
-                    "compound_id": r.get("row_id"),
-                    "target_id": spec.get("target_id") or tgt,
-                    "assay_id": spec.get("assay_id") or "cell.cytotoxicity.ic50",
-                    "qualifier": q,
-                    "value_std": v_std,
-                    "unit_std": u_std,
-                    "year": year,
-                    "qc_pass": True,
-                    "provenance_file": long_df.get("provenance_file").iloc[0],
-                    "provenance_sheet": sheet,
-                    "provenance_row": None,
-                }
-                for fc in ["flag_asterisk", "flag_imaging_conflict"]:
-                    if fc in long_df.columns:
-                        row[fc] = r.get(fc)
-                rows.append(row)
+                    blocks.append(extract_block(df_all, a1) if a1 else df_all)
+            else:
+                blocks.append(extract_block(df_all, a1) if a1 else df_all)
+
+            for blk in blocks:
+                long_df = matrix_to_long(blk, matrix_cfg)
+                # provenance
+                long_df["provenance_file"] = os.path.relpath(raw_file, _repo_root())
+                long_df["provenance_sheet"] = sheet
+                long_df["provenance_row"] = None
+                # 규칙: qualifier/value/unit → value_std/unit_std
+                for _, r in long_df.iterrows():
+                    q = r.get("qualifier"); v = r.get("value"); u = r.get("unit")
+                    v_std, u_std = convert_unit(v, u, ascii_units(u or "uM"))
+                    # target_id 매핑(있으면 우선)
+                    cell_line = r.get("cell_line")
+                    if cell_line in cell_line_map:
+                        cell_line = cell_line_map[cell_line]
+                    if target_map and cell_line in target_map:
+                        tgt = target_map[cell_line]
+                    else:
+                        pnl = r.get("panel") or "panel"
+                        cln = (cell_line or "").replace(" ", "").replace("/", "-")
+                        tgt = f"cell:{pnl}.{cln}" if cln else f"cell:{pnl}"
+                    row = {
+                        "compound_id": r.get("row_id"),
+                        "target_id": spec.get("target_id") or tgt,
+                        "assay_id": spec.get("assay_id") or "cell.cytotoxicity.ic50",
+                        "qualifier": q,
+                        "value_std": v_std,
+                        "unit_std": u_std,
+                        "year": year,
+                        "qc_pass": True,
+                        "provenance_file": long_df.get("provenance_file").iloc[0],
+                        "provenance_sheet": sheet,
+                        "provenance_row": None,
+                    }
+                    for fc in ["flag_asterisk", "flag_imaging_conflict"]:
+                        if fc in long_df.columns:
+                            row[fc] = r.get(fc)
+                    rows.append(row)
         assay_df = pd.DataFrame(rows, columns=assay_cols) if rows else pd.DataFrame(columns=assay_cols)
         assay_df = stable_sort(assay_df, ["compound_id","assay_id","provenance_row"])        
 
@@ -253,7 +356,7 @@ def build_silver(year, yaml_path=None):
 def _build_silver_2017_bridge():
     """Args: None -> dict
 
-    레거시 hoon 은행의 silver 산출물을 읽어 refined/2017 스키마로 매핑한다.
+    레거시 hoon 은행의 silver 산출물을 읽어 data/silver/2017 스키마로 매핑한다.
     - measurements_std.csv → assay_readings_silver.csv
     - compounds_canonical.csv(+bronze/compounds.csv) → compounds_silver.csv
     """
@@ -349,7 +452,7 @@ def _build_silver_2017_bridge():
     comp_df = comp[keep].copy() if keep else comp.copy()
     comp_df = stable_sort(comp_df, ["compound_id","provenance_row"])
 
-    outdir = os.path.join("data", "refined", "2017")
+    outdir = os.path.join("data", "silver", "2017")
     os.makedirs(outdir, exist_ok=True)
     comp_out = os.path.join(outdir, "compounds_silver.csv")
     assays_out = os.path.join(outdir, "assay_readings_silver.csv")
