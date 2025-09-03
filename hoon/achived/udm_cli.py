@@ -14,19 +14,18 @@ from src.udm.silver_ac import build_activity_cliffs
 from src.udm.export import export_bronze_release
 
 
-def load_cfg(cfg_path: str) -> dict:
+def load_cfg(cfg_path):
 	with open(cfg_path, encoding="utf-8") as f:
 		return yaml.safe_load(f)
 
 
-def main() -> int:
-	parser = argparse.ArgumentParser(description="UDM pipeline CLI")
+def main():
+	parser = argparse.ArgumentParser(description="UDM pipeline CLI (archived)")
 	parser.add_argument("stage", choices=["bronze", "silver", "qc", "smiles", "gold", "ac", "ac-all", "export"], help="Pipeline stage to run")
 	parser.add_argument("--config", default="configs/2017.yml", help="Path to YAML config")
 	parser.add_argument("--root", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "data"), help="Data root directory (defaults to ./data)")
 	args = parser.parse_args()
 
-	print("[경고] hoon/udm_cli.py는 곧 폐기 예정입니다. pipeline/cli를 사용하세요.")
 	cfg = load_cfg(args.config)
 	root_dir = args.root
 
@@ -61,7 +60,6 @@ def main() -> int:
 		out = build_measurements_gold(root_dir, cfg)
 		print(f"Wrote gold measurements: {out}")
 		return 0
-
 
 	if args.stage == "ac":
 		out = build_activity_cliffs(root_dir, [cfg])

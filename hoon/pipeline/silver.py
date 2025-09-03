@@ -48,9 +48,7 @@ def build_silver(year, yaml_path=None):
         "quarantine": {},
     }
 
-    # 2017 브리지 경로: 레거시 hoon 산출물 → refined/2017 매핑
-    if year == "2017":
-        return _build_silver_2017_bridge()
+    # 2017도 YAML 기반 규칙으로 수행 (브릿지 제거)
 
     # compounds
     outdir = _year_refined_dir(year)
@@ -169,7 +167,7 @@ def build_silver(year, yaml_path=None):
     assay_df = stable_sort(assay_df, ["compound_id","assay_id","provenance_row"])
 
     # matrix 기반 정의 처리
-    if not rows and assay_cfg.get("from_matrix"):
+    if assay_cfg.get("from_matrix"):
         fm = assay_cfg.get("from_matrix")
         if isinstance(fm, dict):
             fm = [fm]
@@ -177,6 +175,7 @@ def build_silver(year, yaml_path=None):
         raw_file = cfg.get("file")
         if raw_file and not os.path.isabs(raw_file):
             raw_file = os.path.join(_repo_root(), raw_file)
+        target_map = ((cfg.get("silver") or {}).get("assays") or {}).get("target_map", {})
         for spec in fm:
             sheet = spec.get("sheet") or spec.get("name")
             if not sheet:
@@ -194,9 +193,17 @@ def build_silver(year, yaml_path=None):
             for _, r in long_df.iterrows():
                 q = r.get("qualifier"); v = r.get("value"); u = r.get("unit")
                 v_std, u_std = convert_unit(v, u, ascii_units(u or "uM"))
+                # target_id 매핑(있으면 우선)
+                cell_line = r.get("cell_line")
+                if target_map and cell_line in target_map:
+                    tgt = target_map[cell_line]
+                else:
+                    pnl = r.get("panel") or "panel"
+                    cln = (cell_line or "").replace(" ", "").replace("/", "-")
+                    tgt = f"cell:{pnl}.{cln}" if cln else f"cell:{pnl}"
                 row = {
                     "compound_id": r.get("row_id"),
-                    "target_id": spec.get("target_id"),
+                    "target_id": spec.get("target_id") or tgt,
                     "assay_id": spec.get("assay_id") or "cell.cytotoxicity.ic50",
                     "qualifier": q,
                     "value_std": v_std,

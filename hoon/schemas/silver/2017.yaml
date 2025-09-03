@@ -1,11 +1,79 @@
 # 2017 YAML 스키마(브론즈 단계 설정)
 # 참고: 현재 어댑터는 레거시 hoon 설정을 사용(브리지 단계). 이후 이 파일의 키가 우선 적용되도록 마이그레이션 예정.
 
-file: hoon/data/raw/2017_raw.xlsx
+file: data/raw/2017_raw.xlsx
 read: {dtype: str, engine: openpyxl}
-sheets: []  # 후속 커밋에서 실제 시트/테이블 범위 기술
-flags_from_color: {col_index: 3, map: {}}
+sheets:
+  - name: "표1 ~ 표2"
+    tables:
+      - id: table1
+        range: "A1:D6"
+        header_row_offset: 1
+        rename: {Species: species, Sex: sex, Dose: dose_text, Percentage: mortality_text}
+      - id: table2
+        range: "A7:D13"
+        header_row_offset: 1
+        rename: {Compound: compound_raw, "심장박동변화(%)": hr_change_pct, "치사율": mortality_text, "비고": note}
+
+  - name: "표3"
+    tables:
+      - id: compounds
+        range: "A1:F109"
+        header_row_offset: 1
+        rename:
+          "Compound # (화합물 번호)": compound_id
+          "Structure (구조) - SMILES": smiles_raw
+          "IUPAC (formatted)": iupac_name
+
+  - name: "표5~표14"
+    matrix:
+      id: tables5_14
+      range: "A1:J1005"
+      panel_row_offset: 1
+      cellline_row_offset: 2
+      data_row_start: 3
+      id_col: 0
+      panels:
+        - {name: "bladder", cols: [1,2,3,4,5,6,7]}
+      value_parser:
+        unit_default: 'uM'
+        rules:
+          - '>=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:''>'' , value:\\1, unit:uM'
+          - '([\\d\\.]+)\\s*µ?M       -> qualifier:''='' , value:\\1, unit:uM'
+
+  - name: "Asterik ExceptionCase Chart"
+    tables:
+      - id: asterisk_exceptions
+        range: "A1:C200"
+        header_row_offset: 2
+        rename: {"OLD SMILES / Initial Extraced SMILES formula (with asterik/별표)": smiles_old, "NEW SMILES": smiles_new}
+
+flags_from_color:
+  col_index: 3
+  map: {"00FF00": flag_asterisk, "FF0000": flag_imaging_conflict}
 
 silver:
+  compounds:
+    from: data/ingest/2017/tables/compounds.csv
   assays:
+    from_matrix:
+      sheet: "표5~표14"
+      assay_id: cell.cytotoxicity.ic50
+      matrix:
+        id: tables5_14
+        range: "A1:J1005"
+        panel_row_offset: 1
+        cellline_row_offset: 2
+        data_row_start: 3
+        id_col: 0
+        panels:
+          - {name: "bladder", cols: [1,2,3,4,5,6,7]}
+        value_parser:
+          unit_default: uM
+          rules:
+            - '>=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:''>'' , value:\\1, unit:uM'
+            - '([\\d\\.]+)\\s*µ?M -> qualifier:''='' , value:\\1, unit:uM'
     target_map: {}
+
+qc:
+  bad_id_regex: "^[0-9A-Za-z._-]+$"
