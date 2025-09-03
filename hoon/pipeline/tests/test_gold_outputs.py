@@ -3,8 +3,8 @@ import pandas as pd
 
 
 def test_gold_outputs_columns():
-    ar = os.path.join("data", "gold", "assay_readings.csv")
-    cp = os.path.join("data", "gold", "compounds.csv")
+    ar = os.path.join("data", "gold", "2018", "assay_readings.csv")
+    cp = os.path.join("data", "gold", "2018", "compounds.csv")
     assert os.path.exists(ar)
     assert os.path.exists(cp)
     df_ar = pd.read_csv(ar)
@@ -15,4 +15,3 @@ def test_gold_outputs_columns():
     req_cp = ["compound_key","smiles_canonical","has_structure"]
     for c in req_cp:
         assert c in df_cp.columns
-

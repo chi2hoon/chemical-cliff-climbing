@@ -39,11 +39,19 @@ def build_silver(year, yaml_path=None):
     cfg = _load_yaml(yaml_path)
     root = _repo_root()
 
+    # 입력/스키마 경로/해시 수집
+    yaml_abs = yaml_path if os.path.isabs(yaml_path) else os.path.join(root, yaml_path)
+    src_file = (cfg.get("file") or "")
+    src_abs = src_file
+    if src_file and not os.path.isabs(src_file):
+        src_abs = os.path.join(root, src_file)
     manifest = {
         "stage": "silver",
         "year": year,
-        "yaml_path": os.path.relpath(yaml_path, root) if os.path.isabs(yaml_path) else yaml_path,
-        "yaml_sha256": file_sha256(yaml_path if os.path.isabs(yaml_path) else os.path.join(root, yaml_path)) if os.path.exists(yaml_path if os.path.isabs(yaml_path) else os.path.join(root, yaml_path)) else None,
+        "yaml_path": os.path.relpath(yaml_abs, root) if os.path.exists(yaml_abs) else yaml_path,
+        "yaml_sha256": file_sha256(yaml_abs) if os.path.exists(yaml_abs) else None,
+        "input_file": os.path.relpath(src_abs, root) if os.path.exists(src_abs) else src_file,
+        "input_sha256": file_sha256(src_abs) if os.path.exists(src_abs) else None,
         "rows_out": {},
         "quarantine": {},
     }
@@ -60,7 +68,7 @@ def build_silver(year, yaml_path=None):
     comp_cfg = (silver_cfg.get("compounds") or {})
 
     # 기본: ingest/tables/* 를 받아 최소 컬럼만 정리
-    ingest_dir = os.path.join("data", "ingest", year, "tables")
+    ingest_dir = os.path.join("data", "bronze", year, "tables")
     # 우선순위 파일: comp_cfg.file 또는 첫 csv
     comp_src = comp_cfg.get("from") or None
     if not comp_src:
@@ -126,7 +134,7 @@ def build_silver(year, yaml_path=None):
 
     if assay_cfg.get("from_melt"):
         melt_name = assay_cfg["from_melt"]
-        melt_path = os.path.join("data", "ingest", year, f"{melt_name}.csv")
+        melt_path = os.path.join("data", "bronze", year, f"{melt_name}.csv")
         df = pd.read_csv(melt_path, dtype=str)
         df = sanitize_strings(df)
         # 공백/대시 처리

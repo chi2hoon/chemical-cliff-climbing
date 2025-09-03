@@ -1,7 +1,7 @@
 # 2017 YAML 스키마(브론즈 단계 설정)
 # 참고: 현재 어댑터는 레거시 hoon 설정을 사용(브리지 단계). 이후 이 파일의 키가 우선 적용되도록 마이그레이션 예정.
 
-file: data/raw/2017_raw.xlsx
+file: data/bronze/artifacts/2017_raw.xlsx
 read: {dtype: str, engine: openpyxl}
 sheets:
   - name: "표1 ~ 표2"
@@ -54,7 +54,7 @@ flags_from_color:
 
 silver:
   compounds:
-    from: data/ingest/2017/tables/compounds.csv
+    from: data/bronze/2017/tables/compounds.csv
   assays:
     from_matrix:
       sheet: "표5~표14"

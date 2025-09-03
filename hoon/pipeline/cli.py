@@ -24,7 +24,7 @@ def cmd_bronze(args):
     """
     year = str(args.year)
     yaml_path = args.cfg or _default_yaml_for_year(year)
-    out_dir = args.out or os.path.join("data", "ingest", year)
+    out_dir = args.out or os.path.join("data", "bronze", year)
     result = bronze_dispatch.build_bronze_from_raw(year, yaml_path, out_dir)
     for k in sorted(result.keys()):
         print(f"{k}: {result[k]}")
@@ -62,9 +62,11 @@ def main():
     def _run_gold(args):
         from .gold import build_gold
         years = [str(y) for y in args.years]
-        out = build_gold(years)
-        for k in sorted(out.keys()):
-            print(f"{k}: {out[k]}")
+        results = build_gold(years)
+        for y in sorted(results.keys()):
+            paths = results[y]
+            print(f"{y}/assay_readings: {paths['assay_readings']}")
+            print(f"{y}/compounds: {paths['compounds']}")
         return 0
     p_gold.set_defaults(func=_run_gold)
 

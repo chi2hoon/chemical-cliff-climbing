@@ -6,8 +6,9 @@
 - pipeline/: 실행 가능한 CLI와 어댑터/파서/변환/검증 모듈
 - schemas/silver/: 연도별 YAML 스키마(시트/범위/매트릭스/규칙/색상 플래그 등)
 - data/
-  - raw/: 엑셀 원본(Bronze 원천)
-  - ingest/: Bronze 인제스트(시트→테이블/매트릭스 롱) + manifest.json
+  - bronze/
+    - artifacts/: 엑셀 원본(브론즈 원천)
+    - {year}/: 시트→테이블/매트릭스 롱 CSV + manifest.json
   - refined/: Silver 표준화(compounds_silver.csv, assay_readings_silver.csv)
   - gold/: Gold 고정 스키마(compounds.csv, assay_readings.csv)
   - quarantine/: 검증 실패/플래그 격리 CSV
@@ -15,13 +16,13 @@
 
 ## 실행 방법
 ```bash
-# Bronze: 시트→테이블/매트릭스 롱(원본 보존)
+# Bronze: 시트→테이블/매트릭스 롱(원본 보존, data/bronze 사용)
 python -m pipeline.cli bronze --year 2018 --cfg schemas/silver/2018.yaml
 
 # Silver: 단위/부등호/텍스트 정규화(ASCII 단위, 결정적 정렬)
 python -m pipeline.cli silver --year 2018 --cfg schemas/silver/2018.yaml
 
-# Gold: 연도 합산 고정 스키마 생성
+# Gold: 연도별 고정 스키마 생성
 python -m pipeline.cli gold --years 2017 2018 2020 2021
 
 # 유효성/환경 검사
@@ -29,9 +30,9 @@ python -m pipeline.cli validate --stage nulls   # 널바이트 스캔(NO_NULLBYT
 ```
 
 ## Gold 스키마(고정 계약)
-- gold/compounds.csv
+- gold/{year}/compounds.csv
   - compound_key(=inchikey), smiles_canonical, has_structure, (옵션)iupac_name, inchikey14
-- gold/assay_readings.csv
+- gold/{year}/assay_readings.csv
   - compound_id, target_id, assay_id, qualifier(=,>,<), value_std, unit_std(ASCII: uM,nM,%), year, qc_pass, provenance_file/sheet/row
 
 실험 맥락(도스/성별/종, LC/MS, ¹H-NMR 등)은 Gold 메타 CSV(추가 예정)로 분리합니다.
@@ -84,4 +85,3 @@ python -m pipeline.cli validate --stage nulls   # 널바이트 스캔(NO_NULLBYT
 ## 레거시 경고
 - `hoon/udm_cli.py`는 곧 폐기 예정입니다. 새 파이프라인 CLI(`python -m pipeline.cli ...`) 사용을 권장합니다.
   - 하위 호환을 위해 기존 경로는 유지하지만, 모든 신규 작업은 YAML 설정과 pipeline/ 하위 모듈을 사용하십시오.
-

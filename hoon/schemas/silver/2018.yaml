@@ -1,4 +1,4 @@
-file: data/raw/2018_raw.xlsx
+file: data/bronze/artifacts/2018_raw.xlsx
 read: {dtype: str, engine: openpyxl}
 sheets:
   - name: "Sheet1"
@@ -16,7 +16,7 @@ sheets:
 
 silver:
   compounds:
-    from: data/ingest/2018/tables/main.csv
+    from: data/bronze/2018/tables/main.csv
   assays:
     from_melt: main_long
     variable_rules:

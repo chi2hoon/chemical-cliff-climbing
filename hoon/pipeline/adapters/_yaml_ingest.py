@@ -30,7 +30,7 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
     """
     root = _repo_root()
     year = str(year)
-    out_dir = out_dir or os.path.join("data", "ingest", year)
+    out_dir = out_dir or os.path.join("data", "bronze", year)
     os.makedirs(out_dir, exist_ok=True)
 
     with open(yaml_path, encoding="utf-8") as f:
