@@ -86,8 +86,36 @@ def build_silver(year, yaml_path=None):
     for c in comp_df.columns:
         comp_df[c] = comp_df[c].map(strip_all).map(dash_to_nan)
 
+    # 추가 성질 병합: ingest/tables 내에 mw/lcms_text/nmr_1h_text가 있는 테이블과 병합
+    # - 우선 YAML로 지정된 테이블이 있다면 사용하고, 없으면 휴리스틱으로 탐색
+    props_cols = ["mw", "lcms_text", "nmr_1h_text"]
+    props_df = None
+    try:
+        # 후보 파일 탐색
+        if os.path.exists(ingest_dir):
+            for name in sorted(os.listdir(ingest_dir)):
+                if not name.endswith('.csv'):
+                    continue
+                path = os.path.join(ingest_dir, name)
+                try:
+                    tdf = pd.read_csv(path, dtype=str)
+                except Exception:
+                    continue
+                tdf = sanitize_strings(tdf)
+                # 공백/대시 처리
+                for c in tdf.columns:
+                    tdf[c] = tdf[c].map(strip_all).map(dash_to_nan)
+                if 'compound_id' in tdf.columns and any(col in tdf.columns for col in props_cols):
+                    keep = ['compound_id'] + [c for c in props_cols if c in tdf.columns]
+                    props_df = tdf[keep].copy()
+                    break
+    except Exception:
+        props_df = None
+    if props_df is not None and 'compound_id' in comp_df.columns:
+        comp_df = comp_df.merge(props_df, on='compound_id', how='left', suffixes=("", ""))
+
     # 출력 컬럼 최소화 (원본 보존 + provenance)
-    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns]
+    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "mw", "lcms_text", "nmr_1h_text", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns]
     comp_silver = comp_df[keep_cols].copy() if len(keep_cols) else comp_df.copy()
     comp_silver = stable_sort(comp_silver, ["compound_id", "provenance_row"])
     comp_silver.to_csv(comp_out, index=False, encoding="utf-8")
