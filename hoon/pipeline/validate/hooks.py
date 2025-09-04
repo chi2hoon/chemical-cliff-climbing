@@ -7,8 +7,8 @@ def stable_sort(df, preferred_keys):
     """Args: df(DataFrame), preferred_keys(list[str]) -> DataFrame
 
     주어진 키 중 존재하는 컬럼으로 안정 정렬. 동률은 원래 순서 유지.
-    특수 컬럼(compound_id, row_id, provenance_row)은 값이 모두 숫자형 문자열이면
-    자연 정렬(숫자 기준)로 정렬한다.
+    특수 컬럼(compound_id, row_id, provenance_row)은 숫자 기준으로 정렬한다.
+    - 가능한 경우 정수로 캐스팅하고, 실패 시 큰 숫자(말미)로 취급하여 안정적으로 정렬.
     """
     present = [k for k in preferred_keys if k in df.columns]
     if not present:
@@ -23,10 +23,14 @@ def stable_sort(df, preferred_keys):
         use_col = k
         if k in numeric_candidates:
             try:
-                # 숫자로 해석 가능한 값은 숫자 기준으로 정렬, 그 외는 큰 숫자(말미)로
+                # 숫자 정렬: 전처리 후 가능한 값을 숫자로 변환, 실패는 말미로 보냄
                 ser_all = col.astype(str).str.strip()
+                # 순수 숫자(또는 1.0 형태)인 경우: 직접 변환
+                is_pure_num = ser_all.str.match(r"^\d+(\.\d+)?$")
+                # 그 외에는 숫자 부분 추출(예: ' 1 ' → 1, '01' → 1)
+                extracted = ser_all.where(is_pure_num, other=ser_all.str.extract(r"(\d+)", expand=False))
                 tmp = f"__sort_{k}__"
-                num = pd.to_numeric(ser_all, errors="coerce")
+                num = pd.to_numeric(extracted, errors="coerce")
                 idx[tmp] = num.fillna(1e18)
                 use_col = tmp
                 tmp_cols.append(tmp)
