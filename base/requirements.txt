@@ -3,3 +3,4 @@ rdkit
 pandas
 openai
 tabulate
+pyyaml

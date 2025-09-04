@@ -1,6 +1,7 @@
 import io
 import re
 from typing import Dict, Optional, Tuple, List
+import yaml
 
 import pandas as pd
 import os
@@ -295,3 +296,153 @@ def parse_hypothesis_md(file_content: str) -> Dict:
         data['hypothesis_body'] = file_content.strip()
 
     return data
+
+
+def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
+    """
+    Load gold dataset from hoon/data/gold/{year}/measurements_gold.csv
+    and return a DataFrame ready for base app analysis.
+
+    Args:
+        year (str): Dataset year (default: "2017")
+        data_root (str): Root directory for hoon data
+        panel_id (Optional[str]): Panel ID to filter by (e.g., "blca", "brca", etc.)
+
+    Returns:
+        pd.DataFrame: Gold dataset with columns ready for SMILES and activity analysis
+    """
+    gold_dir = os.path.join(data_root, "gold", str(year))
+    gold_path = os.path.join(gold_dir, "measurements_gold.csv")
+
+    if not os.path.exists(gold_path):
+        return pd.DataFrame(columns=["SMILES", "Activity"])
+
+    try:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+
+        # Filter by panel_id if specified
+        if panel_id and "panel_id" in df.columns:
+            df = df[df["panel_id"] == panel_id]
+
+        # Filter by cell_line if specified
+        if cell_line and "cell_line" in df.columns:
+            df = df[df["cell_line"] == cell_line]
+
+        # Convert value_std to float
+        def to_float(x):
+            try:
+                return float(x)
+            except Exception:
+                return None
+
+        df["value_std_float"] = df.get("value_std", "").apply(to_float)
+
+        # Map gold schema to base schema
+        # smiles_canonical -> SMILES, value_std -> Activity
+        df_mapped = pd.DataFrame({
+            "SMILES": df.get("smiles_canonical", ""),
+            "Activity": df["value_std_float"],
+        })
+
+        # Filter out rows with missing SMILES or Activity
+        df_mapped = df_mapped.dropna(subset=["SMILES", "Activity"])
+        df_mapped = df_mapped[df_mapped["SMILES"].astype(str).str.len() > 0]
+
+        # Add metadata columns for reference
+        metadata_cols = ["compound_id", "dataset_id", "assay_id", "panel_id", "cell_line",
+                        "inchikey", "unit_std", "censor", "readout", "matrix",
+                        "provenance_file", "provenance_sheet", "provenance_row",
+                        "std_rule_id", "std_confidence"]
+
+        for col in metadata_cols:
+            if col in df.columns:
+                df_mapped[col] = df[col]
+
+        return df_mapped.reset_index(drop=True)
+
+    except Exception as e:
+        print(f"Error loading gold data: {e}")
+        return pd.DataFrame(columns=["SMILES", "Activity"])
+
+
+def get_available_gold_years(data_root: str = "hoon/data") -> List[str]:
+    """Get list of available years in gold data directory."""
+    gold_root = os.path.join(data_root, "gold")
+    if not os.path.exists(gold_root):
+        return []
+    
+    years = []
+    for item in os.listdir(gold_root):
+        if os.path.isdir(os.path.join(gold_root, item)):
+            gold_file = os.path.join(gold_root, item, "measurements_gold.csv")
+            if os.path.exists(gold_file):
+                years.append(item)
+    
+    return sorted(years)
+
+
+def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") -> List[str]:
+    """Get list of available panel IDs for a given year."""
+    gold_path = os.path.join(data_root, "gold", str(year), "measurements_gold.csv")
+    
+    if not os.path.exists(gold_path):
+        return []
+    
+    try:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        if "panel_id" in df.columns:
+            return sorted(df["panel_id"].unique().tolist())
+        return []
+    except Exception:
+        return []
+
+
+def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str, List[str]]:
+    """Get all available panels across all years.
+    
+    Returns:
+        Dict[str, List[str]]: Dictionary mapping panel_id to list of years where it's available
+    """
+    panel_years = {}
+    
+    # Get all available years
+    years = get_available_gold_years(data_root)
+    
+    # For each year, get its panels
+    for year in years:
+        panels = get_available_panel_ids(year, data_root)
+        for panel in panels:
+            if panel not in panel_years:
+                panel_years[panel] = []
+            panel_years[panel].append(year)
+    
+    return panel_years
+
+
+def load_panel_cell_lines_from_yaml(config_path: str = "hoon/configs/2017.yml") -> Dict[str, List[str]]:
+    """Load panel_id -> cell_line list mapping from YAML config.
+
+    Returns a dict like {"blca": ["KU-19-19", ...], ...}
+    """
+    if not os.path.exists(config_path):
+        return {}
+
+    try:
+        with open(config_path, "r", encoding="utf-8") as f:
+            cfg = yaml.safe_load(f)
+        panel_defs = cfg.get("parsing", {}).get("panel_definitions", {})
+        mapping: Dict[str, List[str]] = {}
+        for _table, meta in panel_defs.items():
+            pid = meta.get("panel_id")
+            cells = meta.get("cell_lines", []) or []
+            if not pid:
+                continue
+            if pid not in mapping:
+                mapping[pid] = []
+            # extend unique while preserving order
+            for c in cells:
+                if c not in mapping[pid]:
+                    mapping[pid].append(c)
+        return mapping
+    except Exception:
+        return {}
