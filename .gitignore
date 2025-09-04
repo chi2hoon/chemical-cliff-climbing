@@ -199,3 +199,6 @@ pyrightconfig.json
 hypotheses/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
+
+data/
+evaluations/

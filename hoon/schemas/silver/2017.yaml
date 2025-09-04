@@ -12,8 +12,17 @@ sheets:
         rename: {Species: species, Sex: sex, Dose: dose_text, Percentage: mortality_text}
       - id: table_2
         range: "A7:D13"
-        header_row_offset: 1
+        # 표 상단의 "table 2" 라벨 행을 건너뛰기 위해 +1 → +2로 보정
+        header_row_offset: 2
         rename: {Compound: compound_raw, "심장박동변화(%)": hr_change_pct, "치사율": mortality_text, "비고": note}
+        clean:
+          replace: {"-": null, "": null}
+          coerce_string: [mortality_text]
+        normalize_rules:
+          mortality_text:
+            - "^(\\d+)\\.(\\d+)$ -> \\1/10"
+            - "excel_serial_day10_to_ratio"
+            - "iso_date_day10_to_ratio"
 
   - name: "표3"
     tables:

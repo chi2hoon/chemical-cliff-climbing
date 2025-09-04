@@ -226,6 +226,13 @@ def build_silver(year, yaml_path=None):
                     mdf[into.get("mortality_pct","mortality_pct")] = res.map(lambda x: x[0] if x else None)
                     mdf[into.get("mortality_n","mortality_n")] = res.map(lambda x: x[1] if x else None)
                     mdf[into.get("mortality_k","mortality_k")] = res.map(lambda x: x[2] if x else None)
+                    # 사람이 읽기 쉬운 문자열 형태도 제공 (예: 10/10)
+                    def _mk_ratio(t):
+                        if not t:
+                            return None
+                        n, k = t[1], t[2]
+                        return (f"{n}/{k}" if (n and k) else None)
+                    mdf[into.get("mortality_ratio","mortality_ratio")] = res.map(_mk_ratio)
             # percent
             pct_cfg = parse.get("percent") or {}
             if pct_cfg:
