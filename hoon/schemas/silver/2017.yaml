@@ -50,6 +50,12 @@ sheets:
           "MW (분자량)": mw
           "LC/MS data": lcms_text
           "1H NMR": nmr_1h_text
+        clean:
+          coerce_string: [nmr_1h_text]
+        normalize_rules:
+          nmr_1h_text:
+            - "[\r\n]+ -> ' '"
+            - '1\s*H\s*NMR -> ¹H NMR'
 
   - name: "표5~표14"
     matrix:

@@ -7,12 +7,36 @@ def stable_sort(df, preferred_keys):
     """Args: df(DataFrame), preferred_keys(list[str]) -> DataFrame
 
     주어진 키 중 존재하는 컬럼으로 안정 정렬. 동률은 원래 순서 유지.
+    특수 컬럼(compound_id, row_id, provenance_row)은 값이 모두 숫자형 문자열이면
+    자연 정렬(숫자 기준)로 정렬한다.
     """
     present = [k for k in preferred_keys if k in df.columns]
     if not present:
         return df
+    import re
     idx = df.reset_index().rename(columns={"index": "__ord__"})
-    return idx.sort_values(by=present + ["__ord__"], kind="mergesort").drop(columns=["__ord__"]).reset_index(drop=True)
+    sort_cols = []
+    tmp_cols = []
+    numeric_candidates = {"compound_id", "row_id", "provenance_row"}
+    for k in present:
+        col = idx[k]
+        use_col = k
+        if k in numeric_candidates:
+            try:
+                # 모두 숫자형 문자열인지 검사(None/빈값 제외)
+                ser = col.dropna().astype(str).str.strip()
+                if len(ser) > 0 and ser.str.fullmatch(r"\d+").all():
+                    tmp = f"__sort_{k}__"
+                    idx[tmp] = ser.replace("", None).astype(float)
+                    # NaN 보존: 원 컬럼 None일 때 NaN, 아닌 경우 숫자
+                    # 정렬 키로 임시 컬럼 사용
+                    use_col = tmp
+                    tmp_cols.append(tmp)
+            except Exception:
+                pass
+        sort_cols.append(use_col)
+    out = idx.sort_values(by=sort_cols + ["__ord__"], kind="mergesort").drop(columns=["__ord__"] + tmp_cols, errors="ignore").reset_index(drop=True)
+    return out
 
 
 def bronze_checks(df, required_cols):
@@ -62,4 +86,3 @@ def write_manifest(year, manifest):
     with open(out, "w", encoding="utf-8") as f:
         json.dump(manifest, f, ensure_ascii=False, indent=2)
     return out
-

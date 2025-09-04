@@ -148,37 +148,43 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
                     def _normalize_one(v):
                         if v is None:
                             return v
-                        s = str(v)
+                        cur = str(v)
                         for rule in spec:
                             if rule is None:
                                 continue
                             # 내장 규칙
                             if rule == "excel_serial_day10_to_ratio":
-                                r = _excel_serial_to_ratio(s)
+                                r = _excel_serial_to_ratio(cur)
                                 if r is not None:
-                                    return r
+                                    cur = r
                                 continue
                             if rule == "iso_date_day10_to_ratio":
-                                r = _iso_date_to_ratio(s)
+                                r = _iso_date_to_ratio(cur)
                                 if r is not None:
-                                    return r
+                                    cur = r
                                 continue
                             if rule == "dot_to_slash_10":
-                                m = re.match(r"^\s*(\d+)\.(\d+)\s*$", s)
+                                m = re.match(r"^\s*(\d+)\.(\d+)\s*$", cur)
                                 if m:
-                                    return f"{m.group(1)}/10"
+                                    cur = f"{m.group(1)}/10"
                                 continue
-                            # 패턴 → 템플릿 규칙: "regex -> template" (m.expand 지원)
+                            # 패턴 → 템플릿 규칙: "regex -> template" (re.sub 사용, 전역 치환)
                             if isinstance(rule, str) and "->" in rule:
                                 try:
                                     pat, rhs = rule.split("->", 1)
-                                    pat = pat.strip(); rhs = rhs.strip()
-                                    m = re.search(pat, s)
-                                    if m:
-                                        return m.expand(rhs)
+                                    pat = pat.strip()
+                                    rhs_raw = rhs
+                                    rhs = rhs.strip()
+                                    # 따옴표로 감싼 경우 내부 문자열을 그대로 사용(공백 유지)
+                                    if len(rhs) >= 2 and ((rhs[0] == rhs[-1]) and rhs[0] in ("'", '"')):
+                                        rhs_use = rhs[1:-1]
+                                    else:
+                                        rhs_use = rhs
+                                    new_s = re.sub(pat, rhs_use, cur)
+                                    cur = new_s
                                 except Exception:
                                     pass
-                        return v
+                        return cur
                     out[col] = out[col].map(_normalize_one)
                 return out
 
