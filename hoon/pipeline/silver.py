@@ -232,7 +232,18 @@ def build_silver(year, yaml_path=None):
                             return None
                         n, k = t[1], t[2]
                         return (f"{n}/{k}" if (n and k) else None)
-                    mdf[into.get("mortality_ratio","mortality_ratio")] = res.map(_mk_ratio)
+                    ratio_col = into.get("mortality_ratio","mortality_ratio")
+                    mdf[ratio_col] = res.map(_mk_ratio)
+                    # 만약 원본 텍스트가 엑셀 날짜 직렬값/ISO 날짜/소수점 표기 등으로 들어왔고
+                    # 현재 텍스트에 '/'가 없다면, 사람이 읽기 쉬운 형태로 교체한다.
+                    def _needs_rewrite(s):
+                        if s is None:
+                            return False
+                        ss = str(s)
+                        return ('/' not in ss) and (ss.strip() != '')
+                    mask = mdf[col].map(_needs_rewrite)
+                    if mask.any():
+                        mdf.loc[mask, col] = mdf.loc[mask, ratio_col]
             # percent
             pct_cfg = parse.get("percent") or {}
             if pct_cfg:
