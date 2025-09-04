@@ -268,9 +268,34 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
         if m:
             a1 = m.get("range")
             df_all = read_excel(xls_path, sheet_name)
-            blk = extract_block(df_all, a1) if a1 else df_all
+            blocks = []
+            matrix_cfg = m
+            detect = bool(matrix_cfg.get("detect_blocks", False))
+            if detect:
+                # 라벨 행("table ")을 기준으로 블록 자동 분할(실버 단계와 동일 로직)
+                try:
+                    id_col = int(matrix_cfg.get("id_col", 0))
+                    first_col = df_all.iloc[:, id_col].map(lambda x: str(x).strip().lower() if x is not None else "")
+                    starts = [i for i, v in enumerate(first_col.tolist()) if v.startswith("table ")]
+                    if starts:
+                        for i, st in enumerate(starts):
+                            en = starts[i+1] if i+1 < len(starts) else len(df_all)
+                            blocks.append(df_all.iloc[st:en, :])
+                except Exception:
+                    blocks = []
+            if not blocks:
+                blk = extract_block(df_all, a1) if a1 else df_all
+                blocks = [blk]
+
             from pipeline.parsers.engine import matrix_to_long
-            long_df = matrix_to_long(blk, m)
+            longs = []
+            for blk in blocks:
+                ldf = matrix_to_long(blk, matrix_cfg)
+                if ldf is None or len(ldf) == 0:
+                    continue
+                longs.append(ldf)
+            import pandas as _pd
+            long_df = _pd.concat(longs, ignore_index=True) if longs else _pd.DataFrame(columns=["row_id","panel","cell_line","value_raw","qualifier","value","unit"]) 
             long_df["provenance_file"] = os.path.relpath(xls_path, root)
             long_df["provenance_sheet"] = sheet_name
             long_df["provenance_row"] = None
@@ -292,6 +317,18 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
                 np = os.path.join(tdir, new)
                 if os.path.exists(op) and os.path.exists(np):
                     os.remove(op)
+            # 호환: table_3.csv를 natural sort 후 compounds.csv로도 저장
+            t3 = os.path.join(tdir, "table_3.csv")
+            if os.path.exists(t3):
+                try:
+                    import pandas as _pd
+                    dfc = _pd.read_csv(t3, dtype=str)
+                    dfc = stable_sort(dfc, ["compound_id","provenance_row"]) 
+                    comp_out = os.path.join(tdir, "compounds.csv")
+                    dfc.to_csv(comp_out, index=False, encoding="utf-8")
+                    result["table_compounds_alias"] = comp_out
+                except Exception:
+                    pass
     except Exception:
         pass
     return result

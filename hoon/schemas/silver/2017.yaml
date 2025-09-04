@@ -65,6 +65,7 @@ sheets:
       cellline_row_offset: 2
       data_row_start: 3
       id_col: 0
+      detect_blocks: true
       panels:
         - {name_from_header: true, cols: [1,2,3,4,5,6,7,8,9]}
       value_parser:

@@ -23,15 +23,13 @@ def stable_sort(df, preferred_keys):
         use_col = k
         if k in numeric_candidates:
             try:
-                # 모두 숫자형 문자열인지 검사(None/빈값 제외)
-                ser = col.dropna().astype(str).str.strip()
-                if len(ser) > 0 and ser.str.fullmatch(r"\d+").all():
-                    tmp = f"__sort_{k}__"
-                    idx[tmp] = ser.replace("", None).astype(float)
-                    # NaN 보존: 원 컬럼 None일 때 NaN, 아닌 경우 숫자
-                    # 정렬 키로 임시 컬럼 사용
-                    use_col = tmp
-                    tmp_cols.append(tmp)
+                # 숫자로 해석 가능한 값은 숫자 기준으로 정렬, 그 외는 큰 숫자(말미)로
+                ser_all = col.astype(str).str.strip()
+                tmp = f"__sort_{k}__"
+                num = pd.to_numeric(ser_all, errors="coerce")
+                idx[tmp] = num.fillna(1e18)
+                use_col = tmp
+                tmp_cols.append(tmp)
             except Exception:
                 pass
         sort_cols.append(use_col)
