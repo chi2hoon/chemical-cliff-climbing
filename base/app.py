@@ -115,12 +115,14 @@ st.set_page_config(layout="centered")
 st.title("🔬 SAR 분석 및 가설 생성/평가/수정 자동화 도구")
 st.write("분자 구조와 활성 데이터 기반의 구조-활성 관계(SAR) 분석 및 가설 생성, 평가, 수정을 자동화합니다.")
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+
+tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "1. 데이터셋 선택",
     "2. Activity Cliff 분석",
     "3. 가설 생성",
     "4. 가설 관리",
-    "5. 가설 평가 및 수정"
+    "5. 가설 평가 및 수정",
+    "6. 자동 가설 수정"
 ])
 
 with tab1:
@@ -569,4 +571,138 @@ with tab5:
 
             except Exception as e:
                 st.error(f"파일 처리 중 오류가 발생했습니다: {e}")
+
+with tab6:
+    st.header("🤖 자동 가설 수정")
+    hypotheses_dir = "hypotheses"
+
+    if not os.path.isdir(hypotheses_dir) or not os.listdir(hypotheses_dir):
+        st.info("자동 수정할 가설이 없습니다. 3. 가설 생성 탭에서 가설을 먼저 생성해주세요.")
+    else:
+        hypothesis_files = sorted([f for f in os.listdir(hypotheses_dir) if f.endswith(".md")], reverse=True)
+        
+        selected_file_auto = st.selectbox(
+            "자동 수정을 시작할 가설을 선택하세요:", 
+            hypothesis_files, 
+            key="selected_hypothesis_file_auto"
+        )
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            min_iterations = st.number_input("최소 반복 횟수:", min_value=1, max_value=10, value=1, step=1)
+        with col2:
+            max_iterations = st.number_input("최대 반복 횟수:", min_value=1, max_value=10, value=3, step=1)
+
+        if st.button("🤖 자동 수정 시작", key="auto_revise_start"):
+            openai_api_key = get_openai_api_key_from_file()
+            if not openai_api_key:
+                st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
+                st.stop()
+
+            filepath = os.path.join(hypotheses_dir, selected_file_auto)
+            try:
+                with open(filepath, "r", encoding="utf-8") as file:
+                    content = file.read()
+                
+                parsed_data = parse_hypothesis_md(content)
+                if not all(parsed_data.values()):
+                    st.error(f"파일({selected_file_auto})에서 분자 정보를 파싱할 수 없습니다. 파일 형식을 확인해주세요.")
+                    st.stop()
+
+            except Exception as e:
+                st.error(f"원본 가설 파일을 읽는 중 오류가 발생했습니다: {e}")
+                st.stop()
+
+            current_hypothesis_body = parsed_data['hypothesis_body']
+            final_hypothesis_body = ""
+
+            with st.status(f"'{selected_file_auto}'에 대한 자동 수정을 시작합니다...", expanded=True) as status:
+                for i in range(max_iterations):
+                    st.write(f"---")
+                    st.write(f"**🚀 반복 {i+1}/{max_iterations}**")
+                    
+                    # 1. 평가
+                    st.write("1️⃣ 가설을 평가합니다...")
+                    try:
+                        eval_response = evaluate_hypothesis(
+                            api_key=openai_api_key,
+                            hypothesis_text=current_hypothesis_body,
+                            smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
+                            smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
+                            structural_difference_description=""
+                        )
+                        eval_data = json.loads(eval_response)
+                        verdict = eval_data.get('summary', {}).get('verdict', 'Unknown').upper()
+                        
+                        with st.expander("평가 결과 보기"):
+                            st.markdown(format_evaluation_for_markdown(eval_data), unsafe_allow_html=True)
+
+                    except Exception as e:
+                        st.error(f"반복 {i+1}에서 평가 중 오류 발생: {e}")
+                        status.update(label="오류로 인해 중단됨", state="error")
+                        st.stop()
+
+                    # 2. 판정에 따른 분기
+                    st.write(f"2️⃣ 평가 판정: **{verdict}**")
+                    if ("GOOD" in verdict or "SOUND" in verdict) and (i + 1) >= min_iterations:
+                        st.success(f"✅ 가설이 'Good' 또는 'Unsound'로 판정되고 최소 반복 횟수({min_iterations})에 도달하여 프로세스를 종료합니다.")
+                        final_hypothesis_body = current_hypothesis_body
+                        status.update(label="자동 수정 완료!", state="complete")
+                        break
+                    
+                    elif "WEAK" in verdict:
+                        st.info("🤔 가설이 'Weak'로 판정되어 수정을 진행합니다.")
+                        # 3. 수정
+                        st.write("3️⃣ 평가 기반으로 가설을 수정합니다...")
+                        try:
+                            revise_response = revise_hypothesis(
+                                api_key=openai_api_key,
+                                original_hypothesis_text=current_hypothesis_body,
+                                review_findings=eval_response,
+                                smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
+                                smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
+                                structural_difference_description=""
+                            )
+                            revised_data = json.loads(revise_response)
+                            current_hypothesis_body = format_hypothesis_for_markdown(revised_data)
+                            
+                            with st.expander("수정된 가설 내용 보기"):
+                                st.markdown(current_hypothesis_body, unsafe_allow_html=True)
+
+                        except Exception as e:
+                            st.error(f"반복 {i+1}에서 수정 중 오류 발생: {e}")
+                            status.update(label="오류로 인해 중단됨", state="error")
+                            st.stop()
+                    else:
+                        st.warning(f"⚠️ 알 수 없는 판정('{verdict}')으로 인해 프로세스를 중단합니다.")
+                        final_hypothesis_body = current_hypothesis_body
+                        status.update(label="알 수 없는 판정으로 중단됨", state="error")
+                        break
+                
+                else: # for-else loop: break 없이 끝났을 경우
+                    st.warning(f"🔔 최대 반복 횟수({max_iterations})에 도달했습니다.")
+                    final_hypothesis_body = current_hypothesis_body
+                    status.update(label="최대 반복 후 완료", state="complete")
+
+            # 최종 결과 저장
+            if final_hypothesis_body:
+                st.markdown("---")
+                st.subheader("💾 최종 결과 저장")
+                
+                file_header = f"**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{parsed_data['smiles1']}` (활성도: {parsed_data['activity1']:.2f})\n- **화합물 2 (상대적 고활성):** `{parsed_data['smiles2']}` (활성도: {parsed_data['activity2']:.2f})\n\n---"
+                final_md_to_save = file_header + final_hypothesis_body
+
+                # 새 파일명 생성
+                base_name = selected_file_auto.replace('.md', '')
+                if base_name.startswith('auto_'): # 기존 접두사 제거
+                    base_name = base_name[5:]
+                
+                new_filename = f"auto_{base_name}.md"
+                new_filepath = os.path.join(hypotheses_dir, new_filename)
+                
+                save_hypothesis_to_md(final_md_to_save, new_filepath)
+                st.success(f"최종 수정된 가설이 '{new_filepath}'에 저장되었습니다.")
+                
+                st.markdown("##### 최종 가설 내용:")
+                st.markdown(final_md_to_save, unsafe_allow_html=True)
 
