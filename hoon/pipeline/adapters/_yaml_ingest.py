@@ -40,7 +40,10 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
     if not xls_path:
         raise ValueError("YAML에 file 경로가 없습니다.")
     if not os.path.isabs(xls_path):
-        xls_path = os.path.join(root, xls_path)
+        # hoon/ 상대 또는 레포 루트 상대(base/...) 모두 지원
+        cand1 = os.path.join(root, xls_path)
+        cand2 = os.path.join(os.path.abspath(os.path.join(root, os.pardir)), xls_path)
+        xls_path = cand1 if os.path.exists(cand1) else cand2
     if not os.path.exists(xls_path):
         raise FileNotFoundError(xls_path)
 

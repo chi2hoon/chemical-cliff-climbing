@@ -229,7 +229,7 @@ def load_hoon_group_as_dataframe(
     return df[cols_front + other_cols]
 
 
-def load_hoon_ac_pairs(data_root: str = "hoon/data") -> pd.DataFrame:
+def load_hoon_ac_pairs(data_root: str = "base/data") -> pd.DataFrame:
     """Load precomputed activity cliff pairs from hoon/data/silver/all/ac_pairs.csv and map to base schema."""
     path = os.path.join(data_root, "silver", "all", "ac_pairs.csv")
     if not os.path.exists(path):
@@ -298,7 +298,7 @@ def parse_hypothesis_md(file_content: str) -> Dict:
     return data
 
 
-def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
+def load_hoon_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
     """
     Load gold dataset from hoon/data/gold/{year}/measurements_gold.csv
     and return a DataFrame ready for base app analysis.
@@ -312,60 +312,63 @@ def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_
         pd.DataFrame: Gold dataset with columns ready for SMILES and activity analysis
     """
     gold_dir = os.path.join(data_root, "gold", str(year))
-    gold_path = os.path.join(gold_dir, "measurements_gold.csv")
+    assay_path = os.path.join(gold_dir, "assay_readings.csv")
+    comps_path = os.path.join(gold_dir, "compounds.csv")
+    props_path = os.path.join(gold_dir, "compound_props.csv")
 
-    if not os.path.exists(gold_path):
+    if not os.path.exists(assay_path):
         return pd.DataFrame(columns=["SMILES", "Activity"])
 
     try:
-        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        df_assay = pd.read_csv(assay_path, dtype=str, keep_default_na=False, na_filter=False)
+        df_comps = pd.read_csv(comps_path, dtype=str, keep_default_na=False, na_filter=False) if os.path.exists(comps_path) else pd.DataFrame()
+        df_props = pd.read_csv(props_path, dtype=str, keep_default_na=False, na_filter=False) if os.path.exists(props_path) else pd.DataFrame()
 
-        # Filter by panel_id if specified
-        if panel_id and "panel_id" in df.columns:
-            df = df[df["panel_id"] == panel_id]
-
-        # Filter by cell_line if specified
-        if cell_line and "cell_line" in df.columns:
-            df = df[df["cell_line"] == cell_line]
-
-        # Convert value_std to float
+        # value_std → float
         def to_float(x):
             try:
                 return float(x)
             except Exception:
                 return None
+        df_assay["Activity"] = df_assay.get("value_std", "").apply(to_float)
 
-        df["value_std_float"] = df.get("value_std", "").apply(to_float)
+        # 옵션 필터(panel_id/cell_line): 현재 스키마에 없으면 무시
+        if panel_id and "panel_id" in df_assay.columns:
+            df_assay = df_assay[df_assay["panel_id"] == panel_id]
+        if cell_line and "cell_line" in df_assay.columns:
+            df_assay = df_assay[df_assay["cell_line"] == cell_line]
 
-        # Map gold schema to base schema
-        # smiles_canonical -> SMILES, value_std -> Activity
-        df_mapped = pd.DataFrame({
-            "SMILES": df.get("smiles_canonical", ""),
-            "Activity": df["value_std_float"],
+        # SMILES 조인: assay(compound_id) → props(compound_key) → comps(smiles_canonical)
+        df = df_assay.copy()
+        if ("compound_id" in df.columns) and (len(df_props) > 0) and ("compound_id" in df_props.columns) and ("compound_key" in df_props.columns):
+            df = df.merge(df_props[["compound_id", "compound_key"]].drop_duplicates(), on="compound_id", how="left")
+        if ("compound_key" in df.columns) and (len(df_comps) > 0) and ("compound_key" in df_comps.columns) and ("smiles_canonical" in df_comps.columns):
+            df = df.merge(df_comps[["compound_key", "smiles_canonical"]].drop_duplicates(), on="compound_key", how="left")
+        # 폴백: 컴파운드 키 없이 compound_id로 props에 있는 iupac/mw 등만 있을 수 있음
+        df["SMILES"] = df.get("smiles_canonical", "")
+
+        # 최소 스키마 구성
+        out = pd.DataFrame({
+            "SMILES": df.get("SMILES", ""),
+            "Activity": df.get("Activity", None),
         })
+        # 유효 행 필터링
+        out = out.dropna(subset=["SMILES", "Activity"]).copy()
+        out = out[out["SMILES"].astype(str).str.strip() != ""]
 
-        # Filter out rows with missing SMILES or Activity
-        df_mapped = df_mapped.dropna(subset=["SMILES", "Activity"])
-        df_mapped = df_mapped[df_mapped["SMILES"].astype(str).str.len() > 0]
+        # 참고 메타 일부 동봉(있을 때만)
+        for meta_col in ["compound_id", "assay_id", "target_id", "unit_std", "qualifier"]:
+            if meta_col in df.columns:
+                out[meta_col] = df[meta_col]
 
-        # Add metadata columns for reference
-        metadata_cols = ["compound_id", "dataset_id", "assay_id", "panel_id", "cell_line",
-                        "inchikey", "unit_std", "censor", "readout", "matrix",
-                        "provenance_file", "provenance_sheet", "provenance_row",
-                        "std_rule_id", "std_confidence"]
-
-        for col in metadata_cols:
-            if col in df.columns:
-                df_mapped[col] = df[col]
-
-        return df_mapped.reset_index(drop=True)
+        return out.reset_index(drop=True)
 
     except Exception as e:
         print(f"Error loading gold data: {e}")
         return pd.DataFrame(columns=["SMILES", "Activity"])
 
 
-def get_available_gold_years(data_root: str = "hoon/data") -> List[str]:
+def get_available_gold_years(data_root: str = "base/data") -> List[str]:
     """Get list of available years in gold data directory."""
     gold_root = os.path.join(data_root, "gold")
     if not os.path.exists(gold_root):
@@ -374,16 +377,16 @@ def get_available_gold_years(data_root: str = "hoon/data") -> List[str]:
     years = []
     for item in os.listdir(gold_root):
         if os.path.isdir(os.path.join(gold_root, item)):
-            gold_file = os.path.join(gold_root, item, "measurements_gold.csv")
+            gold_file = os.path.join(gold_root, item, "assay_readings.csv")
             if os.path.exists(gold_file):
                 years.append(item)
     
     return sorted(years)
 
 
-def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") -> List[str]:
+def get_available_panel_ids(year: str = "2017", data_root: str = "base/data") -> List[str]:
     """Get list of available panel IDs for a given year."""
-    gold_path = os.path.join(data_root, "gold", str(year), "measurements_gold.csv")
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
     
     if not os.path.exists(gold_path):
         return []
@@ -397,7 +400,7 @@ def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") ->
         return []
 
 
-def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str, List[str]]:
+def get_all_available_panels_and_years(data_root: str = "base/data") -> Dict[str, List[str]]:
     """Get all available panels across all years.
     
     Returns:

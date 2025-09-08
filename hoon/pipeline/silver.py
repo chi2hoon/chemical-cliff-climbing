@@ -44,7 +44,9 @@ def build_silver(year, yaml_path=None):
     src_file = (cfg.get("file") or "")
     src_abs = src_file
     if src_file and not os.path.isabs(src_file):
-        src_abs = os.path.join(root, src_file)
+        cand1 = os.path.join(root, src_file)
+        cand2 = os.path.join(os.path.abspath(os.path.join(root, os.pardir)), src_file)
+        src_abs = cand1 if os.path.exists(cand1) else cand2
     manifest = {
         "stage": "silver",
         "year": year,
