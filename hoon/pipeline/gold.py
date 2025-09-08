@@ -63,6 +63,9 @@ def build_gold(years):
                     "mw": r.get("mw"),
                     "lcms_text": r.get("lcms_text"),
                     "nmr_1h_text": r.get("nmr_1h_text"),
+                    "flag_asterisk": r.get("flag_asterisk"),
+                    "flag_imaging_conflict": r.get("flag_imaging_conflict"),
+                    "flag_smiles_o3_changed": r.get("flag_smiles_o3_changed"),
                     "year": y,
                     "provenance_file": r.get("provenance_file"),
                     "provenance_sheet": r.get("provenance_sheet"),
@@ -87,7 +90,7 @@ def build_gold(years):
         comps_ok.to_csv(comps_path, index=False, encoding="utf-8")
         # compound properties(meta)
         if props_rows:
-            props_df = pd.DataFrame(props_rows, columns=["compound_key","compound_id","iupac_name","mw","lcms_text","nmr_1h_text","year","provenance_file","provenance_sheet","provenance_row"]).fillna("")
+            props_df = pd.DataFrame(props_rows, columns=["compound_key","compound_id","iupac_name","mw","lcms_text","nmr_1h_text","flag_asterisk","flag_imaging_conflict","flag_smiles_o3_changed","year","provenance_file","provenance_sheet","provenance_row"]).fillna("")
             props_df = stable_sort(props_df, ["compound_key","compound_id","provenance_row"]) if "compound_key" in props_df.columns else props_df
             props_out = os.path.join(out_dir, "compound_props.csv")
             props_df.to_csv(props_out, index=False, encoding="utf-8")

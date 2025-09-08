@@ -37,7 +37,7 @@ sheets:
         # - col_index: 0(Compound #), 1(SMILES)
         flags_from_color:
           - { col_index: 0, map: {"00FF00": flag_asterisk} }
-          - { col_index: 1, map: {"FF0000": flag_imaging_conflict, "FFFF00": flag_smiles_o3_changed} }
+          - { col_index: 1, map: {"00FF00": flag_asterisk, "FF0000": flag_imaging_conflict, "FFFF00": flag_smiles_o3_changed} }
 
   - name: "표4"
     tables:

@@ -115,7 +115,9 @@ def build_silver(year, yaml_path=None):
         comp_df = comp_df.merge(props_df, on='compound_id', how='left', suffixes=("", ""))
 
     # 출력 컬럼 최소화 (원본 보존 + provenance)
-    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "mw", "lcms_text", "nmr_1h_text", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns]
+    # QC 플래그(flag_*)가 있으면 함께 유지하여 후속 단계에서 활용
+    flag_cols = [c for c in comp_df.columns if str(c).startswith("flag_")]
+    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "mw", "lcms_text", "nmr_1h_text", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns] + flag_cols
     comp_silver = comp_df[keep_cols].copy() if len(keep_cols) else comp_df.copy()
     comp_silver = stable_sort(comp_silver, ["compound_id", "provenance_row"])
     comp_silver.to_csv(comp_out, index=False, encoding="utf-8")
