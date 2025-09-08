@@ -204,7 +204,10 @@ hoon/screenshots/
 hoon/.cursor/
 
 # 메달리온 아키텍처: 파이프라인 산출물 제외 (Bronze/Silver/Gold/Quarantine)
-hoon/data/bronze/
+# 변경된 메달리온 아키텍처 규칙
+# 메달리온 아키텍처: 파생 데이터 제외 (artifacts만 포함)
+hoon/data/bronze/*
+!hoon/data/bronze/artifacts/
 hoon/data/silver/
 hoon/data/gold/
 hoon/data/quarantine/
@@ -212,7 +215,4 @@ hoon/data/quarantine/
 # https://www.toptal.com/developers/gitignore/api/python,visualstudiocode 끝
 
 # 메달리온 아키텍처: 파생 데이터 제외 (빈 artifacts 폴더만 포함)
-data/
-!data/bronze/artifacts/
 evaluations/
-
