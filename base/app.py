@@ -17,7 +17,7 @@ from modules.io_utils import (
     get_available_gold_years,
     get_available_panel_ids,
     get_all_available_panels_and_years,
-    load_panel_cell_lines_from_yaml
+    get_cell_lines_for_panel
 )
 
 # --- Helper Functions ---
@@ -130,10 +130,11 @@ with tab1:
     st.markdown("표준화된 gold 데이터셋을 로드하여 분석을 시작하세요.")
 
     # 데이터셋 선택
-    data_root = "hoon/data"
+    data_root = "base/data"
     panel_years_map = get_all_available_panels_and_years(data_root)
-    
-    if not panel_years_map:
+    available_years_all = get_available_gold_years(data_root)
+
+    if not available_years_all:
         st.warning("Gold 데이터가 없습니다. hoon 파이프라인에서 `gold` 스테이지를 먼저 실행하세요.")
     else:
         # 패널 이름 매핑
@@ -149,32 +150,32 @@ with tab1:
             "misc13": "기타 패널"
         }
 
-        # 년도(왼쪽) - 패널(오른쪽)
+        # 년도(왼쪽) - 패널(오른쪽, 없는 경우 스킵)
         col_year, col_panel = st.columns([1, 2])
 
         with col_year:
-            available_years_all = get_available_gold_years(data_root)
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
+        selected_panel = None
         with col_panel:
-            # 선택된 년도에서 사용 가능한 패널만 표시
-            panel_options = panel_years_map.keys()
-            filtered_panel_ids = [pid for pid in panel_options if selected_year in panel_years_map[pid]]
-            panel_display_options = ["전체 패널"]
-            panel_id_to_display = {"전체 패널": None}
-            for panel_id in sorted(filtered_panel_ids):
-                display_name = panel_names_map.get(panel_id, panel_id)
-                display_option = f"{panel_id} ({display_name})"
-                panel_display_options.append(display_option)
-                panel_id_to_display[display_option] = panel_id
-            selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
-            selected_panel = panel_id_to_display[selected_panel_display]
+            if panel_years_map:
+                # 선택된 년도에서 사용 가능한 패널만 표시
+                panel_options = panel_years_map.keys()
+                filtered_panel_ids = [pid for pid in panel_options if selected_year in panel_years_map[pid]]
+                panel_display_options = ["전체 패널"]
+                panel_id_to_display = {"전체 패널": None}
+                for panel_id in sorted(filtered_panel_ids):
+                    display_name = panel_names_map.get(panel_id, panel_id)
+                    display_option = f"{panel_id} ({display_name})"
+                    panel_display_options.append(display_option)
+                    panel_id_to_display[display_option] = panel_id
+                selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
+                selected_panel = panel_id_to_display[selected_panel_display]
 
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
         if selected_panel:
-            panel_cells_map = load_panel_cell_lines_from_yaml("hoon/configs/2017.yml")
-            cell_lines = panel_cells_map.get(selected_panel, [])
+            cell_lines = get_cell_lines_for_panel(selected_year, selected_panel, data_root)
             if cell_lines:
                 selected_cell_line = st.selectbox("🧫 세포주 선택", ["전체 세포주"] + cell_lines, index=0)
                 if selected_cell_line == "전체 세포주":
@@ -218,7 +219,7 @@ with tab1:
                             st.info("**Gold 데이터 스키마:**\n"
                                    "• SMILES: 표준화된 캐노니컬 SMILES\n"
                                    "• Activity: 표준화된 활성도 값 (value_std)\n"
-                                   "• 메타데이터: assay_id, panel_id, cell_line, inchikey 등")
+                                   "• 메타데이터: assay_id, target_id, unit_std 등")
 
                 except Exception as e:
                     st.error(f"Gold 데이터 로드 실패: {e}")
@@ -230,16 +231,16 @@ with tab1:
         - **표준화된 구조**: `smiles_canonical` (RDKit 캐노니컬 SMILES)
         - **표준화된 활성도**: `value_std` (단위 정규화된 수치)
         - **품질 보장**: 빈 값 및 유효하지 않은 SMILES 필터링
-        - **메타데이터**: assay_id, panel_id, cell_line, inchikey 등 분석에 유용한 정보 포함
-        - **패널 기반**: 질환별 세포주 그룹으로 구성 (방광암, 유방암, 폐암 등)
+        - **메타데이터**: assay_id, target_id, unit_std 등 분석에 유용한 정보 포함
+        - **패널 기반**: (2017 데이터는 패널/cell_line 열이 포함되지 않을 수 있습니다)
 
         **활용 팁:**
         - base 앱에서 유사도/활성도차 계산 시 `smiles_col=SMILES`, `activity_col=Activity`로 설정
         - 동일 패널 내에서 비교하면 더 일관성 있는 결과를 얻을 수 있습니다
         
         **현재 가용 데이터:**
-        - **2017년**: 9개 패널 (방광암, 유방암, 폐암, 전립선암, 혈액암, 췌장암, 대장암, 기타)
-        - **2018/2020/2021년**: 개발 예정 (현재는 silver 데이터만 존재)
+        - **2017년**: 2017 Gold 산출을 우선 지원합니다.
+        - **2018/2020/2021년**: 추후 통합 예정
         """)
 
     st.markdown("---")
@@ -270,7 +271,7 @@ with tab2:
     if source == "Hoon AC 쌍(사전계산) 불러오기":
         if st.button("Hoon 사전계산 AC 쌍 로드"):
             try:
-                cliff_df = load_hoon_ac_pairs(data_root="hoon/data")
+                cliff_df = load_hoon_ac_pairs(data_root="base/data")
                 if cliff_df is None or cliff_df.empty:
                     st.info("사전계산된 AC 쌍이 없습니다. hoon 파이프라인에서 `ac` 또는 `ac-all` 스테이지를 먼저 실행하세요.")
                 else:
@@ -705,4 +706,3 @@ with tab6:
                 
                 st.markdown("##### 최종 가설 내용:")
                 st.markdown(final_md_to_save, unsafe_allow_html=True)
-

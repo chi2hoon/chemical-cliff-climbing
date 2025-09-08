@@ -1,4 +1,4 @@
-file: data/bronze/artifacts/2021_raw.xlsx
+file: base/data/bronze/artifacts/2021_raw.xlsx
 read: {dtype: str, engine: openpyxl}
 sheets:
   - name: "Intermediate 1~249"
@@ -16,7 +16,7 @@ sheets:
 
 silver:
   compounds:
-    from: data/bronze/2021/tables/compounds.csv
+    from: base/data/bronze/2021/tables/compounds.csv
   assays:
     from_matrix:
       sheet: "EXAMPLES Table"

@@ -23,7 +23,7 @@ def build_gold(years):
     results = {}
     for y in years:
         # assays per year
-        assay_path_in = os.path.join("data", "silver", y, "assay_readings_silver.csv")
+        assay_path_in = os.path.join("base", "data", "silver", y, "assay_readings_silver.csv")
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
@@ -40,7 +40,7 @@ def build_gold(years):
             assays = stable_sort(assays, ["compound_id","assay_id","provenance_row"])
 
         # compounds per year
-        comp_path_in = os.path.join("data", "silver", y, "compounds_silver.csv")
+        comp_path_in = os.path.join("base", "data", "silver", y, "compounds_silver.csv")
         comps = pd.DataFrame(columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"])
         props_rows = []
         if os.path.exists(comp_path_in):
@@ -82,7 +82,7 @@ def build_gold(years):
         if len(comps_bad) > 0:
             write_quarantine("gold", y, "compounds_rule_violation", comps_bad)
 
-        out_dir = os.path.join("data", "gold", y)
+        out_dir = os.path.join("base", "data", "gold", y)
         os.makedirs(out_dir, exist_ok=True)
         assays_path = os.path.join(out_dir, "assay_readings.csv")
         comps_path = os.path.join(out_dir, "compounds.csv")
@@ -95,7 +95,7 @@ def build_gold(years):
             props_out = os.path.join(out_dir, "compound_props.csv")
             props_df.to_csv(props_out, index=False, encoding="utf-8")
         # meta: assay_context
-        meta_in = os.path.join("data","silver", y, "assay_context_silver.csv")
+        meta_in = os.path.join("base","data","silver", y, "assay_context_silver.csv")
         if os.path.exists(meta_in):
             meta_df = pd.read_csv(meta_in, dtype=str)
             meta_df = stable_sort(meta_df, [c for c in ["compound_id","provenance_row"] if c in meta_df.columns])

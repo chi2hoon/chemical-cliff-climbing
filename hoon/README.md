@@ -6,14 +6,11 @@
 
 "base/README.md"을 읽고, 가상환경을 생성한 이후를 가정합니다. 
 
-2) 원본 엑셀 파일 복사(4개 연도)
+2) 원본 엑셀 파일 복사(현재 2017만 사용)
 
-아래 파일명을 정확히 맞춰 `data/bronze/artifacts/` 폴더에 두세요. 폴더가 없으면 만들어도 됩니다.
+아래 파일명을 정확히 맞춰 `base/data/bronze/artifacts/` 폴더에 두세요. 폴더가 없으면 만들어도 됩니다.
 
-- 2017: `data/bronze/artifacts/2017_raw.xlsx`
-- 2018: `data/bronze/artifacts/2018_raw.xlsx`
-- 2020: `data/bronze/artifacts/2020_raw.xlsx`
-- 2021: `data/bronze/artifacts/2021_raw.xlsx`
+- 2017: `base/data/bronze/artifacts/2017_raw.xlsx`
 
 주의: data/ 폴더는 Git에 올리지 않습니다(대용량/민감 데이터 제외 규칙).
 
@@ -32,11 +29,9 @@ PYTHONPATH=hoon python -m pipeline.cli silver --year 2017 --cfg hoon/schemas/sil
 PYTHONPATH=hoon python -m pipeline.cli gold --years 2017
 ```
 
-4) 전체 연도 한 번에 골드 산출(추후 다른 연도 데이터 전처리 예정)
+4) (참고) 다른 연도는 추후 통합 예정
 
-```bash
-PYTHONPATH=hoon python -m pipeline.cli gold --years 2017 2018 2020 2021
-```
+2018/2020/2021 스키마는 포함되어 있으나, 현재는 2017 데이터만 공식 지원/검증되었습니다.
 
 5) 간단 검증(널바이트 스캔)
 
@@ -46,9 +41,9 @@ PYTHONPATH=hoon python -m pipeline.cli validate --stage nulls
 ```
 
 산출물 위치(중요):
-- Bronze: `data/bronze/{year}/tables/*.csv`, `data/bronze/{year}/matrix/*.csv`
-- Silver: `data/silver/{year}/compounds_silver.csv`, `assay_readings_silver.csv`, `assay_context_silver.csv`
-- Gold: `data/gold/{year}/compounds.csv`, `assay_readings.csv`, `compound_props.csv`, `assay_context.csv`
+- Bronze: `base/data/bronze/{year}/tables/*.csv`, `base/data/bronze/{year}/matrix/*.csv`
+- Silver: `base/data/silver/{year}/compounds_silver.csv`, `assay_readings_silver.csv`, `assay_context_silver.csv`
+- Gold: `base/data/gold/{year}/compounds.csv`, `assay_readings.csv`, `compound_props.csv`, `assay_context.csv`
 
 실패 시 가장 흔한 원인
 - 원본 파일 경로/이름 오타(예: 2017_raw.xlsx)
@@ -72,7 +67,7 @@ PYTHONPATH=hoon python -m pipeline.cli validate --stage nulls
 - logs/manifest/: 실행 매니페스트(JSON)
 
 ## 원본 데이터 준비(참고)
-- 파일 배치: `data/bronze/artifacts/{year}_raw.xlsx` (위 “실행 방법” 2) 단계 참고)
+- 파일 배치: `base/data/bronze/artifacts/{year}_raw.xlsx` (위 “실행 방법” 2) 단계 참고)
 - YAML 설정: `hoon/schemas/silver/{year}.yaml` — 기본 제공 스키마의 `file:` 키가 해당 경로를 가리키도록 되어 있습니다.
 
 ## Gold 스키마(고정 계약)
