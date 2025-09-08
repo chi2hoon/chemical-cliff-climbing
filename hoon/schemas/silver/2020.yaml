@@ -1,4 +1,4 @@
-file: data/bronze/artifacts/2020_raw.xlsx
+file: base/data/bronze/artifacts/2020_raw.xlsx
 read: {dtype: str, engine: openpyxl}
 sheets:
   - name: "I-1 ~ I-64, BB-1 ~ BB-37"
@@ -13,7 +13,7 @@ Analytics/Analytical Data: analytics_text
 
 silver:
   compounds:
-    from: data/bronze/2020/tables/compounds.csv
+    from: base/data/bronze/2020/tables/compounds.csv
   assays:
     from_matrix:
       sheet: "Table 5"

@@ -69,7 +69,7 @@ def write_quarantine(stage, year, name, df):
     격리 CSV 경로로 저장하고 경로를 반환한다.
     """
     year = str(year)
-    out_dir = os.path.join("data", "quarantine", stage)
+    out_dir = os.path.join("base", "data", "quarantine", stage)
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, f"{year}_{name}.csv")
     df.to_csv(out, index=False, encoding="utf-8")

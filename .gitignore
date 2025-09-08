@@ -196,6 +196,9 @@ pyrightconfig.json
 hypotheses/
 SESSION_NOTES.md
 
+# 데이터 산출물(추적 제외)
+/base/data/
+
 # hoon/ 특화 규칙
 hoon/notebooks/
 hoon/data/archive/

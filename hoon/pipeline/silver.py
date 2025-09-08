@@ -25,7 +25,7 @@ def _ensure_dir(p):
 
 
 def _year_refined_dir(year):
-    return os.path.join("data", "silver", str(year))
+    return os.path.join("base", "data", "silver", str(year))
 
 
 def build_silver(year, yaml_path=None):
@@ -68,7 +68,7 @@ def build_silver(year, yaml_path=None):
     comp_cfg = (silver_cfg.get("compounds") or {})
 
     # 기본: ingest/tables/* 를 받아 최소 컬럼만 정리
-    ingest_dir = os.path.join("data", "bronze", year, "tables")
+    ingest_dir = os.path.join("base", "data", "bronze", year, "tables")
     # 우선순위 파일: comp_cfg.file 또는 첫 csv
     comp_src = comp_cfg.get("from") or None
     if not comp_src:
@@ -164,7 +164,7 @@ def build_silver(year, yaml_path=None):
 
     if assay_cfg.get("from_melt"):
         melt_name = assay_cfg["from_melt"]
-        melt_path = os.path.join("data", "bronze", year, f"{melt_name}.csv")
+        melt_path = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
         df = pd.read_csv(melt_path, dtype=str)
         df = sanitize_strings(df)
         # 공백/대시 처리
@@ -218,8 +218,8 @@ def build_silver(year, yaml_path=None):
             if not os.path.isabs(path):
                 path = os.path.join(_repo_root(), src)
             if not os.path.exists(path):
-                # 상대경로가 아닌 경우 bronze/{year}/tables 기준으로도 시도
-                alt = os.path.join("data","bronze",year,"tables", os.path.basename(src))
+                # 상대경로가 아닌 경우 base/data/bronze/{year}/tables 기준으로도 시도
+                alt = os.path.join("base","data","bronze",year,"tables", os.path.basename(src))
                 path = alt if os.path.exists(alt) else path
             try:
                 mdf = pd.read_csv(path, dtype=str)

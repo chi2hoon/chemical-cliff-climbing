@@ -24,7 +24,7 @@ def cmd_bronze(args):
     """
     year = str(args.year)
     yaml_path = args.cfg or _default_yaml_for_year(year)
-    out_dir = args.out or os.path.join("data", "bronze", year)
+    out_dir = args.out or os.path.join("base", "data", "bronze", year)
     result = bronze_dispatch.build_bronze_from_raw(year, yaml_path, out_dir)
     for k in sorted(result.keys()):
         print(f"{k}: {result[k]}")
