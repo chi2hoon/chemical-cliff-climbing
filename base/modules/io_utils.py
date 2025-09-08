@@ -332,11 +332,31 @@ def load_hoon_gold_data(year: str = "2017", data_root: str = "base/data", panel_
                 return None
         df_assay["Activity"] = df_assay.get("value_std", "").apply(to_float)
 
-        # 옵션 필터(panel_id/cell_line): 현재 스키마에 없으면 무시
-        if panel_id and "panel_id" in df_assay.columns:
-            df_assay = df_assay[df_assay["panel_id"] == panel_id]
-        if cell_line and "cell_line" in df_assay.columns:
-            df_assay = df_assay[df_assay["cell_line"] == cell_line]
+        # 옵션 필터(panel_id/cell_line)
+        if panel_id:
+            if "panel_id" in df_assay.columns:
+                df_assay = df_assay[df_assay["panel_id"] == panel_id]
+            elif "target_id" in df_assay.columns:
+                def _match_panel(t):
+                    s = str(t)
+                    if not s.startswith("cell:") or "." not in s:
+                        return False
+                    body = s.split(":", 1)[1]
+                    p = body.split(".", 1)[0]
+                    return p == panel_id
+                df_assay = df_assay[df_assay["target_id"].map(_match_panel)]
+        if cell_line:
+            if "cell_line" in df_assay.columns:
+                df_assay = df_assay[df_assay["cell_line"] == cell_line]
+            elif "target_id" in df_assay.columns:
+                def _match_cell(t):
+                    s = str(t)
+                    if not s.startswith("cell:") or "." not in s:
+                        return False
+                    body = s.split(":", 1)[1]
+                    parts = body.split(".", 1)
+                    return (len(parts) == 2) and (parts[1] == cell_line)
+                df_assay = df_assay[df_assay["target_id"].map(_match_cell)]
 
         # SMILES 조인: assay(compound_id) → props(compound_key) → comps(smiles_canonical)
         df = df_assay.copy()
@@ -387,14 +407,26 @@ def get_available_gold_years(data_root: str = "base/data") -> List[str]:
 def get_available_panel_ids(year: str = "2017", data_root: str = "base/data") -> List[str]:
     """Get list of available panel IDs for a given year."""
     gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
-    
+
     if not os.path.exists(gold_path):
         return []
-    
+
     try:
         df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        # 1) 명시적 panel_id가 있으면 사용
         if "panel_id" in df.columns:
-            return sorted(df["panel_id"].unique().tolist())
+            return sorted([p for p in df["panel_id"].unique().tolist() if str(p).strip() != ""])
+        # 2) target_id에서 파생: "cell:<panel>.<cell_line>" 형태 가정
+        if "target_id" in df.columns:
+            panels = []
+            for t in df["target_id"].astype(str).tolist():
+                if not t:
+                    continue
+                if t.startswith("cell:") and "." in t:
+                    body = t.split(":", 1)[1]
+                    panel = body.split(".", 1)[0]
+                    panels.append(panel)
+            return sorted(sorted(set([p for p in panels if p])))
         return []
     except Exception:
         return []
@@ -449,3 +481,36 @@ def load_panel_cell_lines_from_yaml(config_path: str = "hoon/configs/2017.yml") 
         return mapping
     except Exception:
         return {}
+
+
+def get_cell_lines_for_panel(year: str, panel_id: str, data_root: str = "base/data") -> List[str]:
+    """해당 연도의 Gold assay_readings에서 panel_id에 해당하는 cell_line 목록을 target_id에서 파생하여 반환.
+
+    target_id가 "cell:<panel>.<cell_line>" 형식이라고 가정한다.
+    """
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
+    if not os.path.exists(gold_path):
+        return []
+    try:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        clines = []
+        if "cell_line" in df.columns and "panel_id" in df.columns:
+            sub = df[df["panel_id"] == panel_id]
+            if len(sub) == 0:
+                return []
+            return sorted([c for c in sub["cell_line"].unique().tolist() if str(c).strip() != ""])
+        # target_id 파생
+        for t in df.get("target_id", []):
+            s = str(t)
+            if not s.startswith("cell:"):
+                continue
+            if "." not in s:
+                continue
+            body = s.split(":", 1)[1]
+            p, rest = body.split(".", 1)
+            if p != panel_id:
+                continue
+            clines.append(rest)
+        return sorted(sorted(set([c for c in clines if c])))
+    except Exception:
+        return []

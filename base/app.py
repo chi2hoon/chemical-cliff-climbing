@@ -17,7 +17,7 @@ from modules.io_utils import (
     get_available_gold_years,
     get_available_panel_ids,
     get_all_available_panels_and_years,
-    load_panel_cell_lines_from_yaml
+    get_cell_lines_for_panel
 )
 
 # --- Helper Functions ---
@@ -175,8 +175,7 @@ with tab1:
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
         if selected_panel:
-            panel_cells_map = load_panel_cell_lines_from_yaml("hoon/configs/2017.yml")
-            cell_lines = panel_cells_map.get(selected_panel, [])
+            cell_lines = get_cell_lines_for_panel(selected_year, selected_panel, data_root)
             if cell_lines:
                 selected_cell_line = st.selectbox("🧫 세포주 선택", ["전체 세포주"] + cell_lines, index=0)
                 if selected_cell_line == "전체 세포주":
