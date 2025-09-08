@@ -47,7 +47,7 @@ def build_gold(years):
             dfc = pd.read_csv(comp_path_in, dtype=str)
             rows = []
             for _, r in dfc.iterrows():
-                ids = derive_chem_ids(r.get("smiles_raw"))
+                ids = derive_chem_ids(r.get("smiles_raw"), r.get("iupac_name"))
                 rows.append({
                     "compound_key": ids.get("compound_key", ""),
                     "smiles_canonical": ids.get("smiles_canonical", ""),

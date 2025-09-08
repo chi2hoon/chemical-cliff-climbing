@@ -118,15 +118,25 @@ def normalize_mortality(text):
 def parse_dose(text):
     """Args: text(str|None) -> (route,str,unit)
 
-    도스 문자열 파서: "IV 40 mg/kg" → ("IV","40","mg/kg")
+    도스 문자열 파서: "IV 40 mg/kg" → ("IV","40","mg/kg").
+    앞부분이 도스이고 뒤에 추가 텍스트(예: "화합물 33")가 이어지는 경우도 허용한다.
     """
     if text is None:
         return None, None, None
-    m = re.match(r"^([A-Za-z/]+)\s+([\d\.]+)\s*(\S+)?$", str(text).strip())
-    if not m:
-        return None, None, None
-    route, val, unit = m.groups()
-    return route, val, unit
+    s = str(text).strip()
+    # 앞부분에서 route/value/unit만 추출하고 이후 텍스트는 무시
+    # route: 문자/점/슬래시 조합(예: IV, i.v., PO)
+    # unit: 공백 제외(예: mg/kg)
+    m = re.match(r"^\s*([A-Za-z./]+)\s+([\d\.]+)\s*(\S+)?", s)
+    if m:
+        route, val, unit = m.groups()
+        return route, val, ascii_units(unit)
+    # fallback: "5uM of ..." 같은 패턴(ROUTE 없음)
+    m2 = re.match(r"^\s*([\d\.]+)\s*([A-Za-z%µμ/]+)", s)
+    if m2:
+        val, unit = m2.groups()
+        return None, val, ascii_units(unit)
+    return None, None, None
 
 
 def parse_ratio(text):

@@ -26,13 +26,13 @@
 # PYTHONPATH를 hoon으로 지정하세요(모듈 경로 인식)
 
 # 1) Bronze: 시트→테이블/매트릭스 롱(원본 보존)
-PYTHONPATH=hoon python -m pipeline.cli bronze --year 2018 --cfg hoon/schemas/silver/2018.yaml
+PYTHONPATH=hoon python -m pipeline.cli bronze --year 2017 --cfg hoon/schemas/silver/2017.yaml
 
 # 2) Silver: 단위/부등호/텍스트 정규화(ASCII 단위, 자연 정렬)
-PYTHONPATH=hoon python -m pipeline.cli silver --year 2018 --cfg hoon/schemas/silver/2018.yaml
+PYTHONPATH=hoon python -m pipeline.cli silver --year 2017 --cfg hoon/schemas/silver/2017.yaml
 
 # 3) Gold: 연도별 고정 스키마 + 메타 산출(compound_props 포함)
-PYTHONPATH=hoon python -m pipeline.cli gold --years 2017 2018 2020 2021
+PYTHONPATH=hoon python -m pipeline.cli gold --years 2017 
 
 # 4) 유효성/환경 검사
 PYTHONPATH=hoon python -m pipeline.cli validate --stage nulls   # 널바이트 스캔(NO_NULLBYTES 기대)

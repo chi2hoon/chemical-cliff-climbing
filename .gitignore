@@ -197,8 +197,10 @@ pyrightconfig.json
 
 # Personal working files
 hypotheses/
+SESSION_NOTES.md
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
 
 data/
 evaluations/
+

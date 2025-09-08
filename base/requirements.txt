@@ -1,6 +1,7 @@
 streamlit
 rdkit
 pandas
+openpyxl
 openai
 tabulate
 pyyaml

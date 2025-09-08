@@ -135,6 +135,9 @@ silver:
       inject:
         assay_id: tox.cardio_adverse
       parse:
+        dose:
+          col: compound_raw
+          into: {dose_route: dose_route, dose_value: dose_value, dose_unit: dose_unit}
         compound_id_from_text:
           col: compound_raw
           regex: "화합물\\s*(\\d+)"
