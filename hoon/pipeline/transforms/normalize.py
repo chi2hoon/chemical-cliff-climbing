@@ -118,15 +118,25 @@ def normalize_mortality(text):
 def parse_dose(text):
     """Args: text(str|None) -> (route,str,unit)
 
-    도스 문자열 파서: "IV 40 mg/kg" → ("IV","40","mg/kg")
+    도스 문자열 파서: "IV 40 mg/kg" → ("IV","40","mg/kg").
+    앞부분이 도스이고 뒤에 추가 텍스트(예: "화합물 33")가 이어지는 경우도 허용한다.
     """
     if text is None:
         return None, None, None
-    m = re.match(r"^([A-Za-z/]+)\s+([\d\.]+)\s*(\S+)?$", str(text).strip())
-    if not m:
-        return None, None, None
-    route, val, unit = m.groups()
-    return route, val, unit
+    s = str(text).strip()
+    # 앞부분에서 route/value/unit만 추출하고 이후 텍스트는 무시
+    # route: 문자/점/슬래시 조합(예: IV, i.v., PO)
+    # unit: 공백 제외(예: mg/kg)
+    m = re.match(r"^\s*([A-Za-z./]+)\s+([\d\.]+)\s*(\S+)?", s)
+    if m:
+        route, val, unit = m.groups()
+        return route, val, ascii_units(unit)
+    # fallback: "5uM of ..." 같은 패턴(ROUTE 없음)
+    m2 = re.match(r"^\s*([\d\.]+)\s*([A-Za-z%µμ/]+)", s)
+    if m2:
+        val, unit = m2.groups()
+        return None, val, ascii_units(unit)
+    return None, None, None
 
 
 def parse_ratio(text):
@@ -153,6 +163,29 @@ def parse_ratio(text):
     m = re.match(r"^\s*(\d+)\.(\d+)\s*$", s)
     if m:
         return None, m.group(1), "10"
+    # 패턴 4: 엑셀의 자동 날짜 변환으로 생긴 ISO 형태 "YYYY-MM-DD[ HH:MM:SS]"
+    # - 원래 의도된 표기가 "a.10"(분자/10)인 경우가 있어, 일(day)이 10이면 월(month)을 분자로 사용
+    m = re.match(r"^\s*(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:\s+.*)?$", s)
+    if m:
+        month = m.group(2)
+        day = m.group(3)
+        if day == "10":
+            # "YYYY-MM-10" → month/10
+            return None, str(int(month)), "10"
+        # 그 외 날짜는 의미 확정이 어려워 보정하지 않음
+    # 패턴 5: 엑셀 날짜 직렬값(예: 45940 → 2025-10-10)
+    # - 직렬값을 날짜로 변환해 day==10이면 month/10으로 해석
+    if re.fullmatch(r"\d{4,6}", s):
+        try:
+            import datetime as _dt
+            days = int(s)
+            # Excel 1900 date system 기준(윤년 버그 감안해 1899-12-30 기준)
+            base = _dt.datetime(1899, 12, 30)
+            dt = base + _dt.timedelta(days=days)
+            if dt.day == 10:
+                return None, str(int(dt.month)), "10"
+        except Exception:
+            pass
     return None, None, None
 
 

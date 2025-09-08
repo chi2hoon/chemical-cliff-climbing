@@ -42,17 +42,34 @@ def build_gold(years):
         # compounds per year
         comp_path_in = os.path.join("data", "silver", y, "compounds_silver.csv")
         comps = pd.DataFrame(columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"])
+        props_rows = []
         if os.path.exists(comp_path_in):
             dfc = pd.read_csv(comp_path_in, dtype=str)
             rows = []
             for _, r in dfc.iterrows():
-                ids = derive_chem_ids(r.get("smiles_raw"))
+                ids = derive_chem_ids(r.get("smiles_raw"), r.get("iupac_name"))
                 rows.append({
                     "compound_key": ids.get("compound_key", ""),
                     "smiles_canonical": ids.get("smiles_canonical", ""),
                     "has_structure": bool(ids.get("has_structure")),
                     "iupac_name": r.get("iupac_name"),
                     "inchikey14": ids.get("inchikey14", ""),
+                })
+                # compound-level properties(meta) → 별도 CSV로 분리 저장
+                props_rows.append({
+                    "compound_key": ids.get("compound_key", ""),
+                    "compound_id": r.get("compound_id"),
+                    "iupac_name": r.get("iupac_name"),
+                    "mw": r.get("mw"),
+                    "lcms_text": r.get("lcms_text"),
+                    "nmr_1h_text": r.get("nmr_1h_text"),
+                    "flag_asterisk": r.get("flag_asterisk"),
+                    "flag_imaging_conflict": r.get("flag_imaging_conflict"),
+                    "flag_smiles_o3_changed": r.get("flag_smiles_o3_changed"),
+                    "year": y,
+                    "provenance_file": r.get("provenance_file"),
+                    "provenance_sheet": r.get("provenance_sheet"),
+                    "provenance_row": r.get("provenance_row"),
                 })
             comps = pd.DataFrame(rows, columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"]).fillna("")
             comps = stable_sort(comps, ["compound_key","smiles_canonical"])
@@ -71,6 +88,12 @@ def build_gold(years):
         comps_path = os.path.join(out_dir, "compounds.csv")
         assays_ok.to_csv(assays_path, index=False, encoding="utf-8")
         comps_ok.to_csv(comps_path, index=False, encoding="utf-8")
+        # compound properties(meta)
+        if props_rows:
+            props_df = pd.DataFrame(props_rows, columns=["compound_key","compound_id","iupac_name","mw","lcms_text","nmr_1h_text","flag_asterisk","flag_imaging_conflict","flag_smiles_o3_changed","year","provenance_file","provenance_sheet","provenance_row"]).fillna("")
+            props_df = stable_sort(props_df, ["compound_key","compound_id","provenance_row"]) if "compound_key" in props_df.columns else props_df
+            props_out = os.path.join(out_dir, "compound_props.csv")
+            props_df.to_csv(props_out, index=False, encoding="utf-8")
         # meta: assay_context
         meta_in = os.path.join("data","silver", y, "assay_context_silver.csv")
         if os.path.exists(meta_in):

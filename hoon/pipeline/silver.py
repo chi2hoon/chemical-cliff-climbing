@@ -86,8 +86,38 @@ def build_silver(year, yaml_path=None):
     for c in comp_df.columns:
         comp_df[c] = comp_df[c].map(strip_all).map(dash_to_nan)
 
+    # 추가 성질 병합: ingest/tables 내에 mw/lcms_text/nmr_1h_text가 있는 테이블과 병합
+    # - 우선 YAML로 지정된 테이블이 있다면 사용하고, 없으면 휴리스틱으로 탐색
+    props_cols = ["mw", "lcms_text", "nmr_1h_text"]
+    props_df = None
+    try:
+        # 후보 파일 탐색
+        if os.path.exists(ingest_dir):
+            for name in sorted(os.listdir(ingest_dir)):
+                if not name.endswith('.csv'):
+                    continue
+                path = os.path.join(ingest_dir, name)
+                try:
+                    tdf = pd.read_csv(path, dtype=str)
+                except Exception:
+                    continue
+                tdf = sanitize_strings(tdf)
+                # 공백/대시 처리
+                for c in tdf.columns:
+                    tdf[c] = tdf[c].map(strip_all).map(dash_to_nan)
+                if 'compound_id' in tdf.columns and any(col in tdf.columns for col in props_cols):
+                    keep = ['compound_id'] + [c for c in props_cols if c in tdf.columns]
+                    props_df = tdf[keep].copy()
+                    break
+    except Exception:
+        props_df = None
+    if props_df is not None and 'compound_id' in comp_df.columns:
+        comp_df = comp_df.merge(props_df, on='compound_id', how='left', suffixes=("", ""))
+
     # 출력 컬럼 최소화 (원본 보존 + provenance)
-    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns]
+    # QC 플래그(flag_*)가 있으면 함께 유지하여 후속 단계에서 활용
+    flag_cols = [c for c in comp_df.columns if str(c).startswith("flag_")]
+    keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "mw", "lcms_text", "nmr_1h_text", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns] + flag_cols
     comp_silver = comp_df[keep_cols].copy() if len(keep_cols) else comp_df.copy()
     comp_silver = stable_sort(comp_silver, ["compound_id", "provenance_row"])
     comp_silver.to_csv(comp_out, index=False, encoding="utf-8")
@@ -226,6 +256,24 @@ def build_silver(year, yaml_path=None):
                     mdf[into.get("mortality_pct","mortality_pct")] = res.map(lambda x: x[0] if x else None)
                     mdf[into.get("mortality_n","mortality_n")] = res.map(lambda x: x[1] if x else None)
                     mdf[into.get("mortality_k","mortality_k")] = res.map(lambda x: x[2] if x else None)
+                    # 사람이 읽기 쉬운 문자열 형태도 제공 (예: 10/10)
+                    def _mk_ratio(t):
+                        if not t:
+                            return None
+                        n, k = t[1], t[2]
+                        return (f"{n}/{k}" if (n and k) else None)
+                    ratio_col = into.get("mortality_ratio","mortality_ratio")
+                    mdf[ratio_col] = res.map(_mk_ratio)
+                    # 만약 원본 텍스트가 엑셀 날짜 직렬값/ISO 날짜/소수점 표기 등으로 들어왔고
+                    # 현재 텍스트에 '/'가 없다면, 사람이 읽기 쉬운 형태로 교체한다.
+                    def _needs_rewrite(s):
+                        if s is None:
+                            return False
+                        ss = str(s)
+                        return ('/' not in ss) and (ss.strip() != '')
+                    mask = mdf[col].map(_needs_rewrite)
+                    if mask.any():
+                        mdf.loc[mask, col] = mdf.loc[mask, ratio_col]
             # percent
             pct_cfg = parse.get("percent") or {}
             if pct_cfg:

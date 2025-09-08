@@ -12,8 +12,17 @@ sheets:
         rename: {Species: species, Sex: sex, Dose: dose_text, Percentage: mortality_text}
       - id: table_2
         range: "A7:D13"
-        header_row_offset: 1
+        # 표 상단의 "table 2" 라벨 행을 건너뛰기 위해 +1 → +2로 보정
+        header_row_offset: 2
         rename: {Compound: compound_raw, "심장박동변화(%)": hr_change_pct, "치사율": mortality_text, "비고": note}
+        clean:
+          replace: {"-": null, "": null}
+          coerce_string: [mortality_text]
+        normalize_rules:
+          mortality_text:
+            - "^(\\d+)\\.(\\d+)$ -> \\1/10"
+            - "excel_serial_day10_to_ratio"
+            - "iso_date_day10_to_ratio"
 
   - name: "표3"
     tables:
@@ -28,7 +37,7 @@ sheets:
         # - col_index: 0(Compound #), 1(SMILES)
         flags_from_color:
           - { col_index: 0, map: {"00FF00": flag_asterisk} }
-          - { col_index: 1, map: {"FF0000": flag_imaging_conflict, "FFFF00": flag_smiles_o3_changed} }
+          - { col_index: 1, map: {"00FF00": flag_asterisk, "FF0000": flag_imaging_conflict, "FFFF00": flag_smiles_o3_changed} }
 
   - name: "표4"
     tables:
@@ -41,6 +50,12 @@ sheets:
           "MW (분자량)": mw
           "LC/MS data": lcms_text
           "1H NMR": nmr_1h_text
+        clean:
+          coerce_string: [nmr_1h_text]
+        normalize_rules:
+          nmr_1h_text:
+            - "[\r\n]+ -> ' '"
+            - '1\s*H\s*NMR -> ¹H NMR'
 
   - name: "표5~표14"
     matrix:
@@ -50,6 +65,7 @@ sheets:
       cellline_row_offset: 2
       data_row_start: 3
       id_col: 0
+      detect_blocks: true
       panels:
         - {name_from_header: true, cols: [1,2,3,4,5,6,7,8,9]}
       value_parser:
@@ -119,6 +135,9 @@ silver:
       inject:
         assay_id: tox.cardio_adverse
       parse:
+        dose:
+          col: compound_raw
+          into: {dose_route: dose_route, dose_value: dose_value, dose_unit: dose_unit}
         compound_id_from_text:
           col: compound_raw
           regex: "화합물\\s*(\\d+)"

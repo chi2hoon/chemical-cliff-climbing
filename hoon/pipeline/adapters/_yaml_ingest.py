@@ -58,6 +58,26 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
     }
 
     result = {}
+
+    def _a1_start(a1):
+        """Args: a1(str|None) -> (row0, col0)
+
+        A1 범위 시작 좌표의 0-기반 (행,열) 인덱스를 반환한다. 범위가 없으면 (0,0).
+        """
+        import re
+        if not a1:
+            return 0, 0
+        m = re.match(r"([A-Za-z]+)(\d+):([A-Za-z]+)(\d+)", str(a1).strip())
+        if not m:
+            return 0, 0
+        def col_to_idx(col):
+            col = col.upper()
+            acc = 0
+            for c in col:
+                acc = acc * 26 + (ord(c) - ord('A') + 1)
+            return acc - 1
+        c1, r1, c2, r2 = m.groups()
+        return int(r1) - 1, col_to_idx(c1)
     sheets = cfg.get("sheets", []) or []
     for s in sheets:
         sheet_name = s.get("name")
@@ -74,26 +94,106 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
             data = apply_header(blk, header_off, nrows=1)
             data = sanitize_strings(data)
             data = _apply_rename(data, t.get("rename", {}))
+            # coerce/clean
+            def _apply_clean(df, cfg):
+                if not cfg:
+                    return df
+                out = df.copy()
+                # 강제 문자열 캐스팅
+                for c in (cfg.get("coerce_string") or []):
+                    if c in out.columns:
+                        out[c] = out[c].map(lambda x: None if x is None else str(x))
+                # 값 치환
+                repl = cfg.get("replace") or {}
+                if repl:
+                    out = out.replace(repl)
+                return out
+            data = _apply_clean(data, t.get("clean") or {})
+
+            # 정규화 규칙(normalize_rules)
+            def _apply_normalize_rules(df, rules_cfg):
+                if not rules_cfg:
+                    return df
+                out = df.copy()
+                import re
+                import datetime as _dt
+                def _excel_serial_to_ratio(val):
+                    try:
+                        s = str(val).strip()
+                        if not re.fullmatch(r"\d{4,6}", s):
+                            return None
+                        days = int(s)
+                        base = _dt.datetime(1899, 12, 30)
+                        dt = base + _dt.timedelta(days=days)
+                        if dt.day == 10:
+                            return f"{int(dt.month)}/10"
+                    except Exception:
+                        return None
+                    return None
+                def _iso_date_to_ratio(val):
+                    try:
+                        s = str(val).strip()
+                        m = re.match(r"^\s*(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})(?:\s+.*)?$", s)
+                        if m and m.group(3) == "10":
+                            return f"{int(m.group(2))}/10"
+                    except Exception:
+                        return None
+                    return None
+                # rules_cfg: {col: rule_or_list}
+                for col, spec in (rules_cfg or {}).items():
+                    if col not in out.columns:
+                        continue
+                    if not isinstance(spec, (list, tuple)):
+                        spec = [spec]
+                    def _normalize_one(v):
+                        if v is None:
+                            return v
+                        cur = str(v)
+                        for rule in spec:
+                            if rule is None:
+                                continue
+                            # 내장 규칙
+                            if rule == "excel_serial_day10_to_ratio":
+                                r = _excel_serial_to_ratio(cur)
+                                if r is not None:
+                                    cur = r
+                                continue
+                            if rule == "iso_date_day10_to_ratio":
+                                r = _iso_date_to_ratio(cur)
+                                if r is not None:
+                                    cur = r
+                                continue
+                            if rule == "dot_to_slash_10":
+                                m = re.match(r"^\s*(\d+)\.(\d+)\s*$", cur)
+                                if m:
+                                    cur = f"{m.group(1)}/10"
+                                continue
+                            # 패턴 → 템플릿 규칙: "regex -> template" (re.sub 사용, 전역 치환)
+                            if isinstance(rule, str) and "->" in rule:
+                                try:
+                                    pat, rhs = rule.split("->", 1)
+                                    pat = pat.strip()
+                                    rhs_raw = rhs
+                                    rhs = rhs.strip()
+                                    # 따옴표로 감싼 경우 내부 문자열을 그대로 사용(공백 유지)
+                                    if len(rhs) >= 2 and ((rhs[0] == rhs[-1]) and rhs[0] in ("'", '"')):
+                                        rhs_use = rhs[1:-1]
+                                    else:
+                                        rhs_use = rhs
+                                    new_s = re.sub(pat, rhs_use, cur)
+                                    cur = new_s
+                                except Exception:
+                                    pass
+                        return cur
+                    out[col] = out[col].map(_normalize_one)
+                return out
+
+            data = _apply_normalize_rules(data, t.get("normalize_rules") or {})
             # 색상 플래그 주입 (테이블 우선 → 전역)
             flags_cfg_any = t.get("flags_from_color") or cfg.get("flags_from_color") or {}
+            # A1 시작 좌표 계산(항상 산출하여 provenance_row에도 사용)
+            start_r, start_c = _a1_start(a1)
             if flags_cfg_any:
-                # A1 시작 좌표 계산
-                def _a1_start(a1):
-                    import re
-                    if not a1:
-                        return 0, 0
-                    m = re.match(r"([A-Za-z]+)(\d+):([A-Za-z]+)(\d+)", str(a1).strip())
-                    if not m:
-                        return 0, 0
-                    def col_to_idx(col):
-                        col = col.upper()
-                        acc = 0
-                        for c in col:
-                            acc = acc * 26 + (ord(c) - ord('A') + 1)
-                        return acc - 1
-                    c1, r1, c2, r2 = m.groups()
-                    return int(r1) - 1, col_to_idx(c1)
-                start_r, start_c = _a1_start(a1)
                 # 단일/다중 컬럼 매핑 모두 허용
                 entries = []
                 if isinstance(flags_cfg_any, dict):
@@ -128,7 +228,10 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
             data = data.copy()
             data["provenance_file"] = os.path.relpath(xls_path, root)
             data["provenance_sheet"] = sheet_name
-            data["provenance_row"] = (header_off + 2) + data.reset_index().index.astype(int)
+            # 시트 절대 행 번호(1-기반)가 되도록 A1 시작과 헤더 오프셋을 반영
+            # abs_row = start_r(0-기반) + header_off + 1(헤더 바로 아래 첫 데이터) + i
+            idx = data.reset_index().index.astype(int)
+            data["provenance_row"] = (start_r + header_off + 1) + 1 + idx
 
             data_sorted = stable_sort(data, ["compound_id", "assay_id", "provenance_row"])
 
@@ -165,9 +268,34 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
         if m:
             a1 = m.get("range")
             df_all = read_excel(xls_path, sheet_name)
-            blk = extract_block(df_all, a1) if a1 else df_all
+            blocks = []
+            matrix_cfg = m
+            detect = bool(matrix_cfg.get("detect_blocks", False))
+            if detect:
+                # 라벨 행("table ")을 기준으로 블록 자동 분할(실버 단계와 동일 로직)
+                try:
+                    id_col = int(matrix_cfg.get("id_col", 0))
+                    first_col = df_all.iloc[:, id_col].map(lambda x: str(x).strip().lower() if x is not None else "")
+                    starts = [i for i, v in enumerate(first_col.tolist()) if v.startswith("table ")]
+                    if starts:
+                        for i, st in enumerate(starts):
+                            en = starts[i+1] if i+1 < len(starts) else len(df_all)
+                            blocks.append(df_all.iloc[st:en, :])
+                except Exception:
+                    blocks = []
+            if not blocks:
+                blk = extract_block(df_all, a1) if a1 else df_all
+                blocks = [blk]
+
             from pipeline.parsers.engine import matrix_to_long
-            long_df = matrix_to_long(blk, m)
+            longs = []
+            for blk in blocks:
+                ldf = matrix_to_long(blk, matrix_cfg)
+                if ldf is None or len(ldf) == 0:
+                    continue
+                longs.append(ldf)
+            import pandas as _pd
+            long_df = _pd.concat(longs, ignore_index=True) if longs else _pd.DataFrame(columns=["row_id","panel","cell_line","value_raw","qualifier","value","unit"]) 
             long_df["provenance_file"] = os.path.relpath(xls_path, root)
             long_df["provenance_sheet"] = sheet_name
             long_df["provenance_row"] = None
@@ -189,6 +317,18 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
                 np = os.path.join(tdir, new)
                 if os.path.exists(op) and os.path.exists(np):
                     os.remove(op)
+            # 호환: table_3.csv를 natural sort 후 compounds.csv로도 저장
+            t3 = os.path.join(tdir, "table_3.csv")
+            if os.path.exists(t3):
+                try:
+                    import pandas as _pd
+                    dfc = _pd.read_csv(t3, dtype=str)
+                    dfc = stable_sort(dfc, ["compound_id","provenance_row"]) 
+                    comp_out = os.path.join(tdir, "compounds.csv")
+                    dfc.to_csv(comp_out, index=False, encoding="utf-8")
+                    result["table_compounds_alias"] = comp_out
+                except Exception:
+                    pass
     except Exception:
         pass
     return result
