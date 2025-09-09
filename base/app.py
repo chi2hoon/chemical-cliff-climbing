@@ -126,8 +126,8 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 ])
 
 with tab1:
-    st.header("1. Gold 데이터 로드")
-    st.markdown("표준화된 gold 데이터셋을 로드하여 분석을 시작하세요.")
+    st.header("1. 데이터 로드")
+    st.markdown("표준화된 데이터셋을 로드하여 분석을 시작하세요.")
 
     # 데이터셋 선택 (앱 파일 위치를 기준으로 고정 경로 구성)
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -135,7 +135,7 @@ with tab1:
     available_years_all = get_available_gold_years(data_root)
 
     if not available_years_all:
-        st.warning("Gold 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017`을 먼저 실행하세요.")
+        st.warning("분석용 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017 2018`로 생성하세요.")
     else:
         # 패널 이름 매핑
         panel_names_map = {
@@ -155,6 +155,20 @@ with tab1:
 
         with col_year:
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
+            if st.button("ℹ️ 데이터 설명", use_container_width=True):
+                if str(selected_year) == "2017":
+                    st.markdown("""
+                    2017: 이 데이터는 국립암센터와 한국화학연구원이 출원한 특허 패밀리(KR101920163B1, PCT/WO2018021849A1)의 부속 표를 정규화한 세트입니다.
+                    c-Myc/Max/DNA 결합 억제 계열 화합물의 세포독성(IC₅₀, μM) 결과가 암종별 여러 세포주에서 보고되며, 표 일부에는 비교 화합물과 후보군의 독성 관련 보조 정보가 함께 제시됩니다.
+                    """)
+                elif str(selected_year) == "2018":
+                    st.markdown("""
+                    2018: 이 데이터는 PCT/EP2018/056824, WO 2018/172250 특허의 부속 표를 정규화한 세트입니다.
+                    2-메틸 퀴나졸린 계열 화합물의 Ras–SOS1 상호작용 억제를 주 타깃으로 한 in vitro HTRF 기반 생화학 어세이(Assay 1~3)와 EGFR 키나아제 어세이 결과를 포함합니다.
+                    측정값은 IC₅₀ 또는 20 µM 단일 농도에서의 % 억제율로 보고되며, 표에는 ‘n.d.’(not determined) 표기와 EGFR 선택성 관련 정보가 함께 제시됩니다.
+                    """)
+                else:
+                    st.info("해당 연도에 대한 설명은 준비 중입니다.")
 
         selected_panel = None
         selected_target = None
@@ -194,8 +208,8 @@ with tab1:
 
         # 로드 버튼 - selected_year가 있을 때만 표시
         if selected_year:
-            st.markdown("### 🚀 Gold 데이터 로드")
-            load_text = f"{selected_year}년 Gold 데이터 로드"
+            st.markdown("### 🚀 데이터 로드")
+            load_text = f"{selected_year}년 데이터 로드"
             if selected_panel:
                 panel_name = panel_names_map.get(selected_panel, selected_panel)
                 load_text += f" ({panel_name})"
@@ -204,7 +218,7 @@ with tab1:
 
             if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
                 try:
-                    with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
+                    with st.spinner(f"{selected_year}년 데이터를 불러오는 중..."):
                         df_gold = load_gold_data(
                             year=selected_year, 
                             data_root=data_root, 
@@ -219,12 +233,12 @@ with tab1:
                             elif selected_target:
                                 st.error(f"{selected_year}년 target '{selected_target}' 데이터가 없습니다.")
                             else:
-                                st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
+                                st.error(f"{selected_year}년 데이터가 없습니다.")
                         else:
                             st.session_state['df'] = df_gold
                             st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
                             
-                            success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
+                            success_msg = f"{selected_year}년 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
                             if selected_panel:
                                 success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
                             elif selected_target:
@@ -233,14 +247,14 @@ with tab1:
                             st.success(success_msg)
                             st.dataframe(df_gold.head())
 
-                            # Gold 데이터 스키마 정보 표시
-                            st.info("**Gold 데이터 스키마:**\n"
+                            # 데이터 스키마 정보 표시
+                            st.info("**데이터 스키마:**\n"
                                    "• SMILES: 표준화된 캐노니컬 SMILES\n"
                                    "• Activity: 표준화된 활성도 값 (value_std)\n"
-                                   "• 메타데이터: assay_id, panel_id, cell_line, inchikey 등")
+                                   "• 메타데이터: assay_id, panel_id/target_id, cell_line, inchikey 등")
 
                 except Exception as e:
-                    st.error(f"Gold 데이터 로드 실패: {e}")
+                    st.error(f"데이터 로드 실패: {e}")
 
     # (레거시) Gold 데이터 설명/파이프라인 정보 섹션 제거됨
 
