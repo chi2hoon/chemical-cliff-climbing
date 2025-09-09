@@ -249,14 +249,22 @@ with tab2:
     if 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
         
+        # 단위 분포 요약 표시
+        if 'unit_std' in df.columns:
+            try:
+                counts = df['unit_std'].fillna('NaN').value_counts().to_dict()
+                counts_str = ", ".join([f"{k}: {v}" for k, v in counts.items()])
+                st.caption(f"단위 분포 요약: {counts_str}")
+            except Exception:
+                pass
+
+        # 컬럼 자동 선택(고정): Gold 스키마 가정하에 자동 결정
+        smiles_col = 'SMILES' if 'SMILES' in df.columns else df.columns[0]
+        activity_col = 'Activity' if 'Activity' in df.columns else ( 'value_std' if 'value_std' in df.columns else (df.columns[1] if len(df.columns) > 1 else df.columns[0]))
+        st.caption(f"자동 선택된 컬럼: SMILES='{smiles_col}', Activity='{activity_col}'")
+
         col1, col2 = st.columns(2)
         with col1:
-            auto = st.session_state.get('auto_suggestion', {})
-            smiles_col_default = auto.get('smiles_col') if auto.get('smiles_col') in df.columns else None
-            activity_col_default = auto.get('activity_col') if auto.get('activity_col') in df.columns else None
-
-            smiles_col = st.selectbox("SMILES 컬럼을 선택하세요:", df.columns, index=(list(df.columns).index(smiles_col_default) if smiles_col_default else 0))
-            activity_col = st.selectbox("활성도 컬럼을 선택하세요:", df.columns, index=(list(df.columns).index(activity_col_default) if activity_col_default else (1 if len(df.columns) > 1 else 0)))
             scale_choice = st.selectbox("활성도 스케일", ["원본(단위 유지)", "pAct (-log10[M])"], index=1)
 
         with col2:
