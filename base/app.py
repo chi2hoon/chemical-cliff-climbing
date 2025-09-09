@@ -12,10 +12,8 @@ from modules.io_utils import (
     load_smiles_activity_csv,
     save_hypothesis_to_md,
     parse_hypothesis_md,
-    load_hoon_gold_data,
-    load_hoon_ac_pairs,
+    load_gold_data,
     get_available_gold_years,
-    get_available_panel_ids,
     get_all_available_panels_and_years,
     get_cell_lines_for_panel
 )
@@ -191,7 +189,7 @@ with tab1:
             if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
                 try:
                     with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
-                        df_gold = load_hoon_gold_data(
+                        df_gold = load_gold_data(
                             year=selected_year, 
                             data_root=data_root, 
                             panel_id=selected_panel,
@@ -223,63 +221,11 @@ with tab1:
                 except Exception as e:
                     st.error(f"Gold 데이터 로드 실패: {e}")
 
-    # Gold 데이터 설명
-    with st.expander("📋 Gold 데이터 설명"):
-        st.markdown("""
-        **Gold 데이터셋 특징:**
-        - **표준화된 구조**: `smiles_canonical` (RDKit 캐노니컬 SMILES)
-        - **표준화된 활성도**: `value_std` (단위 정규화된 수치)
-        - **품질 보장**: 빈 값 및 유효하지 않은 SMILES 필터링
-        - **메타데이터**: assay_id, panel_id, cell_line, inchikey 등 분석에 유용한 정보 포함
-        - **패널 기반**: 질환별 세포주 그룹으로 구성 (방광암, 유방암, 폐암 등)
-
-        **활용 팁:**
-        - base 앱에서 유사도/활성도차 계산 시 `smiles_col=SMILES`, `activity_col=Activity`로 설정
-        - 동일 패널 내에서 비교하면 더 일관성 있는 결과를 얻을 수 있습니다
-        
-        **현재 가용 데이터:**
-        - **2017년**: 9개 패널 (방광암, 유방암, 폐암, 전립선암, 혈액암, 췌장암, 대장암, 기타)
-        - **2018/2020/2021년**: 개발 예정 (현재는 silver 데이터만 존재)
-        """)
-
-    st.markdown("---")
-    with st.expander("🛠️ 파이프라인 정보"):
-        st.markdown("""
-        **데이터 파이프라인:**
-        ```
-        Raw Excel → Bronze → Silver → Gold → Activity Cliff
-        ```
-        - **Bronze**: 원천 데이터 수집/검증
-        - **Silver**: 단위 표준화 (`value_std`, `unit_std`, censor 유지)
-        - **Gold**: 분석 친화 테이블 (SMILES + Activity + 메타데이터)
-        - **AC**: Activity Cliff 사전 계산
-
-        **Gold 생성 명령어:**
-        ```bash
-        python hoon/udm_cli.py silver --config hoon/configs/2017.yml --root hoon/data
-        python hoon/udm_cli.py smiles --config hoon/configs/2017.yml --root hoon/data  
-        python hoon/udm_cli.py gold --config hoon/configs/2017.yml --root hoon/data
-        ```
-        """)
+    # (레거시) Gold 데이터 설명/파이프라인 정보 섹션 제거됨
 
 with tab2:
     st.header("2. Activity Cliff 분석")
-    # 데이터 소스 선택
-    source = st.radio("데이터 소스", ["업로드/불러온 데이터로 계산", "Hoon AC 쌍(사전계산) 불러오기"], index=0, horizontal=True)
-
-    if source == "Hoon AC 쌍(사전계산) 불러오기":
-        if st.button("Hoon 사전계산 AC 쌍 로드"):
-            try:
-                cliff_df = load_hoon_ac_pairs(data_root="hoon/data")
-                if cliff_df is None or cliff_df.empty:
-                    st.info("사전계산된 AC 쌍이 없습니다. hoon 파이프라인에서 `ac` 또는 `ac-all` 스테이지를 먼저 실행하세요.")
-                else:
-                    st.success(f"{len(cliff_df)}개의 Activity Cliff 쌍을 불러왔습니다.")
-                    st.dataframe(cliff_df.head())
-                    st.session_state['cliff_df'] = cliff_df
-            except Exception as e:
-                st.error(f"AC 쌍 로드 실패: {e}")
-    elif 'df' in st.session_state and st.session_state['df'] is not None:
+    if 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
         
         col1, col2 = st.columns(2)
@@ -325,7 +271,7 @@ with tab2:
             st.markdown("---")
             st.markdown(summary_text)
     else:
-        st.info("1. 데이터 업로드 탭에서 데이터를 먼저 업로드해주세요.")
+        st.info("1. 상단에서 Gold 데이터를 먼저 로드해주세요.")
 
 with tab3:
     st.header("3. 결과 시각화 및 가설 생성")
