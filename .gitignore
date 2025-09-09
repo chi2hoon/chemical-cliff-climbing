@@ -216,3 +216,10 @@ hoon/data/quarantine/
 
 # 메달리온 아키텍처: 파생 데이터 제외 (빈 artifacts 폴더만 포함)
 evaluations/
+# === aiffelthon base/data rules ===
+/base/data/*
+!/base/data/bronze
+/base/data/bronze/*
+!/base/data/bronze/artifacts
+!/base/data/bronze/artifacts/**
+# === end aiffelthon base/data rules ===

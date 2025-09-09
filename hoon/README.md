@@ -1,79 +1,28 @@
-## 실행 방법
+## 통합 공지
 
-아래 순서대로 그대로 따라 하면 됩니다. 
+본 파이프라인은 base/ 디렉토리로 통합되었습니다. 이제 다음 경로/명령을 사용하세요.
 
-1) 가상환경 만들기 및 라이브러리 설치
+- 원본 배치: `base/data/bronze/artifacts/2017_raw.xlsx`
+- 실행: `PYTHONPATH=base python -m pipeline.cli {bronze|silver|gold}`
+- 산출: `base/data/{bronze|silver|gold}/...`
 
-"base/README.md"을 읽고, 가상환경을 생성한 이후를 가정합니다. 
+자세한 실행 가이드는 base/README.md를 참고하십시오.
 
-2) 원본 엑셀 파일 복사(4개 연도)
-
-아래 파일명을 정확히 맞춰 `data/bronze/artifacts/` 폴더에 두세요. 폴더가 없으면 만들어도 됩니다.
-
-- 2017: `data/bronze/artifacts/2017_raw.xlsx`
-- 2018: `data/bronze/artifacts/2018_raw.xlsx`
-- 2020: `data/bronze/artifacts/2020_raw.xlsx`
-- 2021: `data/bronze/artifacts/2021_raw.xlsx`
-
-주의: data/ 폴더는 Git에 올리지 않습니다(대용량/민감 데이터 제외 규칙).
-
-3) 브론즈 → 실버 → 골드 실행(2017 예시)
-
-```bash
-# 모듈 경로 인식: PYTHONPATH=hoon 를 항상 붙입니다.
-
-# 2017 Bronze: 시트→테이블/매트릭스 롱 (원본 보존)
-PYTHONPATH=hoon python -m pipeline.cli bronze --year 2017 --cfg hoon/schemas/silver/2017.yaml
-
-# 2017 Silver: 정규화/표준화(부등호/단위/도스/치사율/컨텍스트)
-PYTHONPATH=hoon python -m pipeline.cli silver --year 2017 --cfg hoon/schemas/silver/2017.yaml
-
-# 2017 Gold: 고정 스키마 + 메타(compound_props/assay_context)
-PYTHONPATH=hoon python -m pipeline.cli gold --years 2017
-```
-
-4) 전체 연도 한 번에 골드 산출(추후 다른 연도 데이터 전처리 예정)
-
-```bash
-PYTHONPATH=hoon python -m pipeline.cli gold --years 2017 2018 2020 2021
-```
-
-5) 간단 검증(널바이트 스캔)
-
-```bash
-PYTHONPATH=hoon python -m pipeline.cli validate --stage nulls
-# 출력이 NO_NULLBYTES 면 정상
-```
-
-산출물 위치(중요):
-- Bronze: `data/bronze/{year}/tables/*.csv`, `data/bronze/{year}/matrix/*.csv`
-- Silver: `data/silver/{year}/compounds_silver.csv`, `assay_readings_silver.csv`, `assay_context_silver.csv`
-- Gold: `data/gold/{year}/compounds.csv`, `assay_readings.csv`, `compound_props.csv`, `assay_context.csv`
-
-실패 시 가장 흔한 원인
-- 원본 파일 경로/이름 오타(예: 2017_raw.xlsx)
-- RDKit 설치 문제(pip 환경). conda-forge 설치를 권장합니다.
-- Excel 엔진 누락: `openpyxl`이 설치되어야 합니다(base/requirements.txt에 포함됨).
+실패 시 가장 흔한 원인과 산출물 경로 등은 base/README.md에 최신화되어 있습니다.
 
 # 파이프라인 안내(메달리온·YAML 설정 주도)
 
 본 디렉토리는 4개 연도(2017/2018/2020/2021) 엑셀 원본을 메달리온 아키텍처(Bronze→Silver→Gold)로 처리하는 설정 주도형 파이프라인을 제공합니다. 모든 산출물은 CSV이며, 결정적 정렬과 출처(provenance)를 보존합니다.
 
-## 디렉토리 구조
-- pipeline/: 실행 가능한 CLI와 어댑터/파서/변환/검증 모듈
-- schemas/silver/: 연도별 YAML 스키마(시트/범위/매트릭스/규칙/색상 플래그 등)
-- data/
-  - bronze/
-    - artifacts/: 엑셀 원본(브론즈 원천)
-    - {year}/: 시트→테이블/매트릭스 롱 CSV + manifest.json
-  - silver/: Silver 표준화(compounds_silver.csv, assay_readings_silver.csv, assay_context_silver.csv)
-  - gold/: Gold 고정 스키마(compounds.csv, assay_readings.csv, compound_props.csv, assay_context.csv)
-  - quarantine/: 검증 실패/플래그 격리 CSV
+## 디렉토리 구조(요약)
+- base/pipeline/: 실행 가능한 CLI와 어댑터/파서/변환/검증 모듈
+- base/schemas/silver/: 연도별 YAML 스키마
+- base/data/: bronze/silver/gold/quarantine 산출물
 - logs/manifest/: 실행 매니페스트(JSON)
 
 ## 원본 데이터 준비(참고)
-- 파일 배치: `data/bronze/artifacts/{year}_raw.xlsx` (위 “실행 방법” 2) 단계 참고)
-- YAML 설정: `hoon/schemas/silver/{year}.yaml` — 기본 제공 스키마의 `file:` 키가 해당 경로를 가리키도록 되어 있습니다.
+- 파일 배치: `base/data/bronze/artifacts/{year}_raw.xlsx`
+- YAML 설정: `base/schemas/silver/{year}.yaml`
 
 ## Gold 스키마(고정 계약)
 - gold/{year}/compounds.csv

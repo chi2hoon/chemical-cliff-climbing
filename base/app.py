@@ -17,7 +17,7 @@ from modules.io_utils import (
     get_available_gold_years,
     get_available_panel_ids,
     get_all_available_panels_and_years,
-    load_panel_cell_lines_from_yaml
+    get_cell_lines_for_panel
 )
 
 # --- Helper Functions ---
@@ -129,12 +129,14 @@ with tab1:
     st.header("1. Gold 데이터 로드")
     st.markdown("표준화된 gold 데이터셋을 로드하여 분석을 시작하세요.")
 
-    # 데이터셋 선택
-    data_root = "hoon/data"
+    # 데이터셋 선택 (앱 파일 위치를 기준으로 고정 경로 구성)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_root = os.path.join(base_dir, "data")
+    available_years_all = get_available_gold_years(data_root)
     panel_years_map = get_all_available_panels_and_years(data_root)
-    
-    if not panel_years_map:
-        st.warning("Gold 데이터가 없습니다. hoon 파이프라인에서 `gold` 스테이지를 먼저 실행하세요.")
+
+    if not available_years_all:
+        st.warning("Gold 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017`을 먼저 실행하세요.")
     else:
         # 패널 이름 매핑
         panel_names_map = {
@@ -153,7 +155,6 @@ with tab1:
         col_year, col_panel = st.columns([1, 2])
 
         with col_year:
-            available_years_all = get_available_gold_years(data_root)
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
         with col_panel:
@@ -173,8 +174,7 @@ with tab1:
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
         if selected_panel:
-            panel_cells_map = load_panel_cell_lines_from_yaml("hoon/configs/2017.yml")
-            cell_lines = panel_cells_map.get(selected_panel, [])
+            cell_lines = get_cell_lines_for_panel(selected_year, selected_panel, data_root)
             if cell_lines:
                 selected_cell_line = st.selectbox("🧫 세포주 선택", ["전체 세포주"] + cell_lines, index=0)
                 if selected_cell_line == "전체 세포주":
@@ -705,4 +705,3 @@ with tab6:
                 
                 st.markdown("##### 최종 가설 내용:")
                 st.markdown(final_md_to_save, unsafe_allow_html=True)
-

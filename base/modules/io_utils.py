@@ -298,74 +298,69 @@ def parse_hypothesis_md(file_content: str) -> Dict:
     return data
 
 
-def load_hoon_gold_data(year: str = "2017", data_root: str = "hoon/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
-    """
-    Load gold dataset from hoon/data/gold/{year}/measurements_gold.csv
-    and return a DataFrame ready for base app analysis.
-
-    Args:
-        year (str): Dataset year (default: "2017")
-        data_root (str): Root directory for hoon data
-        panel_id (Optional[str]): Panel ID to filter by (e.g., "blca", "brca", etc.)
-
-    Returns:
-        pd.DataFrame: Gold dataset with columns ready for SMILES and activity analysis
+def load_hoon_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
+    """base/data/gold/{year}에서 assay_readings/compounds/compound_props를 조인해
+    SMILES/Activity 스키마를 반환한다.
     """
     gold_dir = os.path.join(data_root, "gold", str(year))
-    gold_path = os.path.join(gold_dir, "measurements_gold.csv")
-
-    if not os.path.exists(gold_path):
+    assay_path = os.path.join(gold_dir, "assay_readings.csv")
+    comps_path = os.path.join(gold_dir, "compounds.csv")
+    props_path = os.path.join(gold_dir, "compound_props.csv")
+    if not os.path.exists(assay_path):
         return pd.DataFrame(columns=["SMILES", "Activity"])
-
     try:
-        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
-
-        # Filter by panel_id if specified
-        if panel_id and "panel_id" in df.columns:
-            df = df[df["panel_id"] == panel_id]
-
-        # Filter by cell_line if specified
-        if cell_line and "cell_line" in df.columns:
-            df = df[df["cell_line"] == cell_line]
-
-        # Convert value_std to float
+        df_assay = pd.read_csv(assay_path, dtype=str, keep_default_na=False, na_filter=False)
+        df_comps = pd.read_csv(comps_path, dtype=str, keep_default_na=False, na_filter=False) if os.path.exists(comps_path) else pd.DataFrame()
+        df_props = pd.read_csv(props_path, dtype=str, keep_default_na=False, na_filter=False) if os.path.exists(props_path) else pd.DataFrame()
         def to_float(x):
             try:
                 return float(x)
             except Exception:
                 return None
-
-        df["value_std_float"] = df.get("value_std", "").apply(to_float)
-
-        # Map gold schema to base schema
-        # smiles_canonical -> SMILES, value_std -> Activity
-        df_mapped = pd.DataFrame({
-            "SMILES": df.get("smiles_canonical", ""),
-            "Activity": df["value_std_float"],
-        })
-
-        # Filter out rows with missing SMILES or Activity
-        df_mapped = df_mapped.dropna(subset=["SMILES", "Activity"])
-        df_mapped = df_mapped[df_mapped["SMILES"].astype(str).str.len() > 0]
-
-        # Add metadata columns for reference
-        metadata_cols = ["compound_id", "dataset_id", "assay_id", "panel_id", "cell_line",
-                        "inchikey", "unit_std", "censor", "readout", "matrix",
-                        "provenance_file", "provenance_sheet", "provenance_row",
-                        "std_rule_id", "std_confidence"]
-
-        for col in metadata_cols:
-            if col in df.columns:
-                df_mapped[col] = df[col]
-
-        return df_mapped.reset_index(drop=True)
-
+        df_assay["Activity"] = df_assay.get("value_std", "").apply(to_float)
+        if panel_id:
+            if "panel_id" in df_assay.columns:
+                df_assay = df_assay[df_assay["panel_id"] == panel_id]
+            elif "target_id" in df_assay.columns:
+                def _match_panel(t):
+                    s = str(t)
+                    if not s.startswith("cell:") or "." not in s:
+                        return False
+                    body = s.split(":", 1)[1]
+                    return body.split(".", 1)[0] == panel_id
+                df_assay = df_assay[df_assay["target_id"].map(_match_panel)]
+        if cell_line:
+            if "cell_line" in df_assay.columns:
+                df_assay = df_assay[df_assay["cell_line"] == cell_line]
+            elif "target_id" in df_assay.columns:
+                def _match_cell(t):
+                    s = str(t)
+                    if not s.startswith("cell:") or "." not in s:
+                        return False
+                    return s.split(":", 1)[1].split(".", 1)[1] == cell_line
+                df_assay = df_assay[df_assay["target_id"].map(_match_cell)]
+        df = df_assay.copy()
+        if ("compound_id" in df.columns) and (len(df_props) > 0) and ("compound_id" in df_props.columns) and ("compound_key" in df_props.columns):
+            df = df.merge(df_props[["compound_id", "compound_key"]].drop_duplicates(), on="compound_id", how="left")
+        if ("compound_key" in df.columns) and (len(df_comps) > 0) and ("compound_key" in df_comps.columns) and ("smiles_canonical" in df_comps.columns):
+            df = df.merge(df_comps[["compound_key", "smiles_canonical"]].drop_duplicates(), on="compound_key", how="left")
+        # 결과 프레임 구성: 필터/정렬 과정에서 인덱스 정렬 문제를 피하기 위해 df에서 직접 선택
+        df["SMILES"] = df.get("smiles_canonical", "")
+        cols = ["SMILES", "Activity"]
+        for meta_col in ["compound_id", "assay_id", "target_id", "unit_std", "qualifier"]:
+            if meta_col in df.columns:
+                cols.append(meta_col)
+        out = df[cols].copy()
+        # 유효 행만 유지
+        out = out.dropna(subset=["SMILES", "Activity"]).copy()
+        out = out[out["SMILES"].astype(str).str.strip() != ""]
+        return out.reset_index(drop=True)
     except Exception as e:
         print(f"Error loading gold data: {e}")
         return pd.DataFrame(columns=["SMILES", "Activity"])
 
 
-def get_available_gold_years(data_root: str = "hoon/data") -> List[str]:
+def get_available_gold_years(data_root: str = "base/data") -> List[str]:
     """Get list of available years in gold data directory."""
     gold_root = os.path.join(data_root, "gold")
     if not os.path.exists(gold_root):
@@ -374,16 +369,16 @@ def get_available_gold_years(data_root: str = "hoon/data") -> List[str]:
     years = []
     for item in os.listdir(gold_root):
         if os.path.isdir(os.path.join(gold_root, item)):
-            gold_file = os.path.join(gold_root, item, "measurements_gold.csv")
+            gold_file = os.path.join(gold_root, item, "assay_readings.csv")
             if os.path.exists(gold_file):
                 years.append(item)
     
     return sorted(years)
 
 
-def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") -> List[str]:
+def get_available_panel_ids(year: str = "2017", data_root: str = "base/data") -> List[str]:
     """Get list of available panel IDs for a given year."""
-    gold_path = os.path.join(data_root, "gold", str(year), "measurements_gold.csv")
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
     
     if not os.path.exists(gold_path):
         return []
@@ -391,13 +386,21 @@ def get_available_panel_ids(year: str = "2017", data_root: str = "hoon/data") ->
     try:
         df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
         if "panel_id" in df.columns:
-            return sorted(df["panel_id"].unique().tolist())
+            return sorted([p for p in df["panel_id"].unique().tolist() if str(p).strip() != ""])
+        if "target_id" in df.columns:
+            panels = []
+            for t in df["target_id"].astype(str).tolist():
+                if t.startswith("cell:") and "." in t:
+                    body = t.split(":", 1)[1]
+                    panel = body.split(".", 1)[0]
+                    panels.append(panel)
+            return sorted(sorted(set([p for p in panels if p])))
         return []
     except Exception:
         return []
 
 
-def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str, List[str]]:
+def get_all_available_panels_and_years(data_root: str = "base/data") -> Dict[str, List[str]]:
     """Get all available panels across all years.
     
     Returns:
@@ -419,30 +422,28 @@ def get_all_available_panels_and_years(data_root: str = "hoon/data") -> Dict[str
     return panel_years
 
 
-def load_panel_cell_lines_from_yaml(config_path: str = "hoon/configs/2017.yml") -> Dict[str, List[str]]:
-    """Load panel_id -> cell_line list mapping from YAML config.
-
-    Returns a dict like {"blca": ["KU-19-19", ...], ...}
-    """
-    if not os.path.exists(config_path):
-        return {}
-
+def get_cell_lines_for_panel(year: str, panel_id: str, data_root: str = "base/data") -> List[str]:
+    """assay_readings.csv의 target_id에서 해당 패널의 cell_line 목록을 파생한다."""
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
+    if not os.path.exists(gold_path):
+        return []
     try:
-        with open(config_path, "r", encoding="utf-8") as f:
-            cfg = yaml.safe_load(f)
-        panel_defs = cfg.get("parsing", {}).get("panel_definitions", {})
-        mapping: Dict[str, List[str]] = {}
-        for _table, meta in panel_defs.items():
-            pid = meta.get("panel_id")
-            cells = meta.get("cell_lines", []) or []
-            if not pid:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        clines = []
+        if "cell_line" in df.columns and "panel_id" in df.columns:
+            sub = df[df["panel_id"] == panel_id]
+            if len(sub) == 0:
+                return []
+            return sorted([c for c in sub["cell_line"].unique().tolist() if str(c).strip() != ""])
+        for t in df.get("target_id", []):
+            s = str(t)
+            if not s.startswith("cell:") or "." not in s:
                 continue
-            if pid not in mapping:
-                mapping[pid] = []
-            # extend unique while preserving order
-            for c in cells:
-                if c not in mapping[pid]:
-                    mapping[pid].append(c)
-        return mapping
+            body = s.split(":", 1)[1]
+            p, rest = body.split(".", 1)
+            if p != panel_id:
+                continue
+            clines.append(rest)
+        return sorted(sorted(set([c for c in clines if c])))
     except Exception:
-        return {}
+        return []
