@@ -218,8 +218,13 @@ hoon/data/quarantine/
 evaluations/
 # === aiffelthon base/data rules ===
 /base/data/*
-!/base/data/bronze
-/base/data/bronze/*
-!/base/data/bronze/artifacts
-!/base/data/bronze/artifacts/**
+!/base/data/bronze/
+!/base/data/bronze/artifacts/
+# 기본적으로 artifacts 하위는 모두 무시
+/base/data/bronze/artifacts/*
+# 단, 4개의 원본 파일만 추적
+!/base/data/bronze/artifacts/2017_raw.xlsx
+!/base/data/bronze/artifacts/2018_raw.xlsx
+!/base/data/bronze/artifacts/2020_raw.xlsx
+!/base/data/bronze/artifacts/2021_raw.xlsx
 # === end aiffelthon base/data rules ===
