@@ -1,0 +1,148 @@
+file: base/data/bronze/artifacts/2017_raw.xlsx
+read: {dtype: str, engine: openpyxl}
+sheets:
+  - name: "표1 ~ 표2"
+    tables:
+      - id: table_1
+        range: "A1:D6"
+        header_row_offset: 1
+        rename: {Species: species, Sex: sex, Dose: dose_text, Percentage: mortality_text}
+      - id: table_2
+        range: "A7:D13"
+        header_row_offset: 2
+        rename: {Compound: compound_raw, "심장박동변화(%)": hr_change_pct, "치사율": mortality_text, "비고": note}
+        clean:
+          replace: {"-": null, "": null}
+          coerce_string: [mortality_text]
+        normalize_rules:
+          mortality_text:
+            - "^(\\d+)\\.(\\d+)$ -> \\1/10"
+            - "excel_serial_day10_to_ratio"
+            - "iso_date_day10_to_ratio"
+
+  - name: "표3"
+    tables:
+      - id: table_3
+        range: "A1:F109"
+        header_row_offset: 1
+        rename:
+          "Compound # (화합물 번호)": compound_id
+          "Structure (구조) - SMILES": smiles_raw
+          "IUPAC (formatted)": iupac_name
+        flags_from_color:
+          - { col_index: 0, map: {"00FF00": flag_asterisk} }
+          - { col_index: 1, map: {"00FF00": flag_asterisk, "FF0000": flag_imaging_conflict, "FFFF00": flag_smiles_o3_changed} }
+
+  - name: "표4"
+    tables:
+      - id: table_4
+        range: "A1:E109"
+        header_row_offset: 1
+        rename:
+          "Compound # (화합물 번호)": compound_id
+          "IUPAC": iupac_name
+          "MW (분자량)": mw
+          "LC/MS data": lcms_text
+          "1H NMR": nmr_1h_text
+        clean:
+          coerce_string: [nmr_1h_text]
+        normalize_rules:
+          nmr_1h_text:
+            - "[\r\n]+ -> ' '"
+            - '1\s*H\s*NMR -> ¹H NMR'
+
+  - name: "표5~표14"
+    matrix:
+      id: tables5_14
+      range: "A1:J1005"
+      panel_row_offset: 1
+      cellline_row_offset: 2
+      data_row_start: 3
+      id_col: 0
+      detect_blocks: true
+      panels:
+        - {name_from_header: true, cols: [1,2,3,4,5,6,7,8,9]}
+      value_parser:
+        unit_default: 'uM'
+        rules:
+          - '>=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:''>'' , value:\\1, unit:uM'
+          - '([\\d\\.]+)\\s*µ?M       -> qualifier:''='' , value:\\1, unit:uM'
+
+  - name: "Asterik ExceptionCase Chart"
+    tables:
+      - id: asterisk_exceptions
+        range: "A1:C200"
+        header_row_offset: 2
+        rename: {"OLD SMILES / Initial Extraced SMILES formula (with asterik/별표)": smiles_old, "NEW SMILES": smiles_new}
+        flags_from_color:
+          - { col_index: 1, map: {"00FF00": flag_asterisk} }
+
+flags_from_color:
+  col_index: 3
+  map: {"00FF00": flag_asterisk, "FF0000": flag_imaging_conflict}
+
+silver:
+  compounds:
+    from: base/data/bronze/2017/tables/table_3.csv
+  assays:
+    from_matrix:
+      sheet: "표5~표14"
+      assay_id: cell.cytotoxicity.ic50
+      matrix:
+        id: tables5_14
+        range: "A1:J1005"
+        panel_row_offset: 1
+        cellline_row_offset: 2
+        data_row_start: 3
+        id_col: 0
+        detect_blocks: true
+        panels:
+          - {name_from_header: true, cols: [1,2,3,4,5,6,7,8,9]}
+        value_parser:
+          unit_default: uM
+          rules:
+            - '>=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:''>'' , value:\\1, unit:uM'
+            - '([\\d\\.]+)\\s*µ?M -> qualifier:''='' , value:\\1, unit:uM'
+    cell_line_map:
+      LNcap: LNCaP
+      NCI-H12 99: NCI-H1299
+      MDA-M B-468: MDA-MB-468
+      HCT 116: HCT-116
+      SW48 0: SW480
+    target_map: {}
+  meta:
+    - from: base/data/bronze/2017/tables/table_1.csv
+      type: assay_context
+      inject:
+        assay_id: tox.in_vivo.mouse
+        compound_id: "4"
+      parse:
+        dose:
+          col: dose_text
+          into: {dose_route: dose_route, dose_value: dose_value, dose_unit: dose_unit}
+        ratio:
+          col: mortality_text
+          into: {mortality_pct: mortality_pct, mortality_n: mortality_n, mortality_k: mortality_k}
+    - from: base/data/bronze/2017/tables/table_2.csv
+      type: assay_context
+      inject:
+        assay_id: tox.cardio_adverse
+      parse:
+        dose:
+          col: compound_raw
+          into: {dose_route: dose_route, dose_value: dose_value, dose_unit: dose_unit}
+        compound_id_from_text:
+          col: compound_raw
+          regex: "화합물\\s*(\\d+)"
+          into: {compound_id: compound_id}
+          keep_original_as: compound_label
+        percent:
+          col: hr_change_pct
+          into: {hr_change_pct: hr_change_pct}
+        ratio:
+          col: mortality_text
+          into: {mortality_n: mortality_n, mortality_k: mortality_k}
+
+qc:
+  bad_id_regex: "^[0-9A-Za-z._-]+$"
+
