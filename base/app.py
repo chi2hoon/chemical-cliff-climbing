@@ -264,19 +264,12 @@ with tab2:
     if 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
         
-        # 단위 분포 요약 표시
-        if 'unit_std' in df.columns:
-            try:
-                counts = df['unit_std'].fillna('NaN').value_counts().to_dict()
-                counts_str = ", ".join([f"{k}: {v}" for k, v in counts.items()])
-                st.caption(f"단위 분포 요약: {counts_str}")
-            except Exception:
-                pass
+        # (표시 제거) 단위 분포 요약
 
         # 컬럼 자동 선택(고정): Gold 스키마 가정하에 자동 결정
         smiles_col = 'SMILES' if 'SMILES' in df.columns else df.columns[0]
         activity_col = 'Activity' if 'Activity' in df.columns else ( 'value_std' if 'value_std' in df.columns else (df.columns[1] if len(df.columns) > 1 else df.columns[0]))
-        st.caption(f"자동 선택된 컬럼: SMILES='{smiles_col}', Activity='{activity_col}'")
+        # (표시 제거) 자동 선택된 컬럼 안내
 
         col1, col2 = st.columns(2)
         with col1:
