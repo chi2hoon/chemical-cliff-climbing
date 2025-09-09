@@ -365,6 +365,66 @@ with tab2:
             summary_text = create_activity_summary(activity_col, (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
             st.markdown("---")
             st.markdown(summary_text)
+
+            # --- 유사도-활성도 차이 2D 밀도 시각화(교차선 포함) ---
+            try:
+                import altair as alt
+                # 프리뷰용: 유사도만 적용한 유사쌍 분포(Δ 임계값 미적용)
+                preview_df = find_activity_cliffs(
+                    work_df,
+                    smiles_col=smiles_col,
+                    activity_col=chosen_activity_col,
+                    similarity_threshold=similarity_threshold,
+                    activity_diff_threshold=0.0,
+                    higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
+                )
+
+                # 시각화 소스 선택(프리뷰 권장)
+                src_choice = st.radio(
+                    "시각화 소스",
+                    ["프리뷰(유사도만 적용)", "결과(임계값 모두 적용)"] ,
+                    horizontal=True,
+                    index=0,
+                    key="viz_source_choice"
+                )
+                viz_df = preview_df if src_choice.startswith("프리뷰") else cliff_df
+
+                # 통계 요약(현재 임계선 기준으로 비율 산출)
+                total_pairs = len(viz_df)
+                mask_sel = (viz_df["Similarity"] >= similarity_threshold) & (viz_df["Activity_Diff"] >= activity_diff_threshold)
+                selected_pairs = int(mask_sel.sum())
+                ratio = (selected_pairs / total_pairs * 100.0) if total_pairs else 0.0
+                m1, m2, m3 = st.columns(3)
+                m1.metric("전체 쌍 수", f"{total_pairs:,}")
+                m2.metric("선택 영역 쌍 수", f"{selected_pairs:,}")
+                m3.metric("비율(%)", f"{ratio:0.1f}")
+
+                # 히트맵(빈닝) + 교차선 (다크 테마 가독성: magma)
+                base = alt.Chart(viz_df)
+                heat = base.mark_rect().encode(
+                    alt.X("Similarity:Q", bin=alt.Bin(maxbins=30), scale=alt.Scale(domain=[0.7, 1.0])),
+                    alt.Y("Activity_Diff:Q", bin=alt.Bin(maxbins=30)),
+                    alt.Color("count():Q", scale=alt.Scale(scheme="magma")),
+                    tooltip=[alt.Tooltip("count():Q", title="Count")]
+                ).properties(height=320)
+                v_rule = alt.Chart(pd.DataFrame({"x": [similarity_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4])\
+                    .encode(x="x:Q")
+                h_rule = alt.Chart(pd.DataFrame({"y": [activity_diff_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4])\
+                    .encode(y="y:Q")
+                chart = (heat + v_rule + h_rule).resolve_scale(color="independent")
+                st.altair_chart(chart, use_container_width=True)
+            except Exception as _e:
+                # 폴백: 샘플 산점도
+                import numpy as _np
+                st.info("시각화 엔진(Altair) 사용이 어려워 간단한 산점도로 대체합니다.")
+                # 폴백에서도 프리뷰 우선
+                try:
+                    preview_df = find_activity_cliffs(work_df, smiles_col=smiles_col, activity_col=chosen_activity_col, similarity_threshold=similarity_threshold, activity_diff_threshold=0.0, higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
+                    src = preview_df if len(preview_df) else cliff_df
+                except Exception:
+                    src = cliff_df
+                sample = src.sample(min(len(src), 5000), random_state=42) if len(src) > 5000 else src
+                st.scatter_chart(sample[["Similarity", "Activity_Diff"]])
     else:
         st.info("1. 상단에서 Gold 데이터를 먼저 로드해주세요.")
 

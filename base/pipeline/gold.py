@@ -4,6 +4,7 @@ import pandas as pd
 from pipeline.validate.hooks import stable_sort, write_manifest, write_quarantine
 from pipeline.validate.gold_checks import validate_gold_assays, validate_gold_compounds
 from pipeline.transforms.chem_ids import derive_chem_ids
+from pipeline.transforms.normalize import convert_unit, ascii_units
 
 
 def _ensure_dir(p):
@@ -26,6 +27,18 @@ def build_gold(years):
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
+            # 연도/출처 간 단위 통일(기본 uM). 퍼센트는 assay_readings에 존재하지 않는다는 전제.
+            def _conv(v, u):
+                v2, u2 = convert_unit(v, u, 'uM')
+                return v2, ascii_units(u2)
+            if 'value_std' in df.columns and 'unit_std' in df.columns:
+                vv, uu = [], []
+                for _, r in df.iterrows():
+                    v2, u2 = _conv(r.get('value_std'), r.get('unit_std'))
+                    vv.append(v2)
+                    uu.append(u2)
+                df['value_std'] = vv
+                df['unit_std'] = uu
             def _to_float(x):
                 try:
                     return float(x)
@@ -97,4 +110,3 @@ def build_gold(years):
             meta_df.to_csv(meta_out, index=False, encoding="utf-8")
         results[y] = {"assay_readings": assays_path, "compounds": comps_path}
     return results
-
