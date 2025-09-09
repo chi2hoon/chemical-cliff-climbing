@@ -15,9 +15,8 @@ from modules.io_utils import (
     load_gold_data,
     get_available_gold_years,
     get_cell_lines_for_panel,
-    has_panel_column,
-    get_available_panels_strict,
-    get_available_targets
+    get_available_targets,
+    get_available_panel_ids
 )
 
 # --- Helper Functions ---
@@ -160,9 +159,10 @@ with tab1:
         selected_target = None
 
         with col_panel:
-            if has_panel_column(selected_year, data_root):
-                # 해당 연도는 패널 기반
-                filtered_panel_ids = get_available_panels_strict(selected_year, data_root)
+            # 연도의 데이터 특성을 감지: 패널 목록을 파생할 수 있으면 패널 기반으로 간주
+            filtered_panel_ids = get_available_panel_ids(selected_year, data_root)
+            if filtered_panel_ids:
+                # 해당 연도는 패널 기반(2017은 target_id에서 파생)
                 panel_display_options = ["전체 패널"]
                 panel_id_to_display = {"전체 패널": None}
                 for panel_id in sorted(filtered_panel_ids):
