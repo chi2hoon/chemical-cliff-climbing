@@ -281,6 +281,13 @@ with tab2:
         col1, col2 = st.columns(2)
         with col1:
             scale_choice = st.selectbox("활성도 스케일", ["원본(단위 유지)", "pAct (-log10[M])"], index=1)
+            # 스케일에 따라 활성도 의미 자동 설정(UI 비노출)
+            if scale_choice == "pAct (-log10[M])":
+                st.session_state['activity_assumption'] = '값이 높을수록 활성도가 높음 (Higher is better)'
+                st.caption("활성도 의미: pAct 스케일 → 값이 높을수록 활성도가 높음")
+            else:
+                st.session_state['activity_assumption'] = '값이 낮을수록 활성도가 높음 (Lower is better)'
+                st.caption("활성도 의미: 원본(IC50 등) 스케일 → 값이 낮을수록 활성도가 높음")
 
         with col2:
             similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
@@ -308,11 +315,7 @@ with tab2:
             else:
                 st.caption("원본 단위 스케일에서는 분포에 따라 자동 제안됩니다. 필요 시 조정하세요.")
 
-        activity_assumption = st.radio(
-            "활성도 데이터의 의미를 선택해주세요:",
-            ('값이 높을수록 활성도가 높음 (Higher is better)', '값이 낮을수록 활성도가 높음 (Lower is better)'),
-            key='activity_assumption'
-        )
+        # (UI 숨김) 활성도 의미는 위 스케일 선택에 의해 자동 설정됨
 
         if st.button("Activity Cliff 분석 실행"):
             with st.spinner("Activity Cliff를 분석 중입니다..."):
