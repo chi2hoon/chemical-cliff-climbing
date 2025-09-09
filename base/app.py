@@ -236,10 +236,33 @@ with tab2:
 
             smiles_col = st.selectbox("SMILES 컬럼을 선택하세요:", df.columns, index=(list(df.columns).index(smiles_col_default) if smiles_col_default else 0))
             activity_col = st.selectbox("활성도 컬럼을 선택하세요:", df.columns, index=(list(df.columns).index(activity_col_default) if activity_col_default else (1 if len(df.columns) > 1 else 0)))
+            scale_choice = st.selectbox("활성도 스케일", ["원본(단위 유지)", "pAct (-log10[M])"], index=1)
 
         with col2:
             similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
-            activity_diff_threshold = st.number_input("활성도 차이 임계값", min_value=0.0, value=1.0, step=0.1)
+            # 스케일별 임계값 자동 제안
+            default_diff = 1.0; step = 0.1; fmt = "%f"
+            try:
+                import numpy as _np
+                if scale_choice == "pAct (-log10[M])":
+                    default_diff = 0.5
+                    step = 0.1
+                    fmt = "%0.2f"
+                else:
+                    vals = pd.to_numeric(df[activity_col], errors="coerce").dropna()
+                    if not vals.empty:
+                        q10, q90 = _np.percentile(vals, [10, 90])
+                        span = max(0.0, float(q90 - q10))
+                        default_diff = max(1e-9, span * 0.25)
+                        step = max(1e-9, default_diff / 10.0)
+                        fmt = "%e"
+            except Exception:
+                pass
+            activity_diff_threshold = st.number_input("활성도 차이 임계값", min_value=0.0, value=float(default_diff), step=float(step), format=fmt)
+            if scale_choice == "pAct (-log10[M])":
+                st.caption("기본 0.5 pAct ≈ 약 3.16배 potency 차이. 0.3(≈2배)도 자주 사용합니다.")
+            else:
+                st.caption("원본 단위 스케일에서는 분포에 따라 자동 제안됩니다. 필요 시 조정하세요.")
 
         activity_assumption = st.radio(
             "활성도 데이터의 의미를 선택해주세요:",
@@ -252,11 +275,43 @@ with tab2:
                 work_df = df.copy()
                 work_df = work_df.dropna(subset=[activity_col])
                 work_df = work_df.reset_index(drop=True)
-                
+                # 스케일 변환 적용
+                chosen_activity_col = activity_col
+                if scale_choice == "pAct (-log10[M])":
+                    unit_col = "unit_std" if "unit_std" in work_df.columns else None
+                    def _to_m(val, unit):
+                        try:
+                            v = float(val)
+                        except Exception:
+                            return None
+                        u = (str(unit) if unit is not None else "").strip()
+                        if u == "M":
+                            return v
+                        if u == "mM":
+                            return v * 1e-3
+                        if u == "uM":
+                            return v * 1e-6
+                        if u == "nM":
+                            return v * 1e-9
+                        return v * 1e-6  # 폴백: uM 가정
+                    def _to_pact(val_m):
+                        try:
+                            import math
+                            if val_m is None or float(val_m) <= 0:
+                                return None
+                            return -math.log10(float(val_m))
+                        except Exception:
+                            return None
+                    vals_m = [ _to_m(work_df.iloc[i][activity_col], (work_df.iloc[i][unit_col] if unit_col else "uM")) for i in range(len(work_df)) ]
+                    pact = [ _to_pact(x) for x in vals_m ]
+                    work_df["Activity_pAct"] = pact
+                    work_df = work_df[pd.Series(work_df["Activity_pAct"]).notna()].reset_index(drop=True)
+                    chosen_activity_col = "Activity_pAct"
+
                 cliff_df = find_activity_cliffs(
                     work_df,
                     smiles_col=smiles_col,
-                    activity_col=activity_col,
+                    activity_col=chosen_activity_col,
                     similarity_threshold=similarity_threshold,
                     activity_diff_threshold=activity_diff_threshold,
                     higher_is_better= (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
