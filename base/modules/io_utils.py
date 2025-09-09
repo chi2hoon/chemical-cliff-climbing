@@ -183,7 +183,7 @@ def parse_hypothesis_md(file_content: str) -> Dict:
     return data
 
 
-def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None) -> pd.DataFrame:
+def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: Optional[str] = None, cell_line: Optional[str] = None, target_id: Optional[str] = None) -> pd.DataFrame:
     """base/data/gold/{year}에서 assay_readings/compounds/compound_props를 조인해
     SMILES/Activity 스키마를 반환한다.
     """
@@ -214,6 +214,9 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
                     body = s.split(":", 1)[1]
                     return body.split(".", 1)[0] == panel_id
                 df_assay = df_assay[df_assay["target_id"].map(_match_panel)]
+        if target_id:
+            if "target_id" in df_assay.columns:
+                df_assay = df_assay[df_assay["target_id"] == target_id]
         if cell_line:
             if "cell_line" in df_assay.columns:
                 df_assay = df_assay[df_assay["cell_line"] == cell_line]
@@ -330,5 +333,49 @@ def get_cell_lines_for_panel(year: str, panel_id: str, data_root: str = "base/da
                 continue
             clines.append(rest)
         return sorted(sorted(set([c for c in clines if c])))
+    except Exception:
+        return []
+
+
+# ---- Panel/Target helpers for UI (strict behaviors) ----
+
+def has_panel_column(year: str = "2017", data_root: str = "base/data") -> bool:
+    """해당 연도의 gold/assay_readings.csv에 panel_id 컬럼이 존재하는지 반환한다."""
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
+    if not os.path.exists(gold_path):
+        return False
+    try:
+        df = pd.read_csv(gold_path, nrows=1, dtype=str, keep_default_na=False, na_filter=False)
+        return "panel_id" in df.columns
+    except Exception:
+        return False
+
+
+def get_available_panels_strict(year: str = "2017", data_root: str = "base/data") -> List[str]:
+    """panel_id 컬럼이 있는 경우에만 panel_id 목록을 반환한다. 없으면 빈 리스트."""
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
+    if not os.path.exists(gold_path):
+        return []
+    try:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        if "panel_id" not in df.columns:
+            return []
+        vals = [str(x).strip() for x in df["panel_id"].dropna().tolist()]
+        return sorted([v for v in set(vals) if v])
+    except Exception:
+        return []
+
+
+def get_available_targets(year: str = "2017", data_root: str = "base/data") -> List[str]:
+    """해당 연도의 target_id 고유값 목록을 반환한다. 없으면 빈 리스트."""
+    gold_path = os.path.join(data_root, "gold", str(year), "assay_readings.csv")
+    if not os.path.exists(gold_path):
+        return []
+    try:
+        df = pd.read_csv(gold_path, dtype=str, keep_default_na=False, na_filter=False)
+        if "target_id" not in df.columns:
+            return []
+        vals = [str(x).strip() for x in df["target_id"].dropna().tolist()]
+        return sorted([v for v in set(vals) if v])
     except Exception:
         return []

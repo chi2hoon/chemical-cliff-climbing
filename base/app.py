@@ -14,8 +14,10 @@ from modules.io_utils import (
     parse_hypothesis_md,
     load_gold_data,
     get_available_gold_years,
-    get_all_available_panels_and_years,
-    get_cell_lines_for_panel
+    get_cell_lines_for_panel,
+    has_panel_column,
+    get_available_panels_strict,
+    get_available_targets
 )
 
 # --- Helper Functions ---
@@ -131,7 +133,6 @@ with tab1:
     base_dir = os.path.dirname(os.path.abspath(__file__))
     data_root = os.path.join(base_dir, "data")
     available_years_all = get_available_gold_years(data_root)
-    panel_years_map = get_all_available_panels_and_years(data_root)
 
     if not available_years_all:
         st.warning("Gold 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017`을 먼저 실행하세요.")
@@ -149,25 +150,38 @@ with tab1:
             "misc13": "기타 패널"
         }
 
-        # 년도(왼쪽) - 패널(오른쪽)
+        # 년도(왼쪽) - 패널/타겟(오른쪽)
         col_year, col_panel = st.columns([1, 2])
 
         with col_year:
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
+        selected_panel = None
+        selected_target = None
+
         with col_panel:
-            # 선택된 년도에서 사용 가능한 패널만 표시
-            panel_options = panel_years_map.keys()
-            filtered_panel_ids = [pid for pid in panel_options if selected_year in panel_years_map[pid]]
-            panel_display_options = ["전체 패널"]
-            panel_id_to_display = {"전체 패널": None}
-            for panel_id in sorted(filtered_panel_ids):
-                display_name = panel_names_map.get(panel_id, panel_id)
-                display_option = f"{panel_id} ({display_name})"
-                panel_display_options.append(display_option)
-                panel_id_to_display[display_option] = panel_id
-            selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
-            selected_panel = panel_id_to_display[selected_panel_display]
+            if has_panel_column(selected_year, data_root):
+                # 해당 연도는 패널 기반
+                filtered_panel_ids = get_available_panels_strict(selected_year, data_root)
+                panel_display_options = ["전체 패널"]
+                panel_id_to_display = {"전체 패널": None}
+                for panel_id in sorted(filtered_panel_ids):
+                    display_name = panel_names_map.get(panel_id, panel_id)
+                    # 중복 라벨 방지: 같으면 한 번만 표기
+                    if str(display_name).strip() == str(panel_id).strip():
+                        display_option = f"{display_name}"
+                    else:
+                        display_option = f"{panel_id} ({display_name})"
+                    panel_display_options.append(display_option)
+                    panel_id_to_display[display_option] = panel_id
+                selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
+                selected_panel = panel_id_to_display[selected_panel_display]
+            else:
+                # 해당 연도는 타겟 기반
+                targets = get_available_targets(selected_year, data_root)
+                target_display_options = ["전체 타겟"] + targets
+                selected_target_display = st.selectbox("🎯 타겟 선택", target_display_options, index=0)
+                selected_target = None if selected_target_display == "전체 타겟" else selected_target_display
 
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
@@ -185,6 +199,8 @@ with tab1:
             if selected_panel:
                 panel_name = panel_names_map.get(selected_panel, selected_panel)
                 load_text += f" ({panel_name})"
+            elif selected_target:
+                load_text += f" (target: {selected_target})"
 
             if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
                 try:
@@ -193,12 +209,15 @@ with tab1:
                             year=selected_year, 
                             data_root=data_root, 
                             panel_id=selected_panel,
-                            cell_line=selected_cell_line
+                            cell_line=selected_cell_line,
+                            target_id=selected_target
                         )
 
                         if df_gold.empty:
                             if selected_panel:
                                 st.error(f"{selected_year}년 {selected_panel} 패널 데이터가 없습니다.")
+                            elif selected_target:
+                                st.error(f"{selected_year}년 target '{selected_target}' 데이터가 없습니다.")
                             else:
                                 st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
                         else:
@@ -208,6 +227,8 @@ with tab1:
                             success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
                             if selected_panel:
                                 success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
+                            elif selected_target:
+                                success_msg += f" (target: {selected_target})"
                             
                             st.success(success_msg)
                             st.dataframe(df_gold.head())
