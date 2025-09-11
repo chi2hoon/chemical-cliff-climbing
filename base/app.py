@@ -149,39 +149,44 @@ with tab1:
             "misc13": "기타 패널"
         }
 
-        # 년도(왼쪽) - 패널/타겟(오른쪽)
-        col_year, col_panel = st.columns([1, 2])
+        # 년도(왼쪽) - 보기축/필터(오른쪽)
+        col_year, col_right = st.columns([1, 2])
 
         with col_year:
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
+        # 가용 패널/타깃 수집 후 보기축 결정
+        available_panels = get_available_panel_ids(selected_year, data_root)
+        available_targets = get_available_targets(selected_year, data_root)
+        view_options = []
+        if available_panels:
+            view_options.append("세포 패널 보기")
+        if available_targets:
+            view_options.append("타깃 보기")
+        if not view_options:
+            view_options = ["타깃 보기"]
+
+        selected_view = st.radio("보기 축", view_options, index=0, horizontal=True)
+
         selected_panel = None
         selected_target = None
 
-        with col_panel:
-            # 연도의 데이터 특성을 감지: 패널 목록을 파생할 수 있으면 패널 기반으로 간주
-            filtered_panel_ids = get_available_panel_ids(selected_year, data_root)
-            if filtered_panel_ids:
-                # 해당 연도는 패널 기반(2017은 target_id에서 파생)
+        with col_right:
+            if selected_view == "세포 패널 보기" and available_panels:
                 panel_display_options = ["전체 패널"]
                 panel_id_to_display = {"전체 패널": None}
-                for panel_id in sorted(filtered_panel_ids):
+                for panel_id in sorted(available_panels):
                     display_name = panel_names_map.get(panel_id, panel_id)
-                    # 중복 라벨 방지: 같으면 한 번만 표기
-                    if str(display_name).strip() == str(panel_id).strip():
-                        display_option = f"{display_name}"
-                    else:
-                        display_option = f"{panel_id} ({display_name})"
+                    display_option = f"{panel_id} ({display_name})" if str(display_name).strip() != str(panel_id).strip() else f"{display_name}"
                     panel_display_options.append(display_option)
                     panel_id_to_display[display_option] = panel_id
                 selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
                 selected_panel = panel_id_to_display[selected_panel_display]
             else:
-                # 해당 연도는 타겟 기반
-                targets = get_available_targets(selected_year, data_root)
-                target_display_options = ["전체 타겟"] + targets
-                selected_target_display = st.selectbox("🎯 타겟 선택", target_display_options, index=0)
-                selected_target = None if selected_target_display == "전체 타겟" else selected_target_display
+                targets = available_targets
+                target_display_options = ["전체 타깃"] + targets
+                selected_target_display = st.selectbox("🎯 타깃 선택", target_display_options, index=0)
+                selected_target = None if selected_target_display == "전체 타깃" else selected_target_display
 
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
@@ -221,11 +226,11 @@ with tab1:
                 try:
                     with st.spinner(f"{selected_year}년 데이터를 불러오는 중..."):
                         df_gold = load_gold_data(
-                            year=selected_year, 
-                            data_root=data_root, 
-                            panel_id=selected_panel,
-                            cell_line=selected_cell_line,
-                            target_id=selected_target
+                            year=selected_year,
+                            data_root=data_root,
+                            panel_id=(selected_panel if selected_view == "세포 패널 보기" else None),
+                            cell_line=(selected_cell_line if selected_view == "세포 패널 보기" else None),
+                            target_id=(selected_target if selected_view == "타깃 보기" else None)
                         )
 
                         if df_gold.empty:

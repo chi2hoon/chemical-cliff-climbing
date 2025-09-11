@@ -27,6 +27,30 @@ def build_gold(years):
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
+            # 보강: compound_key가 비어있으면 compounds_silver에서 compound_id→SMILES로 유도
+            try:
+                comp_silver_path = os.path.join("base","data","silver", y, "compounds_silver.csv")
+                if os.path.exists(comp_silver_path):
+                    comp_sil = pd.read_csv(comp_silver_path, dtype=str)
+                else:
+                    comp_sil = pd.DataFrame()
+            except Exception:
+                comp_sil = pd.DataFrame()
+            if 'compound_key' not in df.columns:
+                df['compound_key'] = ''
+            if len(comp_sil) > 0 and 'compound_id' in comp_sil.columns and 'smiles_raw' in comp_sil.columns:
+                from pipeline.transforms.chem_ids import derive_chem_ids as _derive
+                cmap = {}
+                for _, r in comp_sil.iterrows():
+                    cid = str(r.get('compound_id') or '')
+                    if not cid:
+                        continue
+                    ids = _derive(r.get('smiles_raw'), r.get('iupac_name'))
+                    ck = ids.get('compound_key','')
+                    if ck:
+                        cmap[cid] = ck
+                if cmap:
+                    df['compound_key'] = df.apply(lambda r: (r['compound_key'] if str(r.get('compound_key') or '').strip() else cmap.get(str(r.get('compound_id') or ''), '')), axis=1)
             # 보강: compound_key가 비어있고 smiles_raw가 있으면 chem_id 유도
             if 'compound_key' not in df.columns:
                 df['compound_key'] = ''

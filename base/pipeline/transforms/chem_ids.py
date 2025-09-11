@@ -8,6 +8,16 @@ def derive_chem_ids(smiles, iupac_name=None):
     if smiles is None:
         return {"has_structure": False}
     s = str(smiles).strip()
+    # 명백한 비유효 표기(헤더/결측 문자열)는 즉시 탈락
+    if s.lower() in {"nan", "smiles", "none", "null"}:
+        return {"has_structure": False}
+    # 공백/비가시 문자 정리
+    try:
+        # 비Ascii 공백 제거, 다중 공백 축소
+        import re as _re
+        s = _re.sub(r"\s+", "", s)
+    except Exception:
+        pass
     if s == "":
         return {"has_structure": False}
     try:
@@ -84,4 +94,3 @@ def derive_chem_ids(smiles, iupac_name=None):
             except Exception:
                 pass
     return {"has_structure": False}
-

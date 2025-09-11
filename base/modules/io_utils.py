@@ -228,18 +228,28 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
                     return s.split(":", 1)[1].split(".", 1)[1] == cell_line
                 df_assay = df_assay[df_assay["target_id"].map(_match_cell)]
         df = df_assay.copy()
-        # 안전 병합: compound_id가 비어있으면 props 조인을 건너뛴다(카티션 폭발 방지)
+        # 1) compound_key 보강: props에서 compound_id→compound_key 주입(빈 키만)
         if ("compound_id" in df.columns) and (len(df_props) > 0) and ("compound_id" in df_props.columns) and ("compound_key" in df_props.columns):
-            left_has_id = df["compound_id"].astype(str).str.strip() != ""
-            right_has_id = df_props["compound_id"].astype(str).str.strip() != ""
-            if left_has_id.any() and right_has_id.any():
-                props_map = df_props.loc[right_has_id, ["compound_id","compound_key"]].drop_duplicates()
-                df = df.loc[left_has_id].merge(props_map, on="compound_id", how="left").append(df.loc[~left_has_id], ignore_index=True)
-        # compound_key 직접 보유 시 comps와 조인하여 SMILES 주입
+            props_map = df_props[["compound_id","compound_key"]].drop_duplicates()
+            df = df.merge(props_map, on="compound_id", how="left", suffixes=("", "_props"))
+            # 우선순위: 기존 키 > props 키
+            if 'compound_key_props' in df.columns:
+                df['compound_key'] = df['compound_key'].where(df['compound_key'].astype(str).str.strip()!="", df['compound_key_props'])
+                df = df.drop(columns=['compound_key_props'])
+        # 2) compounds.csv로부터 canonical SMILES 조인
         if ("compound_key" in df.columns) and (len(df_comps) > 0) and ("compound_key" in df_comps.columns) and ("smiles_canonical" in df_comps.columns):
-            df = df.merge(df_comps[["compound_key", "smiles_canonical"]].drop_duplicates(), on="compound_key", how="left")
-        # 결과 프레임 구성: 필터/정렬 과정에서 인덱스 정렬 문제를 피하기 위해 df에서 직접 선택
-        df["SMILES"] = df.get("smiles_canonical", "")
+            df = df.merge(df_comps[["compound_key","smiles_canonical"]].drop_duplicates(), on="compound_key", how="left")
+        # 3) silver compounds_silver의 smiles_raw로 폴백(표시용)
+        comp_silver_path = os.path.join(data_root, "silver", str(year), "compounds_silver.csv")
+        comp_sil = pd.read_csv(comp_silver_path, dtype=str) if os.path.exists(comp_silver_path) else pd.DataFrame()
+        if (len(comp_sil)>0) and ("compound_id" in df.columns) and ("compound_id" in comp_sil.columns) and ("smiles_raw" in comp_sil.columns):
+            df = df.merge(comp_sil[["compound_id","smiles_raw"]].drop_duplicates(), on="compound_id", how="left")
+        # 4) 최종 SMILES 선택: canonical 우선, 없으면 raw
+        def _pick(a,b):
+            a = str(a).strip() if a is not None else ""
+            b = str(b).strip() if b is not None else ""
+            return a if a else b
+        df["SMILES"] = [ _pick(a,b) for a,b in zip(df.get("smiles_canonical",""), df.get("smiles_raw","")) ]
         cols = ["SMILES", "Activity"]
         for meta_col in ["compound_id", "assay_id", "target_id", "unit_std", "qualifier"]:
             if meta_col in df.columns:
@@ -247,7 +257,8 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
         out = df[cols].copy()
         # 유효 행만 유지
         out = out.dropna(subset=["SMILES", "Activity"]).copy()
-        out = out[out["SMILES"].astype(str).str.strip() != ""]
+        smi_str = out["SMILES"].astype(str).str.strip()
+        out = out[(smi_str != "") & (smi_str.str.lower() != "nan")]
         return out.reset_index(drop=True)
     except Exception as e:
         print(f"Error loading gold data: {e}")

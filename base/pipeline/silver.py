@@ -108,11 +108,17 @@ def build_silver(year, yaml_path=None):
     except Exception:
         props_df = None
     if props_df is not None and 'compound_id' in comp_df.columns:
-        comp_df = comp_df.merge(props_df, on='compound_id', how='left', suffixes=("", ""))
+        # 이미 comp_df에 존재하는 컬럼은 중복 병합하지 않도록 필터링
+        add_cols = [c for c in props_df.columns if (c == 'compound_id') or (c not in comp_df.columns)]
+        comp_df = comp_df.merge(props_df[add_cols], on='compound_id', how='left')
 
     flag_cols = [c for c in comp_df.columns if str(c).startswith("flag_")]
     keep_cols = [c for c in ["compound_id", "smiles_raw", "iupac_name", "mw", "lcms_text", "nmr_1h_text", "provenance_file", "provenance_sheet", "provenance_row"] if c in comp_df.columns] + flag_cols
     comp_silver = comp_df[keep_cols].copy() if len(keep_cols) else comp_df.copy()
+    # 보강: compound_id 누락 시 가능한 소스에서 보충
+    if 'compound_id' not in comp_silver.columns:
+        if 'compound_label' in comp_df.columns:
+            comp_silver.insert(0, 'compound_id', comp_df['compound_label'])
     comp_silver = stable_sort(comp_silver, ["compound_id", "provenance_row"])
     comp_silver.to_csv(comp_out, index=False, encoding="utf-8")
     manifest["rows_out"]["compounds_silver"] = int(len(comp_silver))
@@ -205,8 +211,13 @@ def build_silver(year, yaml_path=None):
             # 파싱된 단위를 우선하고, 없을 때만 default_unit 사용
             unit_std = ascii_units(u_in or (parse_cfg or {}).get("default_unit"))
             v_std, u_std = convert_unit(v_raw, u_in, unit_std)
+            # compound_id 보강: ex_no가 있고 compound_id가 비었으면 'Example {ex_no}'로 설정
+            comp_id = r.get("compound_id")
+            if (comp_id is None or str(comp_id).strip() == "") and ("ex_no" in r.index):
+                eno = r.get("ex_no")
+                comp_id = (f"Example {eno}" if eno is not None and str(eno).strip() != "" else None)
             row = {
-                "compound_id": r.get("compound_id"),
+                "compound_id": comp_id,
                 "target_id": target_id,
                 "assay_id": assay_id,
                 "qualifier": q,

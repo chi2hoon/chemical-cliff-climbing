@@ -5,7 +5,7 @@ sheets:
   - name: "I-1 ~ I-64, BB-1 ~ BB-37"
     tables:
       - id: intermediates
-        range: "A4:C106"     # 헤더행 포함, 데이터는 5행부터
+        range: "A4:C106"     # 헤더행 포함, 데이터는 5행부터(A4 기준)
         header_row_offset: 0
         rename:
           "Compound No.": sample_label
@@ -57,6 +57,9 @@ sheets:
         normalize_rules:
           sample_label:
             - "^Table\\s*\\d+\\s*$ -> ''"
+          usp1_ic50_grade:
+            # 엑셀에서 앞에 붙는 작은따옴표 제거 처리("'++" → "++")
+            - "^'+(.*)$ -> \\1"
         melt:
           id_cols: [sample_label, smiles_raw, provenance_file, provenance_sheet, provenance_row]
           value_cols: [usp1_ic50_grade]
@@ -88,6 +91,11 @@ sheets:
           "Solubility at pH 7.4 (uM)": solub_pH7_grade
         clean:
           replace: {"": null, "-": null}
+        normalize_rules:
+          solub_pH2_grade:
+            - "^'+(.*)$ -> \\1"
+          solub_pH7_grade:
+            - "^'+(.*)$ -> \\1"
       - id: table7_stability
         range: "E3:G240"
         header_row_offset: 0
@@ -97,6 +105,11 @@ sheets:
           "t_(1/2) (min) in RLM": rlm_t12_grade
         clean:
           replace: {"": null, "-": null}
+        normalize_rules:
+          hlm_t12_grade:
+            - "^'+(.*)$ -> \\1"
+          rlm_t12_grade:
+            - "^'+(.*)$ -> \\1"
 
 silver:
   compounds:
