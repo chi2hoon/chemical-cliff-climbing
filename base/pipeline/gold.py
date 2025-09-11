@@ -27,6 +27,19 @@ def build_gold(years):
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
+            # 보강: compound_key가 비어있고 smiles_raw가 있으면 chem_id 유도
+            if 'compound_key' not in df.columns:
+                df['compound_key'] = ''
+            if 'smiles_raw' in df.columns:
+                cc = []
+                for _, r in df.iterrows():
+                    ck = r.get('compound_key') or ''
+                    if ck:
+                        cc.append(ck)
+                        continue
+                    ids = derive_chem_ids(r.get('smiles_raw'), r.get('iupac_name'))
+                    cc.append(ids.get('compound_key',''))
+                df['compound_key'] = cc
             # 연도/출처 간 단위 통일(기본 uM). 퍼센트는 assay_readings에 존재하지 않는다는 전제.
             def _conv(v, u):
                 v2, u2 = convert_unit(v, u, 'uM')
@@ -48,6 +61,8 @@ def build_gold(years):
             df["year"] = y
             df["qc_pass"] = df.get("qc_pass", True)
             keep = ["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"]
+            if 'compound_key' in df.columns and 'compound_key' not in keep:
+                keep.append('compound_key')
             assays = df[keep].copy()
             assays = stable_sort(assays, ["compound_id","assay_id","provenance_row"])
 

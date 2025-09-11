@@ -218,6 +218,9 @@ def build_silver(year, yaml_path=None):
                 "provenance_sheet": r.get("provenance_sheet"),
                 "provenance_row": r.get("provenance_row"),
             }
+            # 원본 롱에 smiles_raw가 있으면 보존(후속 골드에서 compound_key 유도에 활용)
+            if "smiles_raw" in r.index:
+                row["smiles_raw"] = r.get("smiles_raw")
             for fc in ["flag_asterisk", "flag_imaging_conflict"]:
                 if fc in r.index:
                     row[fc] = r.get(fc)
@@ -272,7 +275,7 @@ def build_silver(year, yaml_path=None):
         except Exception:
             pass
 
-    assay_cols = ["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"]
+    assay_cols = ["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row","smiles_raw"]
     assay_df = pd.DataFrame(rows, columns=assay_cols) if rows else pd.DataFrame(columns=assay_cols)
     assay_df = stable_sort(assay_df, ["compound_id","assay_id","provenance_row"])
 
