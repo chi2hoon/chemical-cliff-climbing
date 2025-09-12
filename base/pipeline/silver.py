@@ -237,7 +237,9 @@ def build_silver(year, yaml_path=None):
                     row[fc] = r.get(fc)
             rows.append(row)
         # 퍼센트 메타를 파일에 병합(보강: df에서 직접 재검출)
-        try:
+    # 2018 특허(20 uM 단일 농도 % 억제)에서만 퍼센트 맥락을 유도한다.
+    try:
+        if year == "2018":
             meta_path = os.path.join(outdir, "assay_context_silver.csv")
             # df 기반 재검출
             df2 = df.copy()
@@ -283,8 +285,8 @@ def build_silver(year, yaml_path=None):
                 if sort_keys:
                     meta_all = stable_sort(meta_all, sort_keys)
                 meta_all.to_csv(meta_path, index=False, encoding="utf-8")
-        except Exception:
-            pass
+    except Exception:
+        pass
 
     assay_cols = ["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row","smiles_raw"]
     assay_df = pd.DataFrame(rows, columns=assay_cols) if rows else pd.DataFrame(columns=assay_cols)
@@ -612,9 +614,9 @@ def build_silver(year, yaml_path=None):
 
     assay_df.to_csv(assays_out, index=False, encoding="utf-8")
 
-    # 보강: from_melt 원천에서 20uM 퍼센트 맥락을 재계산하여 메타 파일로 생성/갱신
+    # 보강: (2018 전용) from_melt 원천에서 20uM 퍼센트 맥락을 재계산하여 메타 파일로 생성/갱신
     try:
-        if assay_cfg.get("from_melt"):
+        if year == "2018" and assay_cfg.get("from_melt"):
             melt_name = assay_cfg["from_melt"]
             melt_path = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
             if os.path.exists(melt_path):
