@@ -308,15 +308,23 @@ with tab2:
                     v = float(val)
                 except Exception:
                     return None
+                # 단위 정규화(소문자, µ→u 치환)
                 u = (str(unit) if unit is not None else "").strip()
-                if u == "M":
+                u_norm = u.replace("µ", "u").strip().lower()
+                if u_norm == "m":
                     return v
-                if u == "mM":
+                if u_norm == "mm":
                     return v * 1e-3
-                if u == "uM":
+                if u_norm == "um":
                     return v * 1e-6
-                if u == "nM":
+                if u_norm == "nm":
                     return v * 1e-9
+                if u_norm == "pm":
+                    return v * 1e-12
+                # % 등 비농도 단위는 pAct 계산 대상에서 제외
+                if u_norm in {"%", "percent", "pct"}:
+                    return None
+                # 알 수 없는 경우 보수적으로 uM 가정(호환성 유지)
                 return v * 1e-6
             def _to_pact(val_m):
                 try:

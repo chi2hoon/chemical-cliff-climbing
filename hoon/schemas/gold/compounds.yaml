@@ -1,8 +1,0 @@
-# 골드 스키마(화합물)
-columns:
-  - compound_key
-  - smiles_canonical
-  - has_structure
-  - iupac_name
-  - inchikey14
-

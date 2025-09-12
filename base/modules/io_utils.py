@@ -203,6 +203,16 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
             except Exception:
                 return None
         df_assay["Activity"] = df_assay.get("value_std", "").apply(to_float)
+        # 2018 특허 데이터 단위 보정(안전 가드): 과학표기 숫자(예: 1.33e-07)가 uM로 라벨된 경우 M로 재해석
+        try:
+            if str(year) == "2018" and "unit_std" in df_assay.columns and "Activity" in df_assay.columns:
+                vals = pd.to_numeric(df_assay["Activity"], errors="coerce")
+                mask = (df_assay["unit_std"].astype(str).str.strip() == "uM") & (vals.notna()) & (vals <= 1e-4)
+                if bool(mask.any()):
+                    df_assay.loc[mask, "unit_std"] = "M"
+        except Exception:
+            # 조용히 진행(보정 실패 시 원본 유지)
+            pass
         if panel_id:
             if "panel_id" in df_assay.columns:
                 df_assay = df_assay[df_assay["panel_id"] == panel_id]

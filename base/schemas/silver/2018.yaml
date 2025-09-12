@@ -46,9 +46,9 @@ silver:
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*µ?M\s*$ -> qualifier:=, value:\\1, unit:uM'
             - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:>, value:\\1, unit:nM'
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:=, value:\\1, unit:nM'
-            # 단위 미표기 숫자/과학표기법(기본 uM로 간주)
-            - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:>, value:\\1, unit:uM'
-            - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:=, value:\\1, unit:uM'
+            # 단위 미표기 숫자/과학표기법: 2018 특허 관행에 따라 기본 단위를 M로 해석
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:>, value:\1, unit:M'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:=, value:\1, unit:M'
 
       KRAS-Activation by SOS high GTP:
         target_id: kras_activation_high_gtp
@@ -62,8 +62,8 @@ silver:
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*µ?M\s*$ -> qualifier:=, value:\\1, unit:uM'
             - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:>, value:\\1, unit:nM'
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:=, value:\\1, unit:nM'
-            - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:>, value:\\1, unit:uM'
-            - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:=, value:\\1, unit:uM'
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:>, value:\1, unit:M'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:=, value:\1, unit:M'
 
       KRAS-Activation by SOS no GTP:
         target_id: kras_activation_no_gtp
@@ -77,8 +77,8 @@ silver:
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*µ?M\s*$ -> qualifier:=, value:\\1, unit:uM'
             - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:>, value:\\1, unit:nM'
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:=, value:\\1, unit:nM'
-            - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:>, value:\\1, unit:uM'
-            - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:=, value:\\1, unit:uM'
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:>, value:\1, unit:M'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:=, value:\1, unit:M'
 
       EGFR kinase inhibition IC50:
         target_id: egfr
@@ -90,10 +90,14 @@ silver:
             - '^\s*0?\\.\\d+\s*$ -> qualifier:=, value:\0, unit:%'
             - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*µ?M\s*$ -> qualifier:>, value:\\1, unit:uM'
             - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*µ?M\s*$ -> qualifier:=, value:\\1, unit:uM'
-            - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:>, value:\\1, unit:nM'
-            - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*nM\s*$ -> qualifier:=, value:\\1, unit:nM'
-            - '>=?\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:>, value:\\1, unit:uM'
-            - '^\s*([+-]?(?:\\d+(?:\\.\\d*)?|\\.\\d+)(?:[eE][+-]?\\d+)?)\s*$ -> qualifier:=, value:\\1, unit:uM'
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*nM\s*$ -> qualifier:>, value:\1, unit:nM'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*nM\s*$ -> qualifier:=, value:\1, unit:nM'
+            # pM 표기 지원(EGFR 등에서 관측): ASCII pM 그대로 유지
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*pM\s*$ -> qualifier:>, value:\1, unit:pM'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*pM\s*$ -> qualifier:=, value:\1, unit:pM'
+            # 단위 미표기 숫자/과학표기법: 2018 특허 관행에 따라 기본 단위를 M로 해석
+            - '>=?\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:>, value:\1, unit:M'
+            - '^\s*([+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?)\s*$ -> qualifier:=, value:\1, unit:M'
 
   meta:
     # 20 uM 단일 농도에서의 % 억제만 선별 보존
