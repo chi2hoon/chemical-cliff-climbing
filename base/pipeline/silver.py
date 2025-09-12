@@ -397,6 +397,86 @@ def build_silver(year, yaml_path=None):
         meta_out_path = os.path.join(outdir, "assay_context_silver.csv")
         meta_df.to_csv(meta_out_path, index=False, encoding="utf-8")
 
+    # 2020: Asterisk 예외 교정표를 compounds_silver에 반영(NEW SMILES 우선 교체)
+    try:
+        if year == "2020":
+            comp_path = os.path.join(outdir, "compounds_silver.csv")
+            if os.path.exists(comp_path):
+                comp_fix = pd.read_csv(comp_path, dtype=str)
+                # asterisk 소스: bronze/tables/asterisk_exceptions.csv 또는 메타 파일에서 유도
+                asterisk_path = os.path.join("base","data","bronze",year,"tables","asterisk_exceptions.csv")
+                aster = None
+                if os.path.exists(asterisk_path):
+                    aster = pd.read_csv(asterisk_path, dtype=str)
+                elif meta_out_path and os.path.exists(meta_out_path):
+                    tmp = pd.read_csv(meta_out_path, dtype=str)
+                    # asterisk 관련 컬럼이 있는 행만 필터링(NEW/OLD/Yes/No 중 하나라도 존재)
+                    cols = [c for c in tmp.columns]
+                    has_any = [c for c in cols if ("SMILES" in str(c)) or ("Yes/No" in str(c))]
+                    aster = tmp[has_any].copy() if has_any else None
+                if aster is not None and len(aster) > 0:
+                    # 컬럼 정규화
+                    def _pick_col(cands):
+                        for c in aster.columns:
+                            cl = str(c).strip().lower()
+                            for tok in cands:
+                                if tok in cl:
+                                    return c
+                        return None
+                    col_ex = None
+                    # Example 라벨 컬럼 탐지("Example 123" 패턴 비율로 판단)
+                    for c in aster.columns:
+                        s = aster[c].astype(str)
+                        try:
+                            ratio = (s.str.match(r"^\s*Example\s+\d+", na=False)).mean()
+                        except Exception:
+                            ratio = 0.0
+                        if ratio and ratio > 0.2:
+                            col_ex = c; break
+                    col_yes = _pick_col(["yes/no"])
+                    # 'NEW SMILES' 또는 'smiles_new' 모두 허용
+                    col_new = _pick_col(["new smiles"]) or ("smiles_new" if any(str(c).strip().lower()=="smiles_new" for c in aster.columns) else None)
+                    if col_ex is None and "nan" in [str(c) for c in aster.columns]:
+                        col_ex = "nan"
+                    # 유효 케이스만 선별
+                    cols_keep = [c for c in [col_ex, col_yes, col_new] if c is not None]
+                    if cols_keep and col_ex is not None:
+                        af = aster[cols_keep].copy()
+                        af.columns = ["example_label"] + (["asterisk_yesno"] if col_yes else []) + (["smiles_new"] if col_new else [])
+                        # 공백/NA 정리
+                        for c in af.columns:
+                            af[c] = af[c].astype(str).str.strip().replace({"nan": None, "None": None, "": None})
+                        # 매핑 준비
+                        comp_fix["flag_asterisk"] = False
+                        if "flag_smiles_o3_changed" not in comp_fix.columns:
+                            comp_fix["flag_smiles_o3_changed"] = None
+                        # join on compound_id == example_label
+                        j = comp_fix.merge(af, left_on="compound_id", right_on="example_label", how="left", suffixes=("","_ast"))
+                        # NEW SMILES 적용
+                        mask_new = j.get("smiles_new").notna() if "smiles_new" in j.columns else False
+                        if isinstance(mask_new, bool):
+                            # no-op when column missing
+                            mask_new = j.index == -1  # all False
+                        j.loc[mask_new, "smiles_raw"] = j.loc[mask_new, "smiles_new"]
+                        j.loc[mask_new, "flag_asterisk"] = True
+                        j.loc[mask_new, "flag_smiles_o3_changed"] = True
+                        # Yes/No만 있고 NEW 없음: Yes면 검수완료로 flag_asterisk만 표시
+                        if "asterisk_yesno" in j.columns:
+                            yn = j["asterisk_yesno"].astype(str).str.strip().str.upper()
+                            mask_yes = (yn == "Y") | (yn == "YES")
+                            mask_no = (yn == "N") | (yn == "NO")
+                            j.loc[mask_yes & ~mask_new, "flag_asterisk"] = True
+                            # No인데 NEW도 없으면 교정 필요(플래그만 남기고 SMILES는 유지)
+                            j.loc[mask_no & ~mask_new, "flag_asterisk"] = True
+                            # 변경 여부는 명시 불가 → None 유지
+                        # 정리 및 저장
+                        keep = [c for c in comp_fix.columns]
+                        comp_fix2 = j[keep].copy()
+                        comp_fix2 = stable_sort(comp_fix2, ["compound_id","provenance_row"]) if "compound_id" in comp_fix2.columns else comp_fix2
+                        comp_fix2.to_csv(comp_path, index=False, encoding="utf-8")
+    except Exception:
+        pass
+
     rows_matrix = []
     if assay_cfg.get("from_matrix"):
         fm = assay_cfg.get("from_matrix")
@@ -510,6 +590,23 @@ def build_silver(year, yaml_path=None):
             meta_all.to_csv(meta_path, index=False, encoding="utf-8")
             # assay에서 제거
             assay_df = assay_df[~percent_mask].copy()
+    except Exception:
+        pass
+
+    # 보강: SMILES 기반으로 compound_id(Example N) 매핑 시도(직접 키가 없는 연도용)
+    try:
+        if "compound_id" in assay_df.columns and assay_df["compound_id"].isna().any() and "smiles_raw" in assay_df.columns:
+            comp_path = os.path.join(outdir, "compounds_silver.csv")
+            if os.path.exists(comp_path):
+                cdf = pd.read_csv(comp_path, dtype=str)
+                if "smiles_raw" in cdf.columns and "compound_id" in cdf.columns:
+                    cmap = cdf.dropna(subset=["smiles_raw","compound_id"]).drop_duplicates(subset=["smiles_raw"])[["smiles_raw","compound_id"]]
+                    assay_df = assay_df.merge(cmap, on="smiles_raw", how="left", suffixes=("","_by_smiles"))
+                    mask_fill = assay_df["compound_id"].isna() & assay_df["compound_id_by_smiles"].notna()
+                    if mask_fill.any():
+                        assay_df.loc[mask_fill, "compound_id"] = assay_df.loc[mask_fill, "compound_id_by_smiles"]
+                    if "compound_id_by_smiles" in assay_df.columns:
+                        del assay_df["compound_id_by_smiles"]
     except Exception:
         pass
 

@@ -144,6 +144,20 @@ def build_gold(years):
         meta_in = os.path.join("base","data","silver", y, "assay_context_silver.csv")
         if os.path.exists(meta_in):
             meta_df = pd.read_csv(meta_in, dtype=str)
+            # 컬럼명 정규화: 'nan' → 'example_label', 'Yes/No' → 'asterisk_yesno', 'OLD/NEW SMILES' 표준화
+            ren = {}
+            for c in list(meta_df.columns):
+                lc = str(c).strip().lower()
+                if str(c).strip() == 'nan':
+                    ren[c] = 'example_label'
+                elif 'yes/no' in lc:
+                    ren[c] = 'asterisk_yesno'
+                elif 'old smiles' in lc:
+                    ren[c] = 'smiles_old'
+                elif 'new smiles' in lc:
+                    ren[c] = 'smiles_new'
+            if ren:
+                meta_df = meta_df.rename(columns=ren)
             meta_df = stable_sort(meta_df, [c for c in ["compound_id","provenance_row"] if c in meta_df.columns])
             meta_out = os.path.join(out_dir, "assay_context.csv")
             meta_df.to_csv(meta_out, index=False, encoding="utf-8")
