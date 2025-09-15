@@ -1,0 +1,10 @@
+species,sex,dose_text,mortality_text,flag_asterisk,flag_imaging_conflict,provenance_file,provenance_sheet,provenance_row,assay_id,compound_id,dose_route,dose_value,dose_unit,mortality_pct,mortality_n,mortality_k,mortality_ratio,table 2,nan,nan.1,nan.2
+Mouse,Male,IV 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,3,tox.in_vivo.mouse,4,IV,40,mg/kg,0,0,2,0/2,,,,
+Mouse,Male,IP 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,4,tox.in_vivo.mouse,4,IP,40,mg/kg,0,0,2,0/2,,,,
+Mouse,Female,IV 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,5,tox.in_vivo.mouse,4,IV,40,mg/kg,0,0,2,0/2,,,,
+Mouse,Female,IP 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,6,tox.in_vivo.mouse,4,IP,40,mg/kg,0,0,2,0/2,,,,
+,,,,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,3,tox.cardio_adverse,,,,,,,,,Compound,심장박동변화(%),치사율,비고
+,,,,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,4,tox.cardio_adverse,,,,,,,,,10uM Astemizole,46.2,0/10,
+,,,,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,5,tox.cardio_adverse,,,,,,,,,5uM of KSI-3716,-,2025-10-10 00:00:00,전 개체 사망으로 측정불가
+,,,,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,6,tox.cardio_adverse,,,,,,,,,5uM of 화합물 4,88.5,2025-01-10 00:00:00,
+,,,,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,7,tox.cardio_adverse,,,,,,,,,5uM of 화합물 33,97.3,0/10,유의적 심박수 저해 없음

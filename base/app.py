@@ -15,9 +15,10 @@ from modules.io_utils import (
     parse_hypothesis_md,
     load_gold_data,
     get_available_gold_years,
-    get_cell_lines_for_panel,
     get_available_targets,
-    get_available_panel_ids
+    get_available_panel_ids,
+    get_all_available_panels_and_years,
+    get_cell_lines_for_panel
 )
 
 # --- Helper Functions ---
@@ -144,6 +145,7 @@ with tab1:
     st.header("1. 데이터 로드")
     st.markdown("표준화된 데이터셋을 로드하여 분석을 시작하세요.")
 
+
     # 데이터셋 선택 (앱 파일 위치를 기준으로 고정 경로 구성)
     base_dir = os.path.dirname(os.path.abspath(__file__))
     data_root = os.path.join(base_dir, "data")
@@ -168,10 +170,11 @@ with tab1:
         # 년도(왼쪽) - 보기축/필터(오른쪽)
         col_year, col_right = st.columns([1, 2])
 
+
         with col_year:
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
-        # 가용 패널/타깃 수집 후 보기축 결정
+
         available_panels = get_available_panel_ids(selected_year, data_root)
         available_targets = get_available_targets(selected_year, data_root)
         view_options = []
@@ -194,7 +197,6 @@ with tab1:
                 for panel_id in sorted(available_panels):
                     display_name = panel_names_map.get(panel_id, panel_id)
                     display_option = f"{panel_id} ({display_name})" if str(display_name).strip() != str(panel_id).strip() else f"{display_name}"
-                    panel_display_options.append(display_option)
                     panel_id_to_display[display_option] = panel_id
                 selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
                 selected_panel = panel_id_to_display[selected_panel_display]
@@ -203,6 +205,7 @@ with tab1:
                 target_display_options = ["전체 타깃"] + targets
                 selected_target_display = st.selectbox("🎯 타깃 선택", target_display_options, index=0)
                 selected_target = None if selected_target_display == "전체 타깃" else selected_target_display
+
 
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
@@ -302,7 +305,6 @@ with tab1:
                 except Exception as e:
                     st.error(f"데이터 로드 실패: {e}")
 
-    # (레거시) Gold 데이터 설명/파이프라인 정보 섹션 제거됨
 
 with tab2:
     st.header("2. Activity Cliff 분석")

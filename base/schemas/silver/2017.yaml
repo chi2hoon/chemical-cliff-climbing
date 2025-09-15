@@ -1,3 +1,4 @@
+
 file: base/data/bronze/artifacts/2017_raw.xlsx
 read: {dtype: str, engine: openpyxl}
 sheets:

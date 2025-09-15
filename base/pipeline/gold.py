@@ -23,6 +23,10 @@ def build_gold(years):
     years = [str(y) for y in years]
     results = {}
     for y in years:
+<<<<<<< HEAD:base/pipeline/gold.py
+=======
+        # assays per year
+>>>>>>> origin/main:hoon/pipeline/gold.py
         assay_path_in = os.path.join("base", "data", "silver", y, "assay_readings_silver.csv")
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
@@ -90,6 +94,10 @@ def build_gold(years):
             assays = df[keep].copy()
             assays = stable_sort(assays, ["compound_id","assay_id","provenance_row"])
 
+<<<<<<< HEAD:base/pipeline/gold.py
+=======
+        # compounds per year
+>>>>>>> origin/main:hoon/pipeline/gold.py
         comp_path_in = os.path.join("base", "data", "silver", y, "compounds_silver.csv")
         comps = pd.DataFrame(columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"])
         props_rows = []
@@ -141,6 +149,10 @@ def build_gold(years):
             props_df = stable_sort(props_df, ["compound_key","compound_id","provenance_row"]) if "compound_key" in props_df.columns else props_df
             props_out = os.path.join(out_dir, "compound_props.csv")
             props_df.to_csv(props_out, index=False, encoding="utf-8")
+<<<<<<< HEAD:base/pipeline/gold.py
+=======
+        # meta: assay_context
+>>>>>>> origin/main:hoon/pipeline/gold.py
         meta_in = os.path.join("base","data","silver", y, "assay_context_silver.csv")
         if os.path.exists(meta_in):
             meta_df = pd.read_csv(meta_in, dtype=str)

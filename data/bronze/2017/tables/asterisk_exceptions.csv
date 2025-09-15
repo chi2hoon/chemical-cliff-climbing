@@ -1,0 +1,13 @@
+nan,smiles_old,smiles_new,flag_asterisk,provenance_file,provenance_sheet,provenance_row
+68,O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C,O=C1C(=C(S(=O)CC2=CC=C(C=C2)*)NC2C1=C(Cl)C=CC=2Br)C(=O)C,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,4
+69,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2F)*)NC2C(=C(Cl)C=CC=2Br)C1=O,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,5
+75,O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)CC1=CC=C(C=C1OC)*,O=S(C1=C(C(=O)C2C(=C(Br)C=CC=2Cl)N1)C(=O)C)C1=CC=C(C=C1O)*,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,6
+76,ClC1C=CC(Br)=C2C=1C(=O)C(=C(S(=O)CC1=CC(F)=CC(=C1)*)N2)C(=O)C,ClC1C=CC(Br)=C2C=1C(=O)C(=C(S(=O)CC1=CC(F)=CC(=C1)*)N2)C(=O)C,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,7
+77,O=C1C2C(=C(Br)C=CC=2Cl)NC(=C1C(=O)C)S(=O)CC1C=C(*)C=CC=1,O=C1C2C(=C(Br)C=CC=2Cl)NC(=C1C(=O)C)S(=O)CC1C=C(*)C=CC=1,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,8
+79,O=S(C1=C(C(=O)C)C(=O)C2C(=C(Cl)C=CC=2Cl)N1)CC1=CC=C(C=C1)*,O=S(C1=C(C(=O)C)C(=O)C2C(=C(Cl)C=CC=2Cl)N1)CC1=CC=C(C=C1)*,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,9
+80,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C)S(=O)CC1=CC=C(C=C1)*,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C)S(=O)CC1=CC=C(C=C1)*,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,10
+85,O=C(C(C)C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(=C(F)C=CC=2F)C1=O,O=C(C(C)C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(=C(F)C=CC=2F)C1=O,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,11
+87,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C1C=CC=CC=1)S(=O)CC1=CC=C(C=C1)*,O=C1C2C(=C(F)C=CC=2F)NC(=C1C(=O)C1C=CC=CC=1)S(=O)CC1=CC=C(C=C1)*,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,12
+92,O=C1C2C(=CC=CC=2OC)NC(=C1C(=O)C)SCC1=CC=C(C=C1)*,O=C1C2C(=CC=CC=2OC)NC(=C1C(=O)C)SCC1=CC=C(C=C1)*,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,13
+93,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(C1=O)=C(OC)C=CC=2,O=C(C)C1=C(S(=O)CC2=CC=C(C=C2)*)NC2C(C1=O)=C(OC)C=CC=2,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,14
+101,ClC1=C2C(NC(=C(C(=O)C3CC3)C2=O)S(=O)CC2=CC=C(C=C2)*C)=C(Br)C=C1,ClC1=C2C(NC(=C(C(=O)C3CC3)C2=O)S(=O)CC2=CC=C(C=C2)*C)=C(Br)C=C1,True,data/bronze/artifacts/2017_raw.xlsx,Asterik ExceptionCase Chart,15

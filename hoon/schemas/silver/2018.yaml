@@ -1,0 +1,38 @@
+file: base/data/bronze/artifacts/2018_raw.xlsx
+read: {dtype: str, engine: openpyxl}
+sheets:
+  - name: "Sheet1"
+    tables:
+      - id: main
+        range: "A1:G459"
+        header_row_offset: 0
+        rename:
+          Num: compound_id
+          smiles: smiles_raw
+          iupacs: iupac_name
+        melt:
+          id_cols: [compound_id, iupac_name, smiles_raw, provenance_file, provenance_sheet, provenance_row]
+          value_cols: ["KRAS-SOS1 Interaction", "KRAS-Activation by SOS high GTP", "KRAS-Activation by SOS no GTP", "EGFR kinase inhibition IC50"]
+
+silver:
+  compounds:
+    from: base/data/bronze/2018/tables/main.csv
+  assays:
+    from_melt: main_long
+    variable_rules:
+      KRAS-SOS1 Interaction:
+        target_id: kras_sos1
+        assay_id: cell.cytotoxicity.ic50
+        parse: { default_unit: uM, rules: [">=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:'>', value:\\1, unit:uM", "([\\d\\.]+)\\s*µ?M -> qualifier:'=', value:\\1, unit:uM"] }
+      KRAS-Activation by SOS high GTP:
+        target_id: kras_activation_high_gtp
+        assay_id: cell.cytotoxicity.ic50
+        parse: { default_unit: uM, rules: [">=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:'>', value:\\1, unit:uM", "([\\d\\.]+)\\s*µ?M -> qualifier:'=', value:\\1, unit:uM"] }
+      KRAS-Activation by SOS no GTP:
+        target_id: kras_activation_no_gtp
+        assay_id: cell.cytotoxicity.ic50
+        parse: { default_unit: uM, rules: [">=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:'>', value:\\1, unit:uM", "([\\d\\.]+)\\s*µ?M -> qualifier:'=', value:\\1, unit:uM"] }
+      EGFR kinase inhibition IC50:
+        target_id: egfr
+        assay_id: cell.cytotoxicity.ic50
+        parse: { default_unit: uM, rules: [">=?\\s*([\\d\\.]+)\\s*µ?M -> qualifier:'>', value:\\1, unit:uM", "([\\d\\.]+)\\s*µ?M -> qualifier:'=', value:\\1, unit:uM"] }
