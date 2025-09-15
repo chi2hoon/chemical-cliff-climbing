@@ -8,6 +8,7 @@ import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
 from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis, create_activity_summary
+from modules.context_builder import build_pair_context
 from modules.io_utils import (
     load_smiles_activity_csv,
     save_hypothesis_to_md,
@@ -22,11 +23,26 @@ from modules.io_utils import (
 # --- Helper Functions ---
 
 def get_openai_api_key_from_file():
+    # 1) 환경변수 우선
+    env_key = os.getenv("OPENAI_API_KEY")
+    if env_key and env_key.strip():
+        return env_key.strip()
+    # 2) 현재 작업 디렉토리(base)에서 탐색
     try:
         with open("openAI_key.txt", "r") as f:
             return f.read().strip()
     except FileNotFoundError:
-        return None
+        pass
+    # 3) 레포 루트(../)에서도 탐색
+    try:
+        here = os.path.dirname(os.path.abspath(__file__))
+        root_key = os.path.abspath(os.path.join(here, os.pardir, "openAI_key.txt"))
+        if os.path.exists(root_key):
+            with open(root_key, "r") as f:
+                return f.read().strip()
+    except Exception:
+        pass
+    return None
 
 def format_hypothesis_for_markdown(data: dict) -> str:
     """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 및 HTML 문자열로 변환합니다."""
@@ -552,6 +568,21 @@ with tab3:
                                 high_act_smiles, high_act_val = row['SMILES_2'], row['Activity_2']
                                 low_act_smiles, low_act_val = row['SMILES_1'], row['Activity_1']
 
+                            # 컨텍스트 JSON 구성
+                            try:
+                                selected_axis = 'cell' if selected_view == '세포 패널 보기' else 'target'
+                                scale_used = 'pAct' if (st.session_state.get('activity_assumption') == '값이 높을수록 활성도가 높음 (Higher is better)') else 'raw'
+                                ctx = build_pair_context(
+                                    year=str(selected_year),
+                                    pair_row=row,
+                                    df_base=st.session_state['df'],
+                                    data_root=data_root,
+                                    selected_axis=selected_axis,
+                                    scale_used=scale_used,
+                                )
+                            except Exception:
+                                ctx = None
+
                             json_response = generate_hypothesis(
                                 api_key=openai_api_key,
                                 smiles1=low_act_smiles,
@@ -559,7 +590,8 @@ with tab3:
                                 smiles2=high_act_smiles,
                                 activity2=high_act_val,
                                 structural_difference_description=f"화합물 1({low_act_smiles})과 화합물 2({high_act_smiles})의 구조적 차이점.",
-                                similarity=row['Similarity']
+                                similarity=row['Similarity'],
+                                context_json=ctx
                             )
                             
                             try:
@@ -574,8 +606,17 @@ with tab3:
                                 save_hypothesis_to_md(file_md, filepath)
                                 st.success(f"가설이 '{filepath}' 파일로 저장되었습니다.")
                             except json.JSONDecodeError:
-                                st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 원본 응답을 표시합니다:")
-                                st.text(json_response)
+                                # LLM 오류 메시지 처리
+                                msg = str(json_response or "").strip()
+                                rate_hit = ("rate" in msg.lower()) or ("429" in msg) or ("insufficient_quota" in msg) or ("quota" in msg.lower())
+                                if msg.startswith("ERROR:"):
+                                    if rate_hit:
+                                        st.error("LLM 호출이 제한되었습니다(분당 리밋/한도). API 한도/리밋을 확인하고 잠시 후 다시 시도하세요.")
+                                    else:
+                                        st.error(f"LLM 호출 실패: {msg}")
+                                else:
+                                    st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 잠시 후 다시 시도하세요.")
+                                # 가설 저장/표시는 생략(생성하지 않음)
     else:
         st.info("2. Activity Cliff 분석 탭에서 분석을 먼저 실행해주세요.")
 
