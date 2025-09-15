@@ -23,10 +23,7 @@ def build_gold(years):
     years = [str(y) for y in years]
     results = {}
     for y in years:
-<<<<<<< HEAD:base/pipeline/gold.py
-=======
-        # assays per year
->>>>>>> origin/main:hoon/pipeline/gold.py
+
         assay_path_in = os.path.join("base", "data", "silver", y, "assay_readings_silver.csv")
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):

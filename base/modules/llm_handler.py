@@ -1,5 +1,7 @@
 from openai import OpenAI
 from typing import Any, Dict
+import os
+import json
 
 
 def _extract_usage(chat_result: Any) -> Dict[str, int]:
@@ -232,14 +234,14 @@ def generate_hypothesis(
         return {
             "content": chat_result.choices[0].message.content.strip(),
             "usage": _extract_usage(chat_result),
-            "model": model,
+            "model": used_model,
         }
     except Exception as e:
 
         return {
             "content": f"LLM 가설 생성 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-            "model": model,
+            "model": used_model,
         }
 
 
@@ -356,14 +358,14 @@ def evaluate_hypothesis(
         return {
             "content": chat_result.choices[0].message.content.strip(),
             "usage": _extract_usage(chat_result),
-            "model": model,
+            "model": used_model,
         }
     except Exception as e:
 
         return {
             "content": f"LLM 가설 평가 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-            "model": model,
+            "model": used_model,
         }
 
 
@@ -494,13 +496,12 @@ def revise_hypothesis(
         return {
             "content": chat_result.choices[0].message.content.strip(),
             "usage": _extract_usage(chat_result),
-            "model": model,
+            "model": used_model,
         }
     except Exception as e:
 
         return {
             "content": f"LLM 가설 수정 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-            "model": model,
+            "model": used_model,
         }
-
