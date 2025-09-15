@@ -549,16 +549,33 @@ with tab3:
         disp.index.name = 'Pair #'
 
         st.subheader("분석할 Activity Cliff 쌍 선택")
-        st.dataframe(disp, use_container_width=True)
-        options_1based = list(range(1, len(disp)+1))
-        selected_display_ids = st.multiselect("분석 및 시각화할 Pair 번호(1-based)를 선택하세요:", options_1based)
+        # 표에서 직접 체크박스로 선택하도록 지원
+        try:
+            # 표시용 테이블에 선택 컬럼 추가
+            disp_show = disp.copy()
+            disp_show.insert(0, 'Pair #', list(range(1, len(disp_show)+1)))
+            default_selected = set(st.session_state.get('selected_display_ids', []))
+            disp_show.insert(0, '선택', [ (i in default_selected) for i in disp_show['Pair #'] ])
+            edited = st.data_editor(
+                disp_show,
+                hide_index=True,
+                use_container_width=True,
+                disabled=[c for c in disp_show.columns if c not in ['선택']],
+                key='cliff_table_editor'
+            )
+            selected_display_ids = [ int(v) for v in edited[edited['선택'] == True]['Pair #'].tolist() ]
+            st.session_state['selected_display_ids'] = selected_display_ids
+        except Exception:
+            # 폴백: 멀티셀렉트 유지
+            st.dataframe(disp, use_container_width=True)
+            options_1based = list(range(1, len(disp)+1))
+            selected_display_ids = st.multiselect("분석 및 시각화할 Pair 번호(1-based)를 선택하세요:", options_1based)
         # 1-based → 원본 인덱스 매핑
         selected_indices = [ st.session_state['cliff_sorted_idx'][i-1] for i in selected_display_ids ]
         
         if selected_indices:
             # 선택 쌍 미리보기(가설 생성 전 즉시 표시)
             with st.container(border=True):
-                st.subheader("선택 쌍 미리보기")
                 max_preview = 6
                 pairs = list(zip(selected_display_ids, selected_indices))
                 if len(pairs) > max_preview:
@@ -583,7 +600,6 @@ with tab3:
                 st.warning("LLM 가설 생성을 위해 openAI_key.txt 파일에 API Key를 입력해주세요.")
             else:
                 st.session_state['openai_api_key'] = openai_api_key
-                st.success("API 키가 openAI_key.txt 파일에서 로드되었습니다.")
 
                 if st.button("선택된 쌍에 대한 가설 생성"):
                     output_dir = "hypotheses"
@@ -591,20 +607,7 @@ with tab3:
 
                     for i in selected_indices:
                         row = cliff_df.loc[i]
-                        st.subheader(f"분석 쌍 #{i}")
-                        # 레전드에 IUPAC 우선
-                        nm1 = name_map.get(str(row['SMILES_1'])) if name_map else None
-                        nm2 = name_map.get(str(row['SMILES_2'])) if name_map else None
-                        l1 = f"IUPAC: {nm1}" if nm1 else f"SMILES: {row['SMILES_1']}"
-                        l2 = f"IUPAC: {nm2}" if nm2 else f"SMILES: {row['SMILES_2']}"
-
-                        img = visualize_structure_difference(
-                            smiles1=row['SMILES_1'],
-                            smiles2=row['SMILES_2'],
-                            legend1=f"{l1}\nActivity: {row['Activity_1']:.2f}",
-                            legend2=f"{l2}\nActivity: {row['Activity_2']:.2f}"
-                        )
-                        st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
+                        st.subheader(f"가설 생성 중 · 쌍 #{i}")
 
                         with st.spinner(f"쌍 #{i}에 대한 LLM 가설을 생성 중입니다..."):
                             higher_is_better = st.session_state.get('activity_assumption') == '값이 높을수록 활성도가 높음 (Higher is better)'
