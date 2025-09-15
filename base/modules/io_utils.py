@@ -246,9 +246,12 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
             if 'compound_key_props' in df.columns:
                 df['compound_key'] = df['compound_key'].where(df['compound_key'].astype(str).str.strip()!="", df['compound_key_props'])
                 df = df.drop(columns=['compound_key_props'])
-        # 2) compounds.csv로부터 canonical SMILES 조인
+        # 2) compounds.csv로부터 canonical SMILES(+ IUPAC 이름) 조인
         if ("compound_key" in df.columns) and (len(df_comps) > 0) and ("compound_key" in df_comps.columns) and ("smiles_canonical" in df_comps.columns):
-            df = df.merge(df_comps[["compound_key","smiles_canonical"]].drop_duplicates(), on="compound_key", how="left")
+            comp_cols = ["compound_key", "smiles_canonical"]
+            if "iupac_name" in df_comps.columns:
+                comp_cols.append("iupac_name")
+            df = df.merge(df_comps[comp_cols].drop_duplicates(), on="compound_key", how="left")
         # 3) silver compounds_silver의 smiles_raw로 폴백(표시용)
         comp_silver_path = os.path.join(data_root, "silver", str(year), "compounds_silver.csv")
         comp_sil = pd.read_csv(comp_silver_path, dtype=str) if os.path.exists(comp_silver_path) else pd.DataFrame()
@@ -264,6 +267,9 @@ def load_gold_data(year: str = "2017", data_root: str = "base/data", panel_id: O
         for meta_col in ["compound_id", "assay_id", "target_id", "unit_std", "qualifier"]:
             if meta_col in df.columns:
                 cols.append(meta_col)
+        # IUPAC 이름이 있으면 표시용으로 포함
+        if "iupac_name" in df.columns:
+            cols.append("iupac_name")
         out = df[cols].copy()
         # 유효 행만 유지
         out = out.dropna(subset=["SMILES", "Activity"]).copy()

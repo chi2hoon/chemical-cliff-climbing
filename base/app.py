@@ -329,8 +329,8 @@ with tab2:
 
         with col2:
             similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
-            # 스케일별 Δ 기본값만 계산(입력은 아래 프리뷰에서 제공)
-            default_diff = 0.5 if scale_choice == "pAct (-log10[M])" else 1.0
+            # 스케일별 Δ 기본값: pAct는 관례적으로 2.0 권장
+            default_diff = 2.0 if scale_choice == "pAct (-log10[M])" else 1.0
             step = 0.1 if scale_choice == "pAct (-log10[M])" else 0.1
             fmt = "%0.2f" if scale_choice == "pAct (-log10[M])" else "%f"
 
@@ -380,15 +380,27 @@ with tab2:
             work_df = work_df[pd.Series(work_df["Activity_pAct"]).notna()].reset_index(drop=True)
             chosen_activity_col = "Activity_pAct"
 
-        # 프리뷰 쌍(Δ 필터 미적용)
-        preview_df = find_activity_cliffs(
-            work_df,
-            smiles_col=smiles_col,
-            activity_col=chosen_activity_col,
-            similarity_threshold=similarity_threshold,
-            activity_diff_threshold=0.0,
-            higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
+        # 프리뷰 쌍(Δ 필터 미적용) — 동일 파라미터에서 재사용되도록 세션 캐시
+        _cache_key = (
+            "pairs_preview",
+            int(similarity_threshold * 1000),
+            chosen_activity_col,
+            len(work_df),
         )
+        prev_cache = st.session_state.get("_preview_cache", {})
+        preview_df = None
+        if prev_cache.get("key") == _cache_key:
+            preview_df = prev_cache.get("df")
+        if preview_df is None:
+            preview_df = find_activity_cliffs(
+                work_df,
+                smiles_col=smiles_col,
+                activity_col=chosen_activity_col,
+                similarity_threshold=similarity_threshold,
+                activity_diff_threshold=0.0,
+                higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
+            )
+            st.session_state["_preview_cache"] = {"key": _cache_key, "df": preview_df}
 
         # Δ 임계값 입력(히트맵 보기 전에 기본값 산정)
         try:
@@ -405,12 +417,18 @@ with tab2:
             step=float(step)
         )
 
-        # 프리뷰 히트맵(Δ 임계선 포함)
+        # --- 단일 히트맵 영역(프리뷰/결과 토글) ---
         try:
             import altair as alt
             import pandas as _pd
-            total_pairs = len(preview_df)
-            mask_sel = (preview_df["Similarity"] >= similarity_threshold) & (preview_df["Activity_Diff"] >= activity_diff_threshold)
+            # 결과가 이미 생성되어 있으면 토글 제공
+            has_result = ('cliff_df' in st.session_state) and (st.session_state['cliff_df'] is not None) and (len(st.session_state['cliff_df']) > 0)
+            options = ["프리뷰(유사도만 적용)"] + (["결과(임계값 모두 적용)"] if has_result else [])
+            src_choice = st.radio("시각화 소스", options, horizontal=True, index=0, key="viz_source_choice_main")
+            viz_df = preview_df if src_choice.startswith("프리뷰") else st.session_state['cliff_df']
+
+            total_pairs = len(viz_df)
+            mask_sel = (viz_df["Similarity"] >= similarity_threshold) & (viz_df["Activity_Diff"] >= activity_diff_threshold)
             selected_pairs = int(mask_sel.sum())
             ratio = (selected_pairs / total_pairs * 100.0) if total_pairs else 0.0
             m1, m2, m3 = st.columns(3)
@@ -418,7 +436,7 @@ with tab2:
             m2.metric("선택 영역 쌍 수", f"{selected_pairs:,}")
             m3.metric("비율(%)", f"{ratio:0.1f}")
 
-            base = alt.Chart(preview_df)
+            base = alt.Chart(viz_df)
             heat = base.mark_rect().encode(
                 alt.X("Similarity:Q", bin=alt.Bin(maxbins=30), scale=alt.Scale(domain=[0.7, 1.0])),
                 alt.Y("Activity_Diff:Q", bin=alt.Bin(maxbins=30)),
@@ -429,7 +447,13 @@ with tab2:
             h_rule = alt.Chart(_pd.DataFrame({"y": [activity_diff_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4]).encode(y="y:Q")
             st.altair_chart((heat + v_rule + h_rule).resolve_scale(color="independent"), use_container_width=True)
         except Exception:
-            pass
+            import numpy as _np
+            st.info("시각화 엔진(Altair) 사용이 어려워 간단한 산점도로 대체합니다.")
+            src = preview_df
+            if ('cliff_df' in st.session_state) and len(st.session_state['cliff_df']) > 0:
+                src = st.session_state['cliff_df']
+            sample = src.sample(min(len(src), 5000), random_state=42) if len(src) > 5000 else src
+            st.scatter_chart(sample[["Similarity", "Activity_Diff"]])
 
         if st.button("Activity Cliff 분석 실행"):
             with st.spinner("Activity Cliff를 분석 중입니다..."):
@@ -445,7 +469,47 @@ with tab2:
                 )
             
             st.success(f"{len(cliff_df)}개의 Activity Cliff 쌍을 찾았습니다!")
-            st.dataframe(cliff_df)
+            # IUPAC 매핑(표시용)
+            try:
+                base_df = st.session_state.get('df', pd.DataFrame())
+                name_map = {}
+                if len(base_df) > 0 and 'SMILES' in base_df.columns:
+                    if 'iupac_name' in base_df.columns:
+                        tmp = base_df[['SMILES','iupac_name']].drop_duplicates()
+                        name_map = {str(r['SMILES']): (str(r['iupac_name']).strip() if str(r['iupac_name']).strip() else None) for _, r in tmp.iterrows()}
+                def _name_or_smiles(s):
+                    s = str(s)
+                    n = name_map.get(s)
+                    return n if n and n.lower() != 'nan' else s
+                display_df = cliff_df.copy()
+                display_df['IUPAC_1'] = display_df['SMILES_1'].map(_name_or_smiles)
+                display_df['IUPAC_2'] = display_df['SMILES_2'].map(_name_or_smiles)
+                # 표시 컬럼 재배치 및 정렬(Δ, sim 내림차순)
+                cols = ['IUPAC_1','Activity_1','IUPAC_2','Activity_2','Similarity','Activity_Diff','SMILES_1','SMILES_2']
+                cols = [c for c in cols if c in display_df.columns]
+                display_df = display_df[cols].sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                # 1-based 인덱스
+                display_df.index = range(1, len(display_df) + 1)
+                display_df.index.name = 'Pair #'
+                st.dataframe(display_df, use_container_width=True)
+                try:
+                    csv_bytes = display_df.to_csv(index=True).encode('utf-8')
+                    st.download_button(
+                        label="결과 CSV 다운로드",
+                        data=csv_bytes,
+                        file_name="activity_cliffs.csv",
+                        mime="text/csv",
+                        use_container_width=True,
+                    )
+                except Exception:
+                    pass
+            except Exception:
+                # 문제가 있으면 원본 표라도 제공
+                df0 = cliff_df.copy().sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                df0.index = range(1, len(df0) + 1)
+                df0.index.name = 'Pair #'
+                st.dataframe(df0, use_container_width=True)
+
             st.session_state['cliff_df'] = cliff_df
 
             # 활성도 지표에 대한 요약 정보 표시
@@ -453,65 +517,7 @@ with tab2:
             st.markdown("---")
             st.markdown(summary_text)
 
-            # --- 유사도-활성도 차이 2D 밀도 시각화(교차선 포함) ---
-            try:
-                import altair as alt
-                # 프리뷰용: 유사도만 적용한 유사쌍 분포(Δ 임계값 미적용)
-                preview_df = find_activity_cliffs(
-                    work_df,
-                    smiles_col=smiles_col,
-                    activity_col=chosen_activity_col,
-                    similarity_threshold=similarity_threshold,
-                    activity_diff_threshold=0.0,
-                    higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
-                )
-
-                # 시각화 소스 선택(프리뷰 권장)
-                src_choice = st.radio(
-                    "시각화 소스",
-                    ["프리뷰(유사도만 적용)", "결과(임계값 모두 적용)"] ,
-                    horizontal=True,
-                    index=0,
-                    key="viz_source_choice"
-                )
-                viz_df = preview_df if src_choice.startswith("프리뷰") else cliff_df
-
-                # 통계 요약(현재 임계선 기준으로 비율 산출)
-                total_pairs = len(viz_df)
-                mask_sel = (viz_df["Similarity"] >= similarity_threshold) & (viz_df["Activity_Diff"] >= activity_diff_threshold)
-                selected_pairs = int(mask_sel.sum())
-                ratio = (selected_pairs / total_pairs * 100.0) if total_pairs else 0.0
-                m1, m2, m3 = st.columns(3)
-                m1.metric("전체 쌍 수", f"{total_pairs:,}")
-                m2.metric("선택 영역 쌍 수", f"{selected_pairs:,}")
-                m3.metric("비율(%)", f"{ratio:0.1f}")
-
-                # 히트맵(빈닝) + 교차선 (다크 테마 가독성: magma)
-                base = alt.Chart(viz_df)
-                heat = base.mark_rect().encode(
-                    alt.X("Similarity:Q", bin=alt.Bin(maxbins=30), scale=alt.Scale(domain=[0.7, 1.0])),
-                    alt.Y("Activity_Diff:Q", bin=alt.Bin(maxbins=30)),
-                    alt.Color("count():Q", scale=alt.Scale(scheme="magma")),
-                    tooltip=[alt.Tooltip("count():Q", title="Count")]
-                ).properties(height=320)
-                v_rule = alt.Chart(pd.DataFrame({"x": [similarity_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4])\
-                    .encode(x="x:Q")
-                h_rule = alt.Chart(pd.DataFrame({"y": [activity_diff_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4])\
-                    .encode(y="y:Q")
-                chart = (heat + v_rule + h_rule).resolve_scale(color="independent")
-                st.altair_chart(chart, use_container_width=True)
-            except Exception as _e:
-                # 폴백: 샘플 산점도
-                import numpy as _np
-                st.info("시각화 엔진(Altair) 사용이 어려워 간단한 산점도로 대체합니다.")
-                # 폴백에서도 프리뷰 우선
-                try:
-                    preview_df = find_activity_cliffs(work_df, smiles_col=smiles_col, activity_col=chosen_activity_col, similarity_threshold=similarity_threshold, activity_diff_threshold=0.0, higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
-                    src = preview_df if len(preview_df) else cliff_df
-                except Exception:
-                    src = cliff_df
-                sample = src.sample(min(len(src), 5000), random_state=42) if len(src) > 5000 else src
-                st.scatter_chart(sample[["Similarity", "Activity_Diff"]])
+            # (히트맵은 상단의 단일 영역에서 이미 제공)
     else:
         st.info("1. 상단에서 Gold 데이터를 먼저 로드해주세요.")
 
@@ -519,12 +525,59 @@ with tab3:
     st.header("3. 결과 시각화 및 가설 생성")
     if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
         cliff_df = st.session_state['cliff_df']
-        
+
+        # IUPAC 매핑 및 정렬(표시용)
+        base_df = st.session_state.get('df', pd.DataFrame())
+        name_map = {}
+        if len(base_df) > 0 and 'SMILES' in base_df.columns and 'iupac_name' in base_df.columns:
+            tmp = base_df[['SMILES','iupac_name']].drop_duplicates()
+            name_map = {str(r['SMILES']): (str(r['iupac_name']).strip() if str(r['iupac_name']).strip() else None) for _, r in tmp.iterrows()}
+        def _name_or_smiles(s):
+            s = str(s)
+            n = name_map.get(s)
+            return n if n and n.lower() != 'nan' else s
+        disp = cliff_df.copy()
+        disp['IUPAC_1'] = disp['SMILES_1'].map(_name_or_smiles)
+        disp['IUPAC_2'] = disp['SMILES_2'].map(_name_or_smiles)
+        sort_idx = disp.sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).index.tolist()
+        st.session_state['cliff_sorted_idx'] = sort_idx
+        disp = disp.loc[sort_idx]
+        cols = ['IUPAC_1','Activity_1','IUPAC_2','Activity_2','Similarity','Activity_Diff','SMILES_1','SMILES_2']
+        cols = [c for c in cols if c in disp.columns]
+        disp = disp[cols].reset_index(drop=True)
+        disp.index = range(1, len(disp)+1)
+        disp.index.name = 'Pair #'
+
         st.subheader("분석할 Activity Cliff 쌍 선택")
-        st.dataframe(cliff_df)
-        selected_indices = st.multiselect("분석 및 시각화할 Activity Cliff 쌍의 인덱스를 선택하세요:", cliff_df.index)
+        st.dataframe(disp, use_container_width=True)
+        options_1based = list(range(1, len(disp)+1))
+        selected_display_ids = st.multiselect("분석 및 시각화할 Pair 번호(1-based)를 선택하세요:", options_1based)
+        # 1-based → 원본 인덱스 매핑
+        selected_indices = [ st.session_state['cliff_sorted_idx'][i-1] for i in selected_display_ids ]
         
         if selected_indices:
+            # 선택 쌍 미리보기(가설 생성 전 즉시 표시)
+            with st.container(border=True):
+                st.subheader("선택 쌍 미리보기")
+                max_preview = 6
+                pairs = list(zip(selected_display_ids, selected_indices))
+                if len(pairs) > max_preview:
+                    st.info(f"미리보기는 최대 {max_preview}쌍까지만 표시합니다. (총 선택 {len(pairs)}쌍)")
+                for disp_id, i in pairs[:max_preview]:
+                    row = cliff_df.loc[i]
+                    nm1 = name_map.get(str(row['SMILES_1'])) if name_map else None
+                    nm2 = name_map.get(str(row['SMILES_2'])) if name_map else None
+                    l1 = f"IUPAC: {nm1}" if nm1 else f"SMILES: {row['SMILES_1']}"
+                    l2 = f"IUPAC: {nm2}" if nm2 else f"SMILES: {row['SMILES_2']}"
+                    st.markdown(f"### 분석 쌍 #{disp_id}")
+                    img = visualize_structure_difference(
+                        smiles1=row['SMILES_1'],
+                        smiles2=row['SMILES_2'],
+                        legend1=f"{l1}\nActivity: {row['Activity_1']:.2f}",
+                        legend2=f"{l2}\nActivity: {row['Activity_2']:.2f}"
+                    )
+                    st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
+
             openai_api_key = get_openai_api_key_from_file()
             if not openai_api_key:
                 st.warning("LLM 가설 생성을 위해 openAI_key.txt 파일에 API Key를 입력해주세요.")
@@ -539,12 +592,17 @@ with tab3:
                     for i in selected_indices:
                         row = cliff_df.loc[i]
                         st.subheader(f"분석 쌍 #{i}")
-                        
+                        # 레전드에 IUPAC 우선
+                        nm1 = name_map.get(str(row['SMILES_1'])) if name_map else None
+                        nm2 = name_map.get(str(row['SMILES_2'])) if name_map else None
+                        l1 = f"IUPAC: {nm1}" if nm1 else f"SMILES: {row['SMILES_1']}"
+                        l2 = f"IUPAC: {nm2}" if nm2 else f"SMILES: {row['SMILES_2']}"
+
                         img = visualize_structure_difference(
                             smiles1=row['SMILES_1'],
                             smiles2=row['SMILES_2'],
-                            legend1=f"SMILES: {row['SMILES_1']}\nActivity: {row['Activity_1']:.2f}",
-                            legend2=f"SMILES: {row['SMILES_2']}\nActivity: {row['Activity_2']:.2f}"
+                            legend1=f"{l1}\nActivity: {row['Activity_1']:.2f}",
+                            legend2=f"{l2}\nActivity: {row['Activity_2']:.2f}"
                         )
                         st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
 
