@@ -44,6 +44,8 @@ def _extract_usage(chat_result: Any) -> Dict[str, int]:
 
     return result
 
+
+
 system_message_generation = """
 You are an expert assistant specialized in medicinal chemistry and SAR (structure–activity relationship) hypothesis generation.
 
@@ -116,7 +118,8 @@ def generate_hypothesis(
     activity2: float,
     structural_difference_description: str,
     similarity: float,
-    model: str = "gpt-4o-mini",
+    context_json: dict | None = None,
+    model: str = "gpt-5",
     max_tokens: int = 1200,
 ) -> Dict[str, Any]:
     """
@@ -141,11 +144,21 @@ def generate_hypothesis(
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
+    used_model = os.getenv("OPENAI_MODEL", model)
+
+    # 컨텍스트(JSON) 직렬화
+    ctx_block = ""
+    try:
+        if context_json is not None:
+            ctx_block = json.dumps(context_json, ensure_ascii=False)
+    except Exception:
+        ctx_block = ""
 
     # LLM에 전달할 프롬프트. 명확성과 가독성을 위해 여러 줄 문자열로 구성합니다.
     prompt = f'''### 핵심 지침 (Core Instructions)
 * **엄격성이 최우선:** 당신의 1차 목표는 **완전하고 엄격하게 정당화된** SAR 가설을 제시하는 것입니다. 논리 비약 없이 각 단계의 주장에 **구조적 사실**과 **물리·유기화학적 원리**를 명시적으로 연결하세요. 단순한 직감이나 일반론적 상투구는 실패로 간주됩니다.
 * **완결성에 대한 정직성:** 완전한 가설(충분히 검증 가능한 일관된 설명)을 제시할 수 없으면 **추측으로 채우지 마십시오**. 그 대신, **유의미한 부분 결과**만 제시하세요.
+* **컨텍스트 사용:** 아래의 `데이터 컨텍스트(JSON)`만을 보조 근거로 사용하세요. 명시된 한계(검열값/미매핑 등)는 반드시 Assumptions/limits에 반영합니다.
 
 ### 문제 데이터 (Problem Data)
 - 화합물 1 SMILES: {smiles1}
@@ -154,6 +167,11 @@ def generate_hypothesis(
 - 유사도: Similarity: {similarity}
 - 구조 차이 요약(MMP 관점): {structural_difference_description}
 - 규칙: 값이 낮을수록 좋은 지표(IC50/Ki 등)라면 이를 명기하고, 그렇지 않으면 해당 가정을 **Summary**의 “가정(Assumptions)”에 명확히 적으세요.
+
+### 데이터 컨텍스트(JSON)
+```json
+{ctx_block}
+```
 
 ### 출력 형식 (Output Format)
 **지침: 다음의 키를 사용하는 JSON 객체만을 반환하세요. 값은 한국어로 작성합니다. `Generation.md`의 논리 구조를 따르되, 이 JSON 형식에 맞춰 내용을 채워주세요.**
@@ -202,7 +220,7 @@ def generate_hypothesis(
     try:
         # OpenAI 최신 API는 `messages` 파라미터를 사용합니다.
         chat_result = client.chat.completions.create(
-            model=model,
+            model=used_model,
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt},
@@ -217,11 +235,13 @@ def generate_hypothesis(
             "model": model,
         }
     except Exception as e:
+
         return {
             "content": f"LLM 가설 생성 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
             "model": model,
         }
+
 
 
 
@@ -243,7 +263,9 @@ def evaluate_hypothesis(
     smiles2: str,
     activity2: float,
     structural_difference_description: str,
-    model: str = "gpt-4o-mini",
+    context_json: dict | None = None,
+    model: str = "gpt-5",
+
     max_tokens: int = 1200,
 ) -> Dict[str, Any]:
     """
@@ -269,10 +291,19 @@ def evaluate_hypothesis(
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
+    used_model = os.getenv("OPENAI_MODEL", model)
+
+    ctx_block = ""
+    try:
+        if context_json is not None:
+            ctx_block = json.dumps(context_json, ensure_ascii=False)
+    except Exception:
+        ctx_block = ""
 
     prompt = f'''### 핵심 지침 (Core Instructions)
 * **심사위원의 관점:** 당신은 SAR 가설의 과학적 타당성을 심사하는 전문가입니다. `Evaluation.md`의 원칙에 따라 가설의 논리, 근거, 완결성을 엄격하게 평가하세요.
 * **구체적이고 실행 가능한 피드백:** 막연한 비판 대신, 어떤 부분이 왜 잘못되었는지, 어떤 정보가 누락되었는지, 어떻게 개선할 수 있는지 구체적으로 지적하세요.
+* **컨텍스트 사용:** 아래 `데이터 컨텍스트(JSON)`만 보조 근거로 사용하고, 한계(검열/미매핑)는 명확히 표기하세요.
 
 ### 평가 대상 데이터 (Data to Evaluate)
 - **화합물 1:** {smiles1} (활성도: {activity1})
@@ -280,6 +311,10 @@ def evaluate_hypothesis(
 - **평가할 가설(JSON):**
 ```json
 {hypothesis_text}
+```
+ - **데이터 컨텍스트(JSON):**
+```json
+{ctx_block}
 ```
 
 ### 출력 형식 (Output Format)
@@ -309,7 +344,7 @@ def evaluate_hypothesis(
 
     try:
         chat_result = client.chat.completions.create(
-            model=model,
+            model=used_model,
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt},
@@ -324,11 +359,13 @@ def evaluate_hypothesis(
             "model": model,
         }
     except Exception as e:
+
         return {
             "content": f"LLM 가설 평가 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
             "model": model,
         }
+
 
 
 def revise_hypothesis(
@@ -340,7 +377,8 @@ def revise_hypothesis(
     smiles2: str,
     activity2: float,
     structural_difference_description: str,
-    model: str = "gpt-4o-mini",
+    context_json: dict | None = None,
+    model: str = "gpt-5",
     max_tokens: int = 4096,
 ) -> Dict[str, Any]:
     """
@@ -367,6 +405,14 @@ def revise_hypothesis(
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
+    used_model = os.getenv("OPENAI_MODEL", model)
+
+    ctx_block = ""
+    try:
+        if context_json is not None:
+            ctx_block = json.dumps(context_json, ensure_ascii=False)
+    except Exception:
+        ctx_block = ""
 
     prompt = f'''### 핵심 지침 (Core Instructions)
 * **비판적 통합:** 당신은 동료 심사(peer review) 피드백을 바탕으로 논문을 개정하는 연구자입니다. `Revision.md`의 원칙에 따라, 제공된 '심사 결과'를 비판적으로 수용하여 '원본 가설'을 개선하세요.
@@ -382,6 +428,10 @@ def revise_hypothesis(
 - **반영할 심사 결과 (JSON):**
 ```json
 {review_findings}
+```
+ - **데이터 컨텍스트(JSON):**
+```json
+{ctx_block}
 ```
 
 ### 출력 형식 (Output Format)
@@ -432,7 +482,7 @@ def revise_hypothesis(
 
     try:
         chat_result = client.chat.completions.create(
-            model=model,
+            model=used_model,
             messages=[
                 {"role": "system", "content": system_message},
                 {"role": "user", "content": prompt},
@@ -447,8 +497,10 @@ def revise_hypothesis(
             "model": model,
         }
     except Exception as e:
+
         return {
             "content": f"LLM 가설 수정 중 오류 발생: {e}",
             "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
             "model": model,
         }
+

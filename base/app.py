@@ -8,13 +8,14 @@ import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
 from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis, create_activity_summary
+from modules.context_builder import build_pair_context
 from modules.io_utils import (
     load_smiles_activity_csv,
     save_hypothesis_to_md,
     parse_hypothesis_md,
-    load_hoon_gold_data,
-    load_hoon_ac_pairs,
+    load_gold_data,
     get_available_gold_years,
+    get_available_targets,
     get_available_panel_ids,
     get_all_available_panels_and_years,
     get_cell_lines_for_panel
@@ -23,6 +24,7 @@ from modules.io_utils import (
 # --- Helper Functions ---
 
 def get_openai_api_key_from_file():
+
     for path in ["openAI_key.txt", "base/openAI_key.txt"]:
         try:
             with open(path, "r") as f:
@@ -243,16 +245,17 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 ])
 
 with tab1:
-    st.header("1. Gold 데이터 로드")
-    st.markdown("표준화된 gold 데이터셋을 로드하여 분석을 시작하세요.")
+    st.header("1. 데이터 로드")
+    st.markdown("표준화된 데이터셋을 로드하여 분석을 시작하세요.")
 
-    # 데이터셋 선택
-    data_root = "base/data"
-    panel_years_map = get_all_available_panels_and_years(data_root)
+
+    # 데이터셋 선택 (앱 파일 위치를 기준으로 고정 경로 구성)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    data_root = os.path.join(base_dir, "data")
     available_years_all = get_available_gold_years(data_root)
 
     if not available_years_all:
-        st.warning("Gold 데이터가 없습니다. hoon 파이프라인에서 `gold` 스테이지를 먼저 실행하세요.")
+        st.warning("분석용 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017 2018`로 생성하세요.")
     else:
         # 패널 이름 매핑
         panel_names_map = {
@@ -267,27 +270,45 @@ with tab1:
             "misc13": "기타 패널"
         }
 
-        # 년도(왼쪽) - 패널(오른쪽, 없는 경우 스킵)
-        col_year, col_panel = st.columns([1, 2])
+        # 년도(왼쪽) - 보기축/필터(오른쪽)
+        col_year, col_right = st.columns([1, 2])
+
 
         with col_year:
             selected_year = st.selectbox("📅 데이터셋 년도", sorted(available_years_all), index=0)
 
+
+        available_panels = get_available_panel_ids(selected_year, data_root)
+        available_targets = get_available_targets(selected_year, data_root)
+        view_options = []
+        if available_panels:
+            view_options.append("세포 패널 보기")
+        if available_targets:
+            view_options.append("타깃 보기")
+        if not view_options:
+            view_options = ["타깃 보기"]
+
+        selected_view = st.radio("보기 축", view_options, index=0, horizontal=True)
+
         selected_panel = None
-        with col_panel:
-            if panel_years_map:
-                # 선택된 년도에서 사용 가능한 패널만 표시
-                panel_options = panel_years_map.keys()
-                filtered_panel_ids = [pid for pid in panel_options if selected_year in panel_years_map[pid]]
+        selected_target = None
+
+        with col_right:
+            if selected_view == "세포 패널 보기" and available_panels:
                 panel_display_options = ["전체 패널"]
                 panel_id_to_display = {"전체 패널": None}
-                for panel_id in sorted(filtered_panel_ids):
+                for panel_id in sorted(available_panels):
                     display_name = panel_names_map.get(panel_id, panel_id)
-                    display_option = f"{panel_id} ({display_name})"
-                    panel_display_options.append(display_option)
+                    display_option = f"{panel_id} ({display_name})" if str(display_name).strip() != str(panel_id).strip() else f"{display_name}"
                     panel_id_to_display[display_option] = panel_id
                 selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
                 selected_panel = panel_id_to_display[selected_panel_display]
+            else:
+                targets = available_targets
+                target_display_options = ["전체 타깃"] + targets
+                selected_target_display = st.selectbox("🎯 타깃 선택", target_display_options, index=0)
+                selected_target = None if selected_target_display == "전체 타깃" else selected_target_display
+
 
         # 세포주 셀렉터 (패널 선택 시)
         selected_cell_line = None
@@ -300,271 +321,395 @@ with tab1:
 
         # 로드 버튼 - selected_year가 있을 때만 표시
         if selected_year:
-            st.markdown("### 🚀 Gold 데이터 로드")
-            load_text = f"{selected_year}년 Gold 데이터 로드"
+            st.markdown("### 🚀 데이터 로드")
+            # 데이터 설명 토글(전체 너비)
+            _desc = None
+            if str(selected_year) == "2017":
+                _desc = (
+                    "2017: 국립암센터·한국화학연 특허(KR101920163B1, PCT/WO2018021849A1) 부속 표를 정리한 세트입니다. 암종별 세포주 패널에서 세포독성 IC₅₀(μM)이 보고되며, 일부 표엔 도스·치사율·심박변화 같은 보조 정보가 포함됩니다.\n\n"
+                    "활용 가이드\n"
+                    "- 세포 패널 보기에서 원하는 패널/세포주를 선택해 동일 맥락에서 구조–활성 비교를 진행하세요. pAct 모드(-log10[M])를 권장합니다.\n"
+                    "- Activity Cliff: 유사도 임계값(≥0.85)과 ΔpAct 임계값을 조정하며 선택성 높은 쌍을 선별하세요.\n"
+                    "- 보조 정보(도스·치사율·심박변화)는 후보 우선순위 판단 시 안전성/독성 리스크 관점에서 함께 참고하세요."
+                )
+            elif str(selected_year) == "2018":
+                _desc = (
+                    "2018: PCT/EP2018/056824, WO 2018/172250 부속 표를 정리한 세트입니다. Ras–SOS1 상호작용(HTRF, Assay 1~3)과 EGFR kinase 결과가 포함되며, 값은 IC₅₀ 또는 20 µM 단일 농도의 % 억제로 보고됩니다.\n\n"
+                    "활용 가이드\n"
+                    "- Ras–SOS1 관련 지표를 선택해 계열 내 SAR을 확인하세요. pAct 모드(-log10[M])를 권장합니다.\n"
+                    "- EGFR 선택성: EGFR 값을 함께 확인해 오프타깃 민감 후보를 빠르게 가려내세요.\n"
+                    "- 20 µM 단일농도 % 억제는 보조 지표로만 참고하고, IC₅₀와 함께 해석하세요."
+                )
+            elif str(selected_year) == "2020":
+                _desc = (
+                    "2020: 특허 WO2020132269 부속 표를 정리한 USP1 저해제 세트입니다. Examples(구조)·Intermediates/BB(부품)와 함께, 효소 저해 IC₅₀가 등급 기호(+, ++, +++, ++++)로 보고됩니다. 앱에서 등급→수치로 변환되어 비교할 수 있습니다.\n"
+                    "· 민감도(Table 5): <316 nM 기준 Yes/No 라벨(패널/유전형 수준).\n"
+                    "· ADME(Table 6~7): 용해도(pH 2.0/7.4)·간 미소체 안정성(HLM/RLM t₁/₂)을 +/<임계·++/≥임계(10 μM, 25 min) 등급으로 요약.\n"
+                    "· Asterisk 예외: 이미지–SMILES 불일치 교정표의 NEW SMILES가 적용됩니다.\n\n"
+                    "활용 가이드\n"
+                    "- 타깃을 ‘usp1’로 두고 Activity Cliff 분석에서 pAct 모드로 비교하세요(등급→수치 변환 반영).\n"
+                    "- 후보 우선순위: 상위 등급(저농도) 중심으로 ΔpAct를 확인해 구조–활성 차이를 해석하세요.\n"
+                    "- 민감도/ADME 요약은 품질/적합성의 보조 기준으로 참고하되, 직접 비교에 과신하지 마세요."
+                )
+            elif str(selected_year) == "2021":
+                _desc = (
+                    "2021: 특허 WO2021163344 부속 표를 정리한 PRMT5 저해제 세트입니다. Table 19에 생화학 Ki(nM, Method A/B)와 세포 증식 IC₅₀(μM, HCT116 MTAP-null/WT)이 수치로 보고되며 일부는 ‘>10’ 같은 검열 표기가 있습니다. 값과 단위는 앱에서 일관 표기로 표시됩니다.\n\n"
+                    "활용 가이드\n"
+                    "- 효소–세포 상관: 타깃 보기(prmt5, Ki A/B)와 세포 패널 보기(HCT116: MTAP-null/WT)를 각각 선택해 상관/격차를 확인하세요.\n"
+                    "- 선택성 지표: MTAP-null vs WT의 ΔpIC₅₀ 또는 (WT/null) 비율로 선택성을 계산해 우선 후보를 추립니다.\n"
+                    "- Method 우선순위: A를 우선 사용(결측 시 B). ‘>10’ 검열값은 하한으로만 해석해 비교 시 주의하세요."
+                )
+            with st.expander("데이터 설명", expanded=False):
+                st.markdown(_desc or "해당 연도에 대한 설명은 준비 중입니다.")
+            load_text = f"{selected_year}년 데이터 로드"
             if selected_panel:
                 panel_name = panel_names_map.get(selected_panel, selected_panel)
                 load_text += f" ({panel_name})"
+            elif selected_target:
+                load_text += f" (target: {selected_target})"
 
             if st.button(f"📊 {load_text}", type="primary", use_container_width=True):
                 try:
-                    with st.spinner(f"{selected_year}년 Gold 데이터를 불러오는 중..."):
-                        df_gold = load_hoon_gold_data(
-                            year=selected_year, 
-                            data_root=data_root, 
-                            panel_id=selected_panel,
-                            cell_line=selected_cell_line
+                    with st.spinner(f"{selected_year}년 데이터를 불러오는 중..."):
+                        df_gold = load_gold_data(
+                            year=selected_year,
+                            data_root=data_root,
+                            panel_id=(selected_panel if selected_view == "세포 패널 보기" else None),
+                            cell_line=(selected_cell_line if selected_view == "세포 패널 보기" else None),
+                            target_id=(selected_target if selected_view == "타깃 보기" else None)
                         )
 
                         if df_gold.empty:
                             if selected_panel:
                                 st.error(f"{selected_year}년 {selected_panel} 패널 데이터가 없습니다.")
+                            elif selected_target:
+                                st.error(f"{selected_year}년 target '{selected_target}' 데이터가 없습니다.")
                             else:
-                                st.error(f"{selected_year}년 Gold 데이터가 없습니다.")
+                                st.error(f"{selected_year}년 데이터가 없습니다.")
                         else:
                             st.session_state['df'] = df_gold
                             st.session_state['auto_suggestion'] = {"smiles_col": "SMILES", "activity_col": "Activity"}
                             
-                            success_msg = f"{selected_year}년 Gold 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
+                            success_msg = f"{selected_year}년 데이터 로드 완료! 총 {len(df_gold)}개 레코드"
                             if selected_panel:
                                 success_msg += f" ({panel_names_map.get(selected_panel, selected_panel)})"
+                            elif selected_target:
+                                success_msg += f" (target: {selected_target})"
                             
                             st.success(success_msg)
                             st.dataframe(df_gold.head())
 
-                            # Gold 데이터 스키마 정보 표시
-                            st.info("""**Gold 데이터 스키마:**
-• SMILES: 표준화된 캐노니컬 SMILES
-• Activity: 표준화된 활성도 값 (value_std)
-• 메타데이터: assay_id, target_id, unit_std 등""")
+
+                            # 데이터 스키마 정보 표시
+                            st.info("**데이터 스키마:**\n"
+                                   "• SMILES: 표준화된 캐노니컬 SMILES\n"
+                                   "• Activity: 표준화된 활성도 값 (value_std)\n"
+                                   "• 메타데이터: assay_id, panel_id/target_id, cell_line, inchikey 등")
+
 
                 except Exception as e:
-                    st.error(f"Gold 데이터 로드 실패: {e}")
+                    st.error(f"데이터 로드 실패: {e}")
 
-    # Gold 데이터 설명
-    with st.expander("📋 Gold 데이터 설명"):
-        st.markdown("""
-        **Gold 데이터셋 특징:**
-        - **표준화된 구조**: `smiles_canonical` (RDKit 캐노니컬 SMILES)
-        - **표준화된 활성도**: `value_std` (단위 정규화된 수치)
-        - **품질 보장**: 빈 값 및 유효하지 않은 SMILES 필터링
-        - **메타데이터**: assay_id, target_id, unit_std 등 분석에 유용한 정보 포함
-        - **패널 기반**: (2017 데이터는 패널/cell_line 열이 포함되지 않을 수 있습니다)
-
-        **활용 팁:**
-        - base 앱에서 유사도/활성도차 계산 시 `smiles_col=SMILES`, `activity_col=Activity`로 설정
-        - 동일 패널 내에서 비교하면 더 일관성 있는 결과를 얻을 수 있습니다
-        
-        **현재 가용 데이터:**
-        - **2017년**: 2017 Gold 산출을 우선 지원합니다.
-        - **2018/2020/2021년**: 추후 통합 예정
-        """)
-
-    st.markdown("---")
-    with st.expander("🛠️ 파이프라인 정보"):
-        st.markdown("""
-        **데이터 파이프라인:**
-        ```
-        Raw Excel → Bronze → Silver → Gold → Activity Cliff
-        ```
-        - **Bronze**: 원천 데이터 수집/검증
-        - **Silver**: 단위 표준화 (`value_std`, `unit_std`, censor 유지)
-        - **Gold**: 분석 친화 테이블 (SMILES + Activity + 메타데이터)
-        - **AC**: Activity Cliff 사전 계산
-
-        **Gold 생성 명령어:**
-        ```bash
-        python hoon/udm_cli.py silver --config hoon/configs/2017.yml --root hoon/data
-        python hoon/udm_cli.py smiles --config hoon/configs/2017.yml --root hoon/data  
-        python hoon/udm_cli.py gold --config hoon/configs/2017.yml --root hoon/data
-        ```
-        """)
 
 with tab2:
     st.header("2. Activity Cliff 분석")
-    st.markdown("사전 계산된 Activity Cliff(AC) 쌍을 불러오거나, 1번 탭에서 로드한 Gold 데이터셋으로 직접 AC를 계산합니다.")
-    
-    # --- 데이터 소스 선택 및 분석 실행 ---
-    source = st.radio("데이터 소스", ["Gold 데이터로 직접 계산", "사전계산된 AC 쌍 불러오기"], index=0, horizontal=True, key="ac_source")
 
-    if source == "사전계산된 AC 쌍 불러오기":
-        if st.button("Hoon 사전계산 AC 쌍 로드"):
-            try:
-                with st.spinner("사전계산된 Activity Cliff 쌍을 불러오는 중..."):
-                    cliff_df = load_hoon_ac_pairs(data_root="base/data")
-                if cliff_df is None or cliff_df.empty:
-                    st.warning("사전계산된 AC 쌍이 없습니다. `hoon` 파이프라인에서 `ac` 또는 `ac-all` 스테이지를 먼저 실행하세요.")
-                    if 'cliff_df' in st.session_state:
-                        del st.session_state['cliff_df'] # Clear previous results
-                else:
-                    st.session_state['cliff_df'] = cliff_df
-                    st.success(f"{len(cliff_df)}개의 사전계산된 Activity Cliff 쌍을 불러왔습니다.")
-            except Exception as e:
-                st.error(f"AC 쌍 로드 실패: {e}")
+    if 'df' in st.session_state and st.session_state['df'] is not None:
+        df = st.session_state['df']
+        
+        # (표시 제거) 단위 분포 요약
 
-    elif source == "Gold 데이터로 직접 계산":
-        if 'df' not in st.session_state or st.session_state['df'].empty:
-            st.info("먼저 1번 탭에서 분석할 Gold 데이터를 로드해주세요.")
-        else:
-            df = st.session_state['df']
-            with st.container(border=True):
-                st.subheader("계산 파라미터 설정")
-                col1, col2 = st.columns(2)
-                with col1:
-                    auto = st.session_state.get('auto_suggestion', {})
-                    smiles_col_default = auto.get('smiles_col') if auto.get('smiles_col') in df.columns else None
-                    activity_col_default = auto.get('activity_col') if auto.get('activity_col') in df.columns else None
+        # 컬럼 자동 선택(고정): Gold 스키마 가정하에 자동 결정
+        smiles_col = 'SMILES' if 'SMILES' in df.columns else df.columns[0]
+        activity_col = 'Activity' if 'Activity' in df.columns else ( 'value_std' if 'value_std' in df.columns else (df.columns[1] if len(df.columns) > 1 else df.columns[0]))
+        # (표시 제거) 자동 선택된 컬럼 안내
 
-                    smiles_col = st.selectbox("SMILES 컬럼:", df.columns, index=(list(df.columns).index(smiles_col_default) if smiles_col_default else 0))
-                    activity_col = st.selectbox("활성도 컬럼:", df.columns, index=(list(df.columns).index(activity_col_default) if activity_col_default else (1 if len(df.columns) > 1 else 0)))
+        col1, col2 = st.columns(2)
+        with col1:
+            scale_choice = st.selectbox("활성도 스케일", ["원본(단위 유지)", "pAct (-log10[M])"], index=1)
+            # 스케일에 따라 활성도 의미 자동 설정(UI 비노출)
+            if scale_choice == "pAct (-log10[M])":
+                st.session_state['activity_assumption'] = '값이 높을수록 활성도가 높음 (Higher is better)'
+                st.caption("활성도 의미: pAct 스케일 → 값이 높을수록 활성도가 높음")
+            else:
+                st.session_state['activity_assumption'] = '값이 낮을수록 활성도가 높음 (Lower is better)'
+                st.caption("활성도 의미: 원본(IC50 등) 스케일 → 값이 낮을수록 활성도가 높음")
 
-                with col2:
-                    similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
-                    activity_diff_threshold = st.number_input("활성도 차이 임계값", min_value=0.0, value=1.0, step=0.1)
+        with col2:
+            similarity_threshold = st.slider("구조 유사도 임계값 (Tanimoto)", 0.7, 1.0, 0.85, 0.01)
+            # 스케일별 Δ 기본값: pAct는 관례적으로 2.0 권장
+            default_diff = 2.0 if scale_choice == "pAct (-log10[M])" else 1.0
+            step = 0.1 if scale_choice == "pAct (-log10[M])" else 0.1
+            fmt = "%0.2f" if scale_choice == "pAct (-log10[M])" else "%f"
 
-                activity_assumption = st.radio(
-                    "활성도 데이터의 의미:",
-                    ('값이 높을수록 활성도가 높음 (Higher is better)', '값이 낮을수록 활성도가 높음 (Lower is better)'),
-                    key='activity_assumption'
+        # (UI 숨김) 활성도 의미는 위 스케일 선택에 의해 자동 설정됨
+
+        # --- 프리뷰: 유사도만 적용한 분포 시각화 및 Δ 임계값 선택 ---
+        # 스케일 변환 적용(프리뷰와 분석 모두에서 재사용)
+        work_df = df.copy()
+        work_df = work_df.dropna(subset=[activity_col]).reset_index(drop=True)
+        chosen_activity_col = activity_col
+        if scale_choice == "pAct (-log10[M])":
+            unit_col = "unit_std" if "unit_std" in work_df.columns else None
+            def _to_m(val, unit):
+                try:
+                    v = float(val)
+                except Exception:
+                    return None
+                # 단위 정규화(소문자, µ→u 치환)
+                u = (str(unit) if unit is not None else "").strip()
+                u_norm = u.replace("µ", "u").strip().lower()
+                if u_norm == "m":
+                    return v
+                if u_norm == "mm":
+                    return v * 1e-3
+                if u_norm == "um":
+                    return v * 1e-6
+                if u_norm == "nm":
+                    return v * 1e-9
+                if u_norm == "pm":
+                    return v * 1e-12
+                # % 등 비농도 단위는 pAct 계산 대상에서 제외
+                if u_norm in {"%", "percent", "pct"}:
+                    return None
+                # 알 수 없는 경우 보수적으로 uM 가정(호환성 유지)
+                return v * 1e-6
+            def _to_pact(val_m):
+                try:
+                    import math
+                    if val_m is None or float(val_m) <= 0:
+                        return None
+                    return -math.log10(float(val_m))
+                except Exception:
+                    return None
+            vals_m = [ _to_m(work_df.iloc[i][activity_col], (work_df.iloc[i][unit_col] if unit_col else "uM")) for i in range(len(work_df)) ]
+            pact = [ _to_pact(x) for x in vals_m ]
+            work_df["Activity_pAct"] = pact
+            work_df = work_df[pd.Series(work_df["Activity_pAct"]).notna()].reset_index(drop=True)
+            chosen_activity_col = "Activity_pAct"
+
+        # 프리뷰 쌍(Δ 필터 미적용) — 동일 파라미터에서 재사용되도록 세션 캐시
+        _cache_key = (
+            "pairs_preview",
+            int(similarity_threshold * 1000),
+            chosen_activity_col,
+            len(work_df),
+        )
+        prev_cache = st.session_state.get("_preview_cache", {})
+        preview_df = None
+        if prev_cache.get("key") == _cache_key:
+            preview_df = prev_cache.get("df")
+        if preview_df is None:
+            preview_df = find_activity_cliffs(
+                work_df,
+                smiles_col=smiles_col,
+                activity_col=chosen_activity_col,
+                similarity_threshold=similarity_threshold,
+                activity_diff_threshold=0.0,
+                higher_is_better=(st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
+            )
+            st.session_state["_preview_cache"] = {"key": _cache_key, "df": preview_df}
+
+        # Δ 임계값 입력(히트맵 보기 전에 기본값 산정)
+        try:
+            import numpy as _np
+            q95 = float(preview_df["Activity_Diff"].quantile(0.95)) if len(preview_df) else default_diff
+            max_for_slider = max(0.1, q95)
+        except Exception:
+            max_for_slider = default_diff
+        activity_diff_threshold = st.slider(
+            "활성도 차이 임계값",
+            min_value=0.0,
+            max_value=float(max_for_slider),
+            value=float(min(default_diff, max_for_slider)),
+            step=float(step)
+        )
+
+        # --- 단일 히트맵 영역(프리뷰/결과 토글) ---
+        try:
+            import altair as alt
+            import pandas as _pd
+            # 결과가 이미 생성되어 있으면 토글 제공
+            has_result = ('cliff_df' in st.session_state) and (st.session_state['cliff_df'] is not None) and (len(st.session_state['cliff_df']) > 0)
+            options = ["프리뷰(유사도만 적용)"] + (["결과(임계값 모두 적용)"] if has_result else [])
+            src_choice = st.radio("시각화 소스", options, horizontal=True, index=0, key="viz_source_choice_main")
+            viz_df = preview_df if src_choice.startswith("프리뷰") else st.session_state['cliff_df']
+
+            total_pairs = len(viz_df)
+            mask_sel = (viz_df["Similarity"] >= similarity_threshold) & (viz_df["Activity_Diff"] >= activity_diff_threshold)
+            selected_pairs = int(mask_sel.sum())
+            ratio = (selected_pairs / total_pairs * 100.0) if total_pairs else 0.0
+            m1, m2, m3 = st.columns(3)
+            m1.metric("전체 쌍 수", f"{total_pairs:,}")
+            m2.metric("선택 영역 쌍 수", f"{selected_pairs:,}")
+            m3.metric("비율(%)", f"{ratio:0.1f}")
+
+            base = alt.Chart(viz_df)
+            heat = base.mark_rect().encode(
+                alt.X("Similarity:Q", bin=alt.Bin(maxbins=30), scale=alt.Scale(domain=[0.7, 1.0])),
+                alt.Y("Activity_Diff:Q", bin=alt.Bin(maxbins=30)),
+                alt.Color("count():Q", scale=alt.Scale(scheme="magma")),
+                tooltip=[alt.Tooltip("count():Q", title="Count")]
+            ).properties(height=320)
+            v_rule = alt.Chart(_pd.DataFrame({"x": [similarity_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4]).encode(x="x:Q")
+            h_rule = alt.Chart(_pd.DataFrame({"y": [activity_diff_threshold]})).mark_rule(color="#00FFFF", strokeDash=[6,4]).encode(y="y:Q")
+            st.altair_chart((heat + v_rule + h_rule).resolve_scale(color="independent"), use_container_width=True)
+        except Exception:
+            import numpy as _np
+            st.info("시각화 엔진(Altair) 사용이 어려워 간단한 산점도로 대체합니다.")
+            src = preview_df
+            if ('cliff_df' in st.session_state) and len(st.session_state['cliff_df']) > 0:
+                src = st.session_state['cliff_df']
+            sample = src.sample(min(len(src), 5000), random_state=42) if len(src) > 5000 else src
+            st.scatter_chart(sample[["Similarity", "Activity_Diff"]])
+
+        if st.button("Activity Cliff 분석 실행"):
+            with st.spinner("Activity Cliff를 분석 중입니다..."):
+                # work_df / chosen_activity_col는 프리뷰 단계에서 이미 계산됨
+
+                cliff_df = find_activity_cliffs(
+                    work_df,
+                    smiles_col=smiles_col,
+                    activity_col=chosen_activity_col,
+                    similarity_threshold=similarity_threshold,
+                    activity_diff_threshold=activity_diff_threshold,
+                    higher_is_better= (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
                 )
+            
+            st.success(f"{len(cliff_df)}개의 Activity Cliff 쌍을 찾았습니다!")
+            # IUPAC 매핑(표시용)
+            try:
+                base_df = st.session_state.get('df', pd.DataFrame())
+                name_map = {}
+                if len(base_df) > 0 and 'SMILES' in base_df.columns:
+                    if 'iupac_name' in base_df.columns:
+                        tmp = base_df[['SMILES','iupac_name']].drop_duplicates()
+                        name_map = {str(r['SMILES']): (str(r['iupac_name']).strip() if str(r['iupac_name']).strip() else None) for _, r in tmp.iterrows()}
+                def _name_or_smiles(s):
+                    s = str(s)
+                    n = name_map.get(s)
+                    return n if n and n.lower() != 'nan' else s
+                display_df = cliff_df.copy()
+                display_df['IUPAC_1'] = display_df['SMILES_1'].map(_name_or_smiles)
+                display_df['IUPAC_2'] = display_df['SMILES_2'].map(_name_or_smiles)
+                # 표시 컬럼 재배치 및 정렬(Δ, sim 내림차순)
+                cols = ['IUPAC_1','Activity_1','IUPAC_2','Activity_2','Similarity','Activity_Diff','SMILES_1','SMILES_2']
+                cols = [c for c in cols if c in display_df.columns]
+                display_df = display_df[cols].sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                # 1-based 인덱스
+                display_df.index = range(1, len(display_df) + 1)
+                display_df.index.name = 'Pair #'
+                st.dataframe(display_df, use_container_width=True)
+                try:
+                    csv_bytes = display_df.to_csv(index=True).encode('utf-8')
+                    st.download_button(
+                        label="결과 CSV 다운로드",
+                        data=csv_bytes,
+                        file_name="activity_cliffs.csv",
+                        mime="text/csv",
+                        use_container_width=True,
+                    )
+                except Exception:
+                    pass
+            except Exception:
+                # 문제가 있으면 원본 표라도 제공
+                df0 = cliff_df.copy().sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                df0.index = range(1, len(df0) + 1)
+                df0.index.name = 'Pair #'
+                st.dataframe(df0, use_container_width=True)
 
-                if st.button("Activity Cliff 분석 실행", type="primary"):
-                    with st.spinner("Activity Cliff를 분석 중입니다..."):
-                        work_df = df.copy()
-                        work_df = work_df.dropna(subset=[activity_col])
-                        work_df = work_df.reset_index(drop=True)
-                        
-                        cliff_df = find_activity_cliffs(
-                            work_df,
-                            smiles_col=smiles_col,
-                            activity_col=activity_col,
-                            similarity_threshold=similarity_threshold,
-                            activity_diff_threshold=activity_diff_threshold,
-                            higher_is_better=(activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)')
-                        )
-                    
-                    st.session_state['cliff_df'] = cliff_df
-                    st.success(f"분석 완료! 총 {len(cliff_df)}개의 Activity Cliff 쌍을 찾았습니다.")
-                    
-                    # 활성도 지표에 대한 요약 정보 표시
-                    summary_text = create_activity_summary(activity_col, (activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
-                    st.markdown("---")
-                    st.markdown(summary_text)
+            st.session_state['cliff_df'] = cliff_df
+
+            # 활성도 지표에 대한 요약 정보 표시
+            summary_text = create_activity_summary(activity_col, (st.session_state.activity_assumption == '값이 높을수록 활성도가 높음 (Higher is better)'))
+            st.markdown("---")
+            st.markdown(summary_text)
+
+            # (히트맵은 상단의 단일 영역에서 이미 제공)
+    else:
+        st.info("1. 상단에서 Gold 데이터를 먼저 로드해주세요.")
+
 
     # --- 결과 표시 영역 ---
     if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
-        st.markdown("---")
-        st.subheader("📊 Activity Cliff 분석 결과")
-        
+
         cliff_df = st.session_state['cliff_df']
 
-        # --- 정렬 UI ---
-        sort_option = st.selectbox(
-            "결과 정렬 기준:",
-            [
-                "기본 (인덱스)",
-                "유사도 (높은 순)",
-                "유사도 (낮은 순)",
-                "활성도 차이 (큰 순)",
-                "활성도 차이 (작은 순)",
-            ]
-        )
+        # IUPAC 매핑 및 정렬(표시용)
+        base_df = st.session_state.get('df', pd.DataFrame())
+        name_map = {}
+        if len(base_df) > 0 and 'SMILES' in base_df.columns and 'iupac_name' in base_df.columns:
+            tmp = base_df[['SMILES','iupac_name']].drop_duplicates()
+            name_map = {str(r['SMILES']): (str(r['iupac_name']).strip() if str(r['iupac_name']).strip() else None) for _, r in tmp.iterrows()}
+        def _name_or_smiles(s):
+            s = str(s)
+            n = name_map.get(s)
+            return n if n and n.lower() != 'nan' else s
+        disp = cliff_df.copy()
+        disp['IUPAC_1'] = disp['SMILES_1'].map(_name_or_smiles)
+        disp['IUPAC_2'] = disp['SMILES_2'].map(_name_or_smiles)
+        sort_idx = disp.sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).index.tolist()
+        st.session_state['cliff_sorted_idx'] = sort_idx
+        disp = disp.loc[sort_idx]
+        cols = ['IUPAC_1','Activity_1','IUPAC_2','Activity_2','Similarity','Activity_Diff','SMILES_1','SMILES_2']
+        cols = [c for c in cols if c in disp.columns]
+        disp = disp[cols].reset_index(drop=True)
+        disp.index = range(1, len(disp)+1)
+        disp.index.name = 'Pair #'
 
-        # --- 정렬 로직 ---
-        sorted_df = cliff_df
-        if sort_option == "유사도 (높은 순)":
-            sorted_df = cliff_df.sort_values(by="Similarity", ascending=False)
-        elif sort_option == "유사도 (낮은 순)":
-            sorted_df = cliff_df.sort_values(by="Similarity", ascending=True)
-        elif sort_option == "활성도 차이 (큰 순)":
-            sorted_df = cliff_df.sort_values(by="Activity_Diff", ascending=False)
-        elif sort_option == "활성도 차이 (작은 순)":
-            sorted_df = cliff_df.sort_values(by="Activity_Diff", ascending=True)
-        
-        # --- 결과 표시 ---
-        display_cliff_results_with_images(sorted_df.reset_index(drop=True))
-
-with tab3:
-    st.header("3. 가설 생성")
-
-    # 선택된 쌍 정보 가져오기
-    pair = st.session_state.get('selected_cliff_pair')
-
-    # 호환성: 예전 상태에서는 index만 있을 수 있으므로, cliff_df에서 복원 시도
-    if not pair and ('selected_cliff_index' in st.session_state) and ('cliff_df' in st.session_state):
+        st.subheader("분석할 Activity Cliff 쌍 선택")
+        # 표에서 직접 체크박스로 선택하도록 지원
         try:
-            idx = st.session_state['selected_cliff_index']
-            row = st.session_state['cliff_df'].iloc[int(idx)]
-            pair = {
-                'index': int(idx),
-                'SMILES_1': row.get('SMILES_1'),
-                'Activity_1': float(row.get('Activity_1')) if row.get('Activity_1') is not None else None,
-                'SMILES_2': row.get('SMILES_2'),
-                'Activity_2': float(row.get('Activity_2')) if row.get('Activity_2') is not None else None,
-                'Similarity': float(row.get('Similarity')) if 'Similarity' in row else None,
-                'Activity_Diff': float(row.get('Activity_Diff')) if 'Activity_Diff' in row else None,
-            }
+            # 표시용 테이블에 선택 컬럼 추가
+            disp_show = disp.copy()
+            disp_show.insert(0, 'Pair #', list(range(1, len(disp_show)+1)))
+            default_selected = set(st.session_state.get('selected_display_ids', []))
+            disp_show.insert(0, '선택', [ (i in default_selected) for i in disp_show['Pair #'] ])
+            edited = st.data_editor(
+                disp_show,
+                hide_index=True,
+                use_container_width=True,
+                disabled=[c for c in disp_show.columns if c not in ['선택']],
+                key='cliff_table_editor'
+            )
+            selected_display_ids = [ int(v) for v in edited[edited['선택'] == True]['Pair #'].tolist() ]
+            st.session_state['selected_display_ids'] = selected_display_ids
         except Exception:
-            pair = None
+            # 폴백: 멀티셀렉트 유지
+            st.dataframe(disp, use_container_width=True)
+            options_1based = list(range(1, len(disp)+1))
+            selected_display_ids = st.multiselect("분석 및 시각화할 Pair 번호(1-based)를 선택하세요:", options_1based)
+        # 1-based → 원본 인덱스 매핑
+        selected_indices = [ st.session_state['cliff_sorted_idx'][i-1] for i in selected_display_ids ]
+        
+        if selected_indices:
+            # 선택 쌍 미리보기(가설 생성 전 즉시 표시)
+            with st.container(border=True):
+                max_preview = 6
+                pairs = list(zip(selected_display_ids, selected_indices))
+                if len(pairs) > max_preview:
+                    st.info(f"미리보기는 최대 {max_preview}쌍까지만 표시합니다. (총 선택 {len(pairs)}쌍)")
+                for disp_id, i in pairs[:max_preview]:
+                    row = cliff_df.loc[i]
+                    nm1 = name_map.get(str(row['SMILES_1'])) if name_map else None
+                    nm2 = name_map.get(str(row['SMILES_2'])) if name_map else None
+                    l1 = f"IUPAC: {nm1}" if nm1 else f"SMILES: {row['SMILES_1']}"
+                    l2 = f"IUPAC: {nm2}" if nm2 else f"SMILES: {row['SMILES_2']}"
+                    st.markdown(f"### 분석 쌍 #{disp_id}")
+                    img = visualize_structure_difference(
+                        smiles1=row['SMILES_1'],
+                        smiles2=row['SMILES_2'],
+                        legend1=f"{l1}\nActivity: {row['Activity_1']:.2f}",
+                        legend2=f"{l2}\nActivity: {row['Activity_2']:.2f}"
+                    )
+                    st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
 
-    if pair:
-        st.subheader("선택된 분자 쌍")
 
-        smiles1 = pair.get('SMILES_1')
-        activity1 = pair.get('Activity_1')
-        smiles2 = pair.get('SMILES_2')
-        activity2 = pair.get('Activity_2')
-        similarity = pair.get('Similarity')
-        activity_diff = pair.get('Activity_Diff')
-
-        meta_line = []
-        if similarity is not None:
-            meta_line.append(f"유사도: {similarity:.3f}")
-        if activity_diff is not None:
-            meta_line.append(f"활성도 차이: {activity_diff:.2f}")
-        st.caption(" · ".join(meta_line))
-
-        # 구조 이미지 및 SMILES/활성 표시
-        try:
-            legend1 = f"Mol 1 (Activity: {activity1:.2f})" if activity1 is not None else "Mol 1"
-            legend2 = f"Mol 2 (Activity: {activity2:.2f})" if activity2 is not None else "Mol 2"
-            img = visualize_structure_difference(smiles1, smiles2, legend1, legend2)
-            st.image(img, use_container_width=True)
-        except Exception as e:
-            st.warning(f"구조 이미지를 렌더링하지 못했습니다: {e}")
-
-        c1, c2 = st.columns(2)
-        with c1:
-            st.markdown("**화합물 1 (Molecule 1)**")
-            if smiles1:
-                st.code(smiles1, language='smiles')
-            if activity1 is not None:
-                st.metric("Activity", f"{activity1:.2f}")
-        with c2:
-            st.markdown("**화합물 2 (Molecule 2)**")
-            if smiles2:
-                st.code(smiles2, language='smiles')
-            if activity2 is not None:
-                st.metric("Activity", f"{activity2:.2f}")
-
-        st.markdown("---")
-        st.info("이 쌍을 기반으로 LLM 가설 생성을 이어갈 수 있습니다.")
-
-        # 가설 생성 입력과 실행
-        st.subheader("가설 생성")
-        struct_desc = st.text_area(
-            "구조 차이 요약 (선택)",
-            placeholder="두 분자 간 구조적 차이를 간단히 적어주세요 (예: thioether → sulfoxide 산화, 전자 끌개 증가 등)",
-            key="structural_difference_description",
-            height=80,
-        )
-
-        if st.button("가설 생성", type="primary", key="btn_generate_hypothesis"):
-            _reset_token_usage()
             openai_api_key = get_openai_api_key_from_file()
             if not openai_api_key:
                 st.warning("API 키를 찾을 수 없습니다. 프로젝트 루트의 'openAI_key.txt' 또는 'base/openAI_key.txt'에 키를 넣어주세요.")
             else:
+
                 try:
                     with st.spinner("LLM이 가설을 생성 중입니다..."):
                         gen_result = generate_hypothesis(
@@ -590,6 +735,7 @@ with tab3:
                         st.text(st.session_state['generated_hypothesis_raw'][:4000])
                 except Exception as e:
                     st.error(f"가설 생성 호출 중 오류: {e}")
+
 
         # 생성 결과 표시
         if 'generated_hypothesis_md' in st.session_state:
@@ -623,6 +769,7 @@ with tab3:
                 if k in st.session_state:
                     del st.session_state[k]
             st.rerun()
+
     else:
         st.info("2. Activity Cliff 분석 탭에서 분석할 쌍을 '선택하기' 버튼으로 먼저 선택해주세요.")
 

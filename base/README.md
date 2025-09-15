@@ -7,7 +7,7 @@
 - **Python:** `3.13.5` 버전에서 개발 및 테스트되었습니다.
 - **OpenAI API 키:** `openai` 라이브러리 사용을 위해 필요합니다.
 
-프로젝트 루트 디렉토리에 `openAI_key.txt` 파일을 생성하고, 파일 내에 자신의 OpenAI API 키를 붙여넣으세요. 예:
+레포 루트 디렉토리에 `openAI_key.txt` 파일을 생성하고, 파일 내에 자신의 OpenAI API 키를 붙여넣으세요. 예:
 ```
 sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
@@ -18,9 +18,9 @@ sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 ### 옵션 1: `run.sh` 스크립트 사용 (venv 기반, 권장)
 
-프로젝트에 포함된 `run.sh` 스크립트는 `venv` 가상 환경 생성, 필요 라이브러리 설치, 애플리케이션 실행까지 모든 과정을 자동으로 처리합니다.
+이 디렉토리에 포함된 `run.sh` 스크립트는 `venv` 가상 환경 생성, 필요 라이브러리 설치, 애플리케이션 실행까지 모든 과정을 자동으로 처리합니다.
 
-프로젝트 루트 디렉토리에서 다음 명령어를 실행하세요:
+레포 루트가 아닌, 반드시 `base/` 디렉토리에서 다음을 실행하세요:
 ```bash
 ./run.sh
 ```
