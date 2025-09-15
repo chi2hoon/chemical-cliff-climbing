@@ -24,26 +24,76 @@ from modules.io_utils import (
 # --- Helper Functions ---
 
 def get_openai_api_key_from_file():
-    # 1) 환경변수 우선
-    env_key = os.getenv("OPENAI_API_KEY")
-    if env_key and env_key.strip():
-        return env_key.strip()
-    # 2) 현재 작업 디렉토리(base)에서 탐색
-    try:
-        with open("openAI_key.txt", "r") as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        pass
-    # 3) 레포 루트(../)에서도 탐색
-    try:
-        here = os.path.dirname(os.path.abspath(__file__))
-        root_key = os.path.abspath(os.path.join(here, os.pardir, "openAI_key.txt"))
-        if os.path.exists(root_key):
-            with open(root_key, "r") as f:
-                return f.read().strip()
-    except Exception:
-        pass
+
+    for path in ["openAI_key.txt", "base/openAI_key.txt"]:
+        try:
+            with open(path, "r") as f:
+                key = f.read().strip()
+                if key:
+                    return key
+        except FileNotFoundError:
+            continue
     return None
+
+
+def _init_token_usage_state():
+    if 'token_usage' not in st.session_state:
+        st.session_state['token_usage'] = {
+            'calls': [],
+            'totals': {
+                'prompt_tokens': 0,
+                'completion_tokens': 0,
+                'total_tokens': 0,
+            }
+        }
+
+
+def _reset_token_usage():
+    st.session_state['token_usage'] = {
+        'calls': [],
+        'totals': {
+            'prompt_tokens': 0,
+            'completion_tokens': 0,
+            'total_tokens': 0,
+        }
+    }
+
+
+def _add_token_usage(phase: str, model: str, usage: dict):
+    """Accumulate token usage in session state.
+
+    phase: one of 'generation' | 'evaluation' | 'revision'
+    usage: dict with keys prompt_tokens, completion_tokens, total_tokens
+    """
+    _init_token_usage_state()
+    usage = usage or {}
+    pt = int(usage.get('prompt_tokens', 0) or 0)
+    ct = int(usage.get('completion_tokens', 0) or 0)
+    tt = int(usage.get('total_tokens', pt + ct) or (pt + ct))
+
+    st.session_state['token_usage']['calls'].append({
+        'phase': phase,
+        'model': model,
+        'prompt_tokens': pt,
+        'completion_tokens': ct,
+        'total_tokens': tt,
+    })
+    st.session_state['token_usage']['totals']['prompt_tokens'] += pt
+    st.session_state['token_usage']['totals']['completion_tokens'] += ct
+    st.session_state['token_usage']['totals']['total_tokens'] += tt
+
+
+def _show_last_and_total_tokens():
+    tu = st.session_state.get('token_usage')
+    if not tu or not tu.get('calls'):
+        return
+    last = tu['calls'][-1]
+    totals = tu['totals']
+    st.info(
+        f"토큰 사용량 — 이번 호출({last['phase']}, {last['model']}): "
+        f"prompt {last['prompt_tokens']}, completion {last['completion_tokens']}, total {last['total_tokens']} | "
+        f"누적: prompt {totals['prompt_tokens']}, completion {totals['completion_tokens']}, total {totals['total_tokens']}"
+    )
 
 def format_hypothesis_for_markdown(data: dict) -> str:
     """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 및 HTML 문자열로 변환합니다."""
@@ -106,6 +156,59 @@ def format_hypothesis_for_markdown(data: dict) -> str:
         md_lines.append(f"- {assumption}")
 
     return "\n".join(md_lines)
+
+def display_cliff_results_with_images(cliff_df):
+    """Iterates through cliff dataframe and displays each pair with a selection button."""
+    st.write(f"총 {len(cliff_df)}개의 Activity Cliff 쌍을 찾았습니다. 각 항목을 확인하고 가설을 생성할 쌍을 선택하세요.")
+
+    for index, row in cliff_df.iterrows():
+        # Check if this row is the selected one
+        is_selected = ('selected_cliff_index' in st.session_state and st.session_state['selected_cliff_index'] == index)
+        
+        with st.expander(f"분석 쌍 #{index} (유사도: {row['Similarity']:.3f}, 활성도 차이: {row['Activity_Diff']:.2f})", expanded=is_selected):
+            
+            smiles1 = row['SMILES_1']
+            activity1 = row['Activity_1']
+            smiles2 = row['SMILES_2']
+            activity2 = row['Activity_2']
+
+            legend1 = f"Mol 1 (Activity: {activity1:.2f})"
+            legend2 = f"Mol 2 (Activity: {activity2:.2f})"
+
+            try:
+                img = visualize_structure_difference(smiles1, smiles2, legend1, legend2)
+                st.image(img, use_container_width=True)
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.markdown("**화합물 1 (Molecule 1)**")
+                    st.code(smiles1, language='smiles')
+                with col2:
+                    st.markdown("**화합물 2 (Molecule 2)**")
+                    st.code(smiles2, language='smiles')
+                
+                st.markdown("---")
+                # Add selection button
+                if st.button(f"선택하기", key=f"select_{index}", type="primary" if not is_selected else "secondary"):
+                    # Save selected index and pair details for use in Tab 3
+                    st.session_state['selected_cliff_index'] = index
+                    st.session_state['selected_cliff_pair'] = {
+                        'index': int(index),
+                        'SMILES_1': smiles1,
+                        'Activity_1': float(activity1) if activity1 is not None else None,
+                        'SMILES_2': smiles2,
+                        'Activity_2': float(activity2) if activity2 is not None else None,
+                        'Similarity': float(row.get('Similarity')) if 'Similarity' in row else None,
+                        'Activity_Diff': float(row.get('Activity_Diff')) if 'Activity_Diff' in row else None,
+                    }
+                    st.rerun()
+
+            except Exception as e:
+                st.error(f"이미지 생성 중 오류 발생 (쌍 #{index}): {e}")
+
+    # Show a message if a pair is selected
+    if 'selected_cliff_index' in st.session_state:
+        st.success(f"분석 쌍 #{st.session_state['selected_cliff_index']}이(가) 가설 생성을 위해 선택되었습니다. 3번 탭으로 이동하여 가설 생성을 계속하세요.")
 
 def format_evaluation_for_markdown(data: dict) -> str:
     """Evaluation 결과를 마크다운으로 변환합니다."""
@@ -296,11 +399,13 @@ with tab1:
                             st.success(success_msg)
                             st.dataframe(df_gold.head())
 
+
                             # 데이터 스키마 정보 표시
                             st.info("**데이터 스키마:**\n"
                                    "• SMILES: 표준화된 캐노니컬 SMILES\n"
                                    "• Activity: 표준화된 활성도 값 (value_std)\n"
                                    "• 메타데이터: assay_id, panel_id/target_id, cell_line, inchikey 등")
+
 
                 except Exception as e:
                     st.error(f"데이터 로드 실패: {e}")
@@ -308,6 +413,7 @@ with tab1:
 
 with tab2:
     st.header("2. Activity Cliff 분석")
+
     if 'df' in st.session_state and st.session_state['df'] is not None:
         df = st.session_state['df']
         
@@ -523,9 +629,10 @@ with tab2:
     else:
         st.info("1. 상단에서 Gold 데이터를 먼저 로드해주세요.")
 
-with tab3:
-    st.header("3. 결과 시각화 및 가설 생성")
+
+    # --- 결과 표시 영역 ---
     if 'cliff_df' in st.session_state and not st.session_state['cliff_df'].empty:
+
         cliff_df = st.session_state['cliff_df']
 
         # IUPAC 매핑 및 정렬(표시용)
@@ -597,83 +704,74 @@ with tab3:
                     )
                     st.image(img, caption=f"유사도: {row['Similarity']:.3f} | 활성도 차이: {row['Activity_Diff']:.2f}")
 
+
             openai_api_key = get_openai_api_key_from_file()
             if not openai_api_key:
-                st.warning("LLM 가설 생성을 위해 openAI_key.txt 파일에 API Key를 입력해주세요.")
+                st.warning("API 키를 찾을 수 없습니다. 프로젝트 루트의 'openAI_key.txt' 또는 'base/openAI_key.txt'에 키를 넣어주세요.")
             else:
-                st.session_state['openai_api_key'] = openai_api_key
 
-                if st.button("선택된 쌍에 대한 가설 생성"):
-                    output_dir = "hypotheses"
-                    os.makedirs(output_dir, exist_ok=True)
+                try:
+                    with st.spinner("LLM이 가설을 생성 중입니다..."):
+                        gen_result = generate_hypothesis(
+                            api_key=openai_api_key,
+                            smiles1=smiles1,
+                            activity1=activity1 if activity1 is not None else 0.0,
+                            smiles2=smiles2,
+                            activity2=activity2 if activity2 is not None else 0.0,
+                            structural_difference_description=struct_desc or "",
+                            similarity=similarity if similarity is not None else 0.0,
+                        )
+                    # 결과 저장 (세션)
+                    st.session_state['generated_hypothesis_raw'] = gen_result.get('content', '')
+                    _add_token_usage('generation', gen_result.get('model', 'unknown'), gen_result.get('usage', {}))
+                    _show_last_and_total_tokens()
+                    # JSON 파싱 및 마크다운 변환
+                    try:
+                        data = json.loads(st.session_state['generated_hypothesis_raw'])
+                        md = format_hypothesis_for_markdown(data)
+                        st.session_state['generated_hypothesis_md'] = md
+                    except json.JSONDecodeError:
+                        st.error("LLM 응답이 유효한 JSON이 아닙니다. 원문을 확인하세요.")
+                        st.text(st.session_state['generated_hypothesis_raw'][:4000])
+                except Exception as e:
+                    st.error(f"가설 생성 호출 중 오류: {e}")
 
-                    for i in selected_indices:
-                        row = cliff_df.loc[i]
-                        st.subheader(f"가설 생성 중 · 쌍 #{i}")
 
-                        with st.spinner(f"쌍 #{i}에 대한 LLM 가설을 생성 중입니다..."):
-                            higher_is_better = st.session_state.get('activity_assumption') == '값이 높을수록 활성도가 높음 (Higher is better)'
-                            
-                            # 가정에 따라 고활성/저활성 분자 결정
-                            if (higher_is_better and row['Activity_1'] > row['Activity_2']) or \
-                               (not higher_is_better and row['Activity_1'] < row['Activity_2']):
-                                high_act_smiles, high_act_val = row['SMILES_1'], row['Activity_1']
-                                low_act_smiles, low_act_val = row['SMILES_2'], row['Activity_2']
-                            else:
-                                high_act_smiles, high_act_val = row['SMILES_2'], row['Activity_2']
-                                low_act_smiles, low_act_val = row['SMILES_1'], row['Activity_1']
+        # 생성 결과 표시
+        if 'generated_hypothesis_md' in st.session_state:
+            st.subheader("생성된 가설")
+            st.markdown(st.session_state['generated_hypothesis_md'], unsafe_allow_html=True)
 
-                            # 컨텍스트 JSON 구성
-                            try:
-                                selected_axis = 'cell' if selected_view == '세포 패널 보기' else 'target'
-                                scale_used = 'pAct' if (st.session_state.get('activity_assumption') == '값이 높을수록 활성도가 높음 (Higher is better)') else 'raw'
-                                ctx = build_pair_context(
-                                    year=str(selected_year),
-                                    pair_row=row,
-                                    df_base=st.session_state['df'],
-                                    data_root=data_root,
-                                    selected_axis=selected_axis,
-                                    scale_used=scale_used,
-                                )
-                            except Exception:
-                                ctx = None
+            # 저장
+            st.markdown("---")
+            st.subheader("가설 저장")
+            default_name = f"hyp_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}_idx{pair.get('index', 0)}.md"
+            filename = st.text_input("파일명", value=default_name, key="gen_save_filename")
+            if st.button("파일로 저장", key="btn_save_generated_hypothesis"):
+                try:
+                    a1 = float(activity1) if activity1 is not None else 0.0
+                    a2 = float(activity2) if activity2 is not None else 0.0
+                    header = (
+                        f"**분석 대상 분자:**\n"
+                        f"- **화합물 1 (상대적 저활성):** `{smiles1}` (활성도: {a1:.2f})\n"
+                        f"- **화합물 2 (상대적 고활성):** `{smiles2}` (활성도: {a2:.2f})\n\n---\n"
+                    )
+                    content_to_save = header + st.session_state['generated_hypothesis_md']
+                    save_path = os.path.join("hypotheses", filename)
+                    save_hypothesis_to_md(content_to_save, save_path)
+                    st.success(f"가설이 저장되었습니다: {save_path}")
+                except Exception as e:
+                    st.error(f"저장 중 오류: {e}")
 
-                            json_response = generate_hypothesis(
-                                api_key=openai_api_key,
-                                smiles1=low_act_smiles,
-                                activity1=low_act_val,
-                                smiles2=high_act_smiles,
-                                activity2=high_act_val,
-                                structural_difference_description=f"화합물 1({low_act_smiles})과 화합물 2({high_act_smiles})의 구조적 차이점.",
-                                similarity=row['Similarity'],
-                                context_json=ctx
-                            )
-                            
-                            try:
-                                hypothesis_data = json.loads(json_response)
-                                display_md = format_hypothesis_for_markdown(hypothesis_data)
-                                file_header = f"**분석 대상 분자:**\n- **화합물 1 (상대적 저활성):** `{low_act_smiles}` (활성도: {low_act_val:.2f})\n- **화합물 2 (상대적 고활성):** `{high_act_smiles}` (활성도: {high_act_val:.2f})\n\n---\n"
-                                file_md = file_header + display_md
-                                st.markdown(file_md, unsafe_allow_html=True)
-                                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                                filename = f"hypothesis_pair_{i}_{timestamp}.md"
-                                filepath = os.path.join(output_dir, filename)
-                                save_hypothesis_to_md(file_md, filepath)
-                                st.success(f"가설이 '{filepath}' 파일로 저장되었습니다.")
-                            except json.JSONDecodeError:
-                                # LLM 오류 메시지 처리
-                                msg = str(json_response or "").strip()
-                                rate_hit = ("rate" in msg.lower()) or ("429" in msg) or ("insufficient_quota" in msg) or ("quota" in msg.lower())
-                                if msg.startswith("ERROR:"):
-                                    if rate_hit:
-                                        st.error("LLM 호출이 제한되었습니다(분당 리밋/한도). API 한도/리밋을 확인하고 잠시 후 다시 시도하세요.")
-                                    else:
-                                        st.error(f"LLM 호출 실패: {msg}")
-                                else:
-                                    st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 잠시 후 다시 시도하세요.")
-                                # 가설 저장/표시는 생략(생성하지 않음)
+        # 선택 취소 버튼 (필요 시)
+        if st.button("선택 해제"):
+            for k in ['selected_cliff_pair', 'selected_cliff_index']:
+                if k in st.session_state:
+                    del st.session_state[k]
+            st.rerun()
+
     else:
-        st.info("2. Activity Cliff 분석 탭에서 분석을 먼저 실행해주세요.")
+        st.info("2. Activity Cliff 분석 탭에서 분석할 쌍을 '선택하기' 버튼으로 먼저 선택해주세요.")
 
 with tab4:
     st.header("📜 저장된 가설 관리 (보기/다운로드)")
@@ -756,19 +854,22 @@ with tab5:
                     eval_key = f"eval_{selected_file}"
                     
                     if st.button("가설 평가 실행", key=f"eval_btn_{selected_file}"):
+                        _reset_token_usage()
                         openai_api_key = get_openai_api_key_from_file()
                         if not openai_api_key:
                             st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
                         else:
                             with st.spinner("LLM이 가설을 평가 중입니다..."):
-                                eval_response = evaluate_hypothesis(
+                                eval_result = evaluate_hypothesis(
                                     api_key=openai_api_key,
                                     hypothesis_text=parsed_data['hypothesis_body'],
                                     smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                                     smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
                                     structural_difference_description=""
                                 )
-                                st.session_state[eval_key] = eval_response
+                                _add_token_usage('evaluation', eval_result.get('model', 'unknown'), eval_result.get('usage', {}))
+                                _show_last_and_total_tokens()
+                                st.session_state[eval_key] = eval_result.get('content', '')
                                 # 새로운 평가가 시작되면 이전 수정 결과는 삭제
                                 if f"revise_{selected_file}" in st.session_state:
                                     del st.session_state[f"revise_{selected_file}"]
@@ -811,7 +912,7 @@ with tab5:
                                 st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
                             else:
                                 with st.spinner("LLM이 가설을 수정 중입니다..."):
-                                    revise_response = revise_hypothesis(
+                                    revise_result = revise_hypothesis(
                                         api_key=openai_api_key,
                                         original_hypothesis_text=parsed_data['hypothesis_body'],
                                         review_findings=st.session_state[eval_key],
@@ -819,7 +920,9 @@ with tab5:
                                         smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
                                         structural_difference_description=""
                                     )
-                                    st.session_state[revise_key] = revise_response
+                                    _add_token_usage('revision', revise_result.get('model', 'unknown'), revise_result.get('usage', {}))
+                                    _show_last_and_total_tokens()
+                                    st.session_state[revise_key] = revise_result.get('content', '')
                         
                         if revise_key in st.session_state:
                             st.markdown("##### 수정된 가설")
@@ -867,9 +970,10 @@ with tab6:
         with col1:
             min_iterations = st.number_input("최소 반복 횟수:", min_value=1, max_value=10, value=1, step=1)
         with col2:
-            max_iterations = st.number_input("최대 반복 횟수:", min_value=1, max_value=10, value=3, step=1)
+            max_iterations = st.number_input("최대 반복 횟수:", min_value=1, max_value=20, value=20, step=1)
 
         if st.button("🤖 자동 수정 시작", key="auto_revise_start"):
+            _reset_token_usage()
             openai_api_key = get_openai_api_key_from_file()
             if not openai_api_key:
                 st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
@@ -894,20 +998,23 @@ with tab6:
 
             with st.status(f"'{selected_file_auto}'에 대한 자동 수정을 시작합니다...", expanded=True) as status:
                 for i in range(max_iterations):
-                    st.write(f"---")
+                    st.write("---")
                     st.write(f"**🚀 반복 {i+1}/{max_iterations}**")
                     
                     # 1. 평가
                     st.write("1️⃣ 가설을 평가합니다...")
                     try:
-                        eval_response = evaluate_hypothesis(
+                        eval_result = evaluate_hypothesis(
                             api_key=openai_api_key,
                             hypothesis_text=current_hypothesis_body,
                             smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                             smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
                             structural_difference_description=""
                         )
-                        eval_data = json.loads(eval_response)
+                        _add_token_usage('evaluation', eval_result.get('model', 'unknown'), eval_result.get('usage', {}))
+                        _show_last_and_total_tokens()
+                        eval_content = eval_result.get('content', '')
+                        eval_data = json.loads(eval_content)
                         verdict = eval_data.get('summary', {}).get('verdict', 'Unknown').upper()
                         
                         with st.expander("평가 결과 보기"):
@@ -931,15 +1038,17 @@ with tab6:
                         # 3. 수정
                         st.write("3️⃣ 평가 기반으로 가설을 수정합니다...")
                         try:
-                            revise_response = revise_hypothesis(
+                            revise_result = revise_hypothesis(
                                 api_key=openai_api_key,
                                 original_hypothesis_text=current_hypothesis_body,
-                                review_findings=eval_response,
+                                review_findings=eval_content,
                                 smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                                 smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
                                 structural_difference_description=""
                             )
-                            revised_data = json.loads(revise_response)
+                            _add_token_usage('revision', revise_result.get('model', 'unknown'), revise_result.get('usage', {}))
+                            _show_last_and_total_tokens()
+                            revised_data = json.loads(revise_result.get('content', ''))
                             current_hypothesis_body = format_hypothesis_for_markdown(revised_data)
                             
                             with st.expander("수정된 가설 내용 보기"):

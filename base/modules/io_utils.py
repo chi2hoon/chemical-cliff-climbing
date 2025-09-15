@@ -279,14 +279,14 @@ def parse_hypothesis_md(file_content: str) -> Dict:
     }
 
     # 정규식을 사용하여 화합물 정보 추출
-    # 화합물 1 (저활성)
-    match1 = re.search(r"- \*\*화합물 1 \(상대적 저활성\):\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
+    # 화합물 1 (라벨 유무 허용)
+    match1 = re.search(r"- \*\*화합물 1(?: [^*]*)?:\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
     if match1:
         data['smiles1'] = match1.group(1)
         data['activity1'] = float(match1.group(2))
 
-    # 화합물 2 (고활성)
-    match2 = re.search(r"- \*\*화합물 2 \(상대적 고활성\):\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
+    # 화합물 2 (라벨 유무 허용)
+    match2 = re.search(r"- \*\*화합물 2(?: [^*]*)?:\*\* `([^`]+)` \(활성도: ([\d\.]+)\)", file_content)
     if match2:
         data['smiles2'] = match2.group(1)
         data['activity2'] = float(match2.group(2))

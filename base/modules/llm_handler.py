@@ -1,6 +1,50 @@
 from openai import OpenAI
-import json
-import os
+from typing import Any, Dict
+
+
+def _extract_usage(chat_result: Any) -> Dict[str, int]:
+    """Extract token usage from an OpenAI chat completion response.
+
+    Supports both classic Chat Completions usage fields
+    (prompt_tokens, completion_tokens, total_tokens) and newer
+    input/output naming if present.
+    """
+    usage = getattr(chat_result, "usage", None)
+    # Initialize defaults
+    result = {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+    }
+
+    if not usage:
+        return result
+
+    # Try attribute access first
+    for key in ("prompt_tokens", "completion_tokens", "total_tokens"):
+        val = getattr(usage, key, None)
+        if isinstance(val, int):
+            result[key] = val
+
+    # If attributes were not available, try dict-style
+    try:
+        usage_dict = usage if isinstance(usage, dict) else getattr(usage, "model_dump", None) and usage.model_dump() or getattr(usage, "to_dict", None) and usage.to_dict() or None
+        if isinstance(usage_dict, dict):
+            result["prompt_tokens"] = int(usage_dict.get("prompt_tokens", usage_dict.get("input_tokens", result["prompt_tokens"])) or 0)
+            result["completion_tokens"] = int(usage_dict.get("completion_tokens", usage_dict.get("output_tokens", result["completion_tokens"])) or 0)
+            # Prefer explicit total if present, else sum
+            result["total_tokens"] = int(usage_dict.get("total_tokens", result["prompt_tokens"] + result["completion_tokens"]))
+    except Exception:
+        # Fall back to sum of what we have
+        result["total_tokens"] = result.get("total_tokens") or (result.get("prompt_tokens", 0) + result.get("completion_tokens", 0))
+
+    # Ensure total is at least sum of parts
+    if result["total_tokens"] < (result["prompt_tokens"] + result["completion_tokens"]):
+        result["total_tokens"] = result["prompt_tokens"] + result["completion_tokens"]
+
+    return result
+
+
 
 system_message_generation = """
 You are an expert assistant specialized in medicinal chemistry and SAR (structure–activity relationship) hypothesis generation.
@@ -12,6 +56,15 @@ Follow these principles:
 - Style constraints: Use natural language only (no formulas or math notation). Output must strictly match the requested JSON schema with no extra text.
 - Falsifiability: For key claims, include conditions under which they could fail or how they can be experimentally verified.
 - Self-check: Before finalizing, verify JSON schema compliance and that reasoning is complete, precise, and grounded in the given structural differences.
+
+Additional mandatory guidelines (A–G):
+- A. Causality: State concrete target/interactions and propose falsifiable experiments.
+- B. SAR consistency: Compare against neighbors/series to assess coherence.
+- C. Quantitation: Include ΔpIC50 (if possible), IC50 fold-change, and efficiency metrics (LE/LLE) with clear assumptions.
+- D. Conformation: Provide stereochemical/conformational arguments with experimental or computational rationale.
+- E. Electronic/H-bond/π: Specify donors/acceptors, interaction modes, and π-interactions explicitly.
+- F. Properties/ADME: Include quantitative pKa, LogD, permeability (or reasoned estimates/assumptions) and discuss ADME impact.
+- G. Alternatives: Provide at least two alternative explanations and discriminative experiments to exclude them.
 """
 system_message_evaluation = """
 You are an expert peer reviewer for SAR hypotheses in medicinal chemistry.
@@ -23,6 +76,15 @@ Your task:
 - Actionable feedback: Prefer concrete, testable critiques and improvements over vague comments. Assess counter-hypotheses, falsification conditions, and design suggestions for discriminative power and feasibility.
 - Style constraints: Natural language only (no formulas). Output must strictly follow the requested evaluation JSON schema with no extra text.
 - Self-check: Ensure verdict reasoning, method sketch, and detailed checks are internally consistent and complete, with missing assumptions or mismatches clearly flagged.
+
+Also assess compliance with the following A–G criteria, explicitly flagging any missing items:
+- A. Causality with explicit target interactions and falsifiable experiments.
+- B. SAR consistency via neighbor/series comparisons.
+- C. Quantitation: ΔpIC50, fold-change, LE/LLE with stated assumptions.
+- D. Conformational/steric rationale grounded in data or computation.
+- E. Electronic/H-bond/π interaction modes specified.
+- F. ADME with quantitative pKa/LogD/permeability (or justified estimates).
+- G. At least two alternative hypotheses and exclusion experiments.
 """
 system_message_revision = """
 You are a critical but constructive co-author revising an SAR hypothesis based on peer review.
@@ -35,6 +97,15 @@ Your approach:
 - Data discipline: Rely only on the provided inputs (original hypothesis JSON, review findings, SMILES, activities, structural-difference summary). No external data or hidden assumptions.
 - Style constraints: Natural language only (no formulas). Output must strictly match the requested JSON schema with no extra text.
 - Self-check: Confirm JSON compliance, clarity of assumptions and limits, and that revisions transparently reflect the review findings while improving rigor and completeness.
+
+During revision, ensure full compliance with A–G:
+- A. Add explicit interaction hypotheses and falsification experiments.
+- B. Cross-check and articulate SAR consistency with neighbor/series analogs.
+- C. Add or clarify ΔpIC50, fold-change, LE/LLE (with assumptions/methods).
+- D. Strengthen conformational/steric reasoning with concrete evidence or rationale.
+- E. Make electronic/H-bond/π interaction modes explicit.
+- F. Provide quantitative ADME properties (pKa, LogD, permeability) or justified estimates and discuss implications.
+- G. Include ≥2 alternative hypotheses and discriminative experiments.
 """
 
 
@@ -50,7 +121,7 @@ def generate_hypothesis(
     context_json: dict | None = None,
     model: str = "gpt-5",
     max_tokens: int = 1200,
-) -> str:
+) -> Dict[str, Any]:
     """
     두 분자의 구조-활성 관계(SAR)에 대한 화학적 가설을 생성합니다.
 
@@ -70,7 +141,7 @@ def generate_hypothesis(
         max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
-        str: LLM이 생성한 가설 (JSON 형식의 문자열).
+        Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
     used_model = os.getenv("OPENAI_MODEL", model)
@@ -155,11 +226,22 @@ def generate_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},  # JSON 모드 활성화
+            max_tokens=max_tokens,
+            temperature=0.2,
         )
-        return chat_result.choices[0].message.content.strip()
+        return {
+            "content": chat_result.choices[0].message.content.strip(),
+            "usage": _extract_usage(chat_result),
+            "model": model,
+        }
     except Exception as e:
-        # LLM 실패 시 폴백 생성 없이 명시적 오류 문자열을 반환
-        return f"ERROR: LLM 가설 생성 실패: {e}"
+
+        return {
+            "content": f"LLM 가설 생성 중 오류 발생: {e}",
+            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+            "model": model,
+        }
+
 
 
 
@@ -183,8 +265,9 @@ def evaluate_hypothesis(
     structural_difference_description: str,
     context_json: dict | None = None,
     model: str = "gpt-5",
+
     max_tokens: int = 1200,
-) -> str:
+) -> Dict[str, Any]:
     """
     기존에 생성된 SAR 가설을 평가합니다.
 
@@ -205,7 +288,7 @@ def evaluate_hypothesis(
         max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
-        str: LLM이 생성한 평가 결과 (JSON 형식의 문자열).
+        Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
     used_model = os.getenv("OPENAI_MODEL", model)
@@ -267,10 +350,22 @@ def evaluate_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},
+            max_tokens=max_tokens,
+            temperature=0.2,
         )
-        return chat_result.choices[0].message.content.strip()
+        return {
+            "content": chat_result.choices[0].message.content.strip(),
+            "usage": _extract_usage(chat_result),
+            "model": model,
+        }
     except Exception as e:
-        return f"ERROR: LLM 가설 평가 실패: {e}"
+
+        return {
+            "content": f"LLM 가설 평가 중 오류 발생: {e}",
+            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+            "model": model,
+        }
+
 
 
 def revise_hypothesis(
@@ -285,7 +380,7 @@ def revise_hypothesis(
     context_json: dict | None = None,
     model: str = "gpt-5",
     max_tokens: int = 4096,
-) -> str:
+) -> Dict[str, Any]:
     """
     평가 결과를 바탕으로 기존 SAR 가설을 수정합니다.
 
@@ -307,7 +402,7 @@ def revise_hypothesis(
         max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
-        str: LLM이 생성한 수정된 가설 (JSON 형식의 문자열).
+        Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
     """
     client = OpenAI(api_key=api_key)
     used_model = os.getenv("OPENAI_MODEL", model)
@@ -393,10 +488,19 @@ def revise_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},
+            max_tokens=max_tokens,
+            temperature=0.2,
         )
-        return chat_result.choices[0].message.content.strip()
+        return {
+            "content": chat_result.choices[0].message.content.strip(),
+            "usage": _extract_usage(chat_result),
+            "model": model,
+        }
     except Exception as e:
-        return f"ERROR: LLM 가설 수정 실패: {e}"
 
+        return {
+            "content": f"LLM 가설 수정 중 오류 발생: {e}",
+            "usage": {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+            "model": model,
+        }
 
-    # (폴백 제거됨)
