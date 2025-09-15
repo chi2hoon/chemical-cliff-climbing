@@ -192,6 +192,9 @@ pyrightconfig.json
 .history
 .ionide
 
+# Cursor IDE 설정 파일들
+.cursor/
+
 # 개인 작업 파일들
 hypotheses/
 SESSION_NOTES.md
@@ -201,7 +204,6 @@ hoon/notebooks/
 hoon/data/archive/
 hoon/logs/hypothesis/
 hoon/screenshots/
-hoon/.cursor/
 
 # 메달리온 아키텍처: 파이프라인 산출물 제외 (Bronze/Silver/Gold/Quarantine)
 # 변경된 메달리온 아키텍처 규칙
