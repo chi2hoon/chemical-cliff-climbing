@@ -1,5 +1,0 @@
-streamlit
-rdkit
-pandas
-openai
-tabulate

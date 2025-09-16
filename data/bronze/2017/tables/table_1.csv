@@ -1,5 +1,5 @@
 species,sex,dose_text,mortality_text,flag_asterisk,flag_imaging_conflict,provenance_file,provenance_sheet,provenance_row
-Mouse,Male,IV 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,3
-Mouse,Male,IP 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,4
-Mouse,Female,IV 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,5
-Mouse,Female,IP 40 mg/kg,0 (0/2),False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,6
+Mouse,Male,IV 40 mg/kg,0 (0/2),False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,3
+Mouse,Male,IP 40 mg/kg,0 (0/2),False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,4
+Mouse,Female,IV 40 mg/kg,0 (0/2),False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,5
+Mouse,Female,IP 40 mg/kg,0 (0/2),False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,6

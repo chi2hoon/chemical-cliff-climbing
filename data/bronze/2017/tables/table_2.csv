@@ -1,5 +1,5 @@
 compound_raw,hr_change_pct,mortality_text,note,flag_asterisk,flag_imaging_conflict,provenance_file,provenance_sheet,provenance_row
-10uM Astemizole,46.2,0/10,nan,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,10
-5uM of KSI-3716,,10/10,전 개체 사망으로 측정불가,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,11
-5uM of 화합물 4,88.5,1/10,nan,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,12
-5uM of 화합물 33,97.3,0/10,유의적 심박수 저해 없음,False,False,data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,13
+10uM Astemizole,46.2,0/10,nan,False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,10
+5uM of KSI-3716,,10/10,전 개체 사망으로 측정불가,False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,11
+5uM of 화합물 4,88.5,1/10,nan,False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,12
+5uM of 화합물 33,97.3,0/10,유의적 심박수 저해 없음,False,False,../base/data/bronze/artifacts/2017_raw.xlsx,표1 ~ 표2,13

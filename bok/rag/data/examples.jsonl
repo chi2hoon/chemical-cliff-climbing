@@ -1,7 +1,0 @@
-{"input": {"mol1": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O", "mol2": "CC(C)CC1=CC=C(C=C1)C(O)C(=O)O", "diff_type": "stereochemistry"}, "output": "입체 중심의 배치 차이가 수소 결합 형성에 영향을 주어 활성이 향상되었을 가능성이 있습니다."}
-{"input": {"mol1": "c1ccc(cc1)C(=O)O", "mol2": "c1ccncc1C(=O)O", "diff_type": "electronic effect"}, "output": "페닐 고리를 피리딘으로 치환하면 질소 원자가 전자 밀도를 변화시켜 대사 안정성이 증가합니다."}
-{"input": {"mol1": "CC(C)Cl", "mol2": "CC(C)CF", "diff_type": "electronegativity"}, "output": "Cl에서 CF로의 치환은 전기음성도 차이로 인해 반응성이 달라지며, 이는 활성을 변화시킬 수 있습니다."}
-{"input": {"mol1": "c1ccccc1O", "mol2": "c1ccccc1C", "diff_type": "lipophilicity"}, "output": "OH 그룹을 메틸기로 치환하면 소수성이 증가하여 흡수율이나 대사 안정성에 영향을 줄 수 있습니다."}
-{"input": {"mol1": "c1ccccc1C(=O)O", "mol2": "c1ccccc1C2=NNN=N2", "diff_type": "bioisostere"}, "output": "카복실산을 테트라졸로 치환하는 것은 대표적인 바이오아이소스테어 전략입니다. 이는 수소 결합 능력을 유지하면서 pKa와 대사 안정성을 개선하여 경구 흡수율을 높일 수 있습니다."}
-{"input": {"mol1": "c1ccccc1-c1ccccc1", "mol2": "c1ccccc1-c1ccsc1", "diff_type": "scaffold hopping"}, "output": "벤젠 고리를 티오펜으로 치환하는 스캐폴드 호핑은 새로운 IP 공간을 확보하고 용해도를 개선하는 데 사용될 수 있습니다. 티오펜의 황 원자는 추가적인 상호작용을 유도할 수 있습니다."}
-{"input": {"mol1": "Fc1ccccc1", "mol2": "Brc1ccccc1", "diff_type": "halogen effects"}, "output": "플루오린을 브로민으로 치환하면 크기와 전기음성도가 크게 변합니다. 이는 소수성을 증가시키고 할로겐 결합과 같은 새로운 상호작용을 가능하게 하여 결합력을 높일 수 있습니다."}

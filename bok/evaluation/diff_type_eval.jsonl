@@ -1,4 +1,0 @@
-{"mol1": "CC(C)CC1=CC=C(C=C1)C(C)C(=O)O", "mol2": "CC(C)CC1=CC=C(C=C1)C(O)C(=O)O", "label": "stereochemistry"}
-{"mol1": "c1ccc(cc1)C(=O)O", "mol2": "c1ccncc1C(=O)O", "label": "electronic effect"}
-{"mol1": "CC(C)Cl", "mol2": "CC(C)CF", "label": "electronegativity"}
-{"mol1": "c1ccccc1O", "mol2": "c1ccccc1C", "label": "lipophilicity"}
