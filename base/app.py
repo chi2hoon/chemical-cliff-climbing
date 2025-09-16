@@ -8,6 +8,7 @@ import io
 from modules.cheminformatics import find_activity_cliffs
 from modules.visualization import visualize_structure_difference, smiles_to_image_b64
 from modules.llm_handler import generate_hypothesis, evaluate_hypothesis, revise_hypothesis, create_activity_summary
+from modules.token_tracker import TokenTracker
 from modules.context_builder import build_pair_context
 from modules.io_utils import (
     load_smiles_activity_csv,
@@ -46,47 +47,49 @@ def get_openai_api_key_from_file():
     return None
 
 
-# --- Token usage helpers ---
-def _init_token_usage_state():
-    if 'token_usage' not in st.session_state:
-        st.session_state['token_usage'] = {
-            'calls': [],
-            'totals': {'prompt_tokens': 0, 'completion_tokens': 0, 'total_tokens': 0},
-        }
+# --- Token Tracker helpers/UI ---
+def get_token_tracker() -> TokenTracker:
+    if 'token_tracker' not in st.session_state:
+        st.session_state['token_tracker'] = TokenTracker()
+    return st.session_state['token_tracker']
 
 
-def _reset_token_usage():
-    st.session_state['token_usage'] = {
-        'calls': [],
-        'totals': {'prompt_tokens': 0, 'completion_tokens': 0, 'total_tokens': 0},
-    }
+def render_token_usage_panel(location: str = "sidebar"):
+    tracker = get_token_tracker()
+    calls = tracker.calls()
+    totals = tracker.totals()
+
+    def _panel_body():
+        st.caption("단건과 누적 토큰 사용량을 확인할 수 있습니다.")
+        if st.button("토큰 누적 초기화", key=f"reset_tokens_btn_{location}"):
+            tracker.reset()
+            st.success("토큰 누적이 초기화되었습니다.")
+        # Last call
+        if calls:
+            last = calls[-1]
+            st.write(
+                f"이번 호출 — phase: {last.phase or '-'}, model: {last.model or '-'}, "
+                f"prompt: {last.prompt_tokens}, completion: {last.completion_tokens}, total: {last.total_tokens}"
+            )
+        else:
+            st.write("이번 호출 — 기록 없음")
+        # Totals
+        st.write(
+            f"누적 — prompt: {totals.get('prompt_tokens',0)}, completion: {totals.get('completion_tokens',0)}, total: {totals.get('total_tokens',0)}"
+        )
+
+    if location == "sidebar":
+        with st.sidebar:
+            st.subheader("🔢 토큰 사용량")
+            _panel_body()
+    else:
+        usage_box = st.container()
+        with usage_box:
+            st.subheader("🔢 토큰 사용량")
+            _panel_body()
 
 
-def _add_token_usage(phase: str, model: str, usage: dict):
-    _init_token_usage_state()
-    usage = usage or {}
-    pt = int(usage.get('prompt_tokens', 0) or 0)
-    ct = int(usage.get('completion_tokens', 0) or 0)
-    tt = int(usage.get('total_tokens', pt + ct) or (pt + ct))
-    st.session_state['token_usage']['calls'].append({
-        'phase': phase, 'model': model, 'prompt_tokens': pt, 'completion_tokens': ct, 'total_tokens': tt,
-    })
-    st.session_state['token_usage']['totals']['prompt_tokens'] += pt
-    st.session_state['token_usage']['totals']['completion_tokens'] += ct
-    st.session_state['token_usage']['totals']['total_tokens'] += tt
-
-
-def _show_last_and_total_tokens():
-    tu = st.session_state.get('token_usage')
-    if not tu or not tu.get('calls'):
-        return
-    last = tu['calls'][-1]
-    totals = tu['totals']
-    st.info(
-        f"토큰 사용량 — 이번 호출({last['phase']}, {last['model']}): "
-        f"prompt {last['prompt_tokens']}, completion {last['completion_tokens']}, total {last['total_tokens']} | "
-        f"누적: prompt {totals['prompt_tokens']}, completion {totals['completion_tokens']}, total {totals['total_tokens']}"
-    )
+# (요청에 따라) 토큰 사용량 집계 로직 제거
 
 def format_hypothesis_for_markdown(data: dict) -> str:
     """주어진 가설 데이터(dict)를 가독성 좋은 마크다운 및 HTML 문자열로 변환합니다."""
@@ -185,6 +188,8 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 ])
 
 with tab1:
+    # 전역 토큰 사용량 패널(사이드바)
+    render_token_usage_panel("sidebar")
     st.header("1. 데이터 로드")
     st.markdown("표준화된 데이터셋을 로드하여 분석을 시작하세요.")
 
@@ -532,7 +537,12 @@ with tab2:
                 # 표시 컬럼 재배치 및 정렬(Δ, sim 내림차순)
                 cols = ['IUPAC_1','Activity_1','IUPAC_2','Activity_2','Similarity','Activity_Diff','SMILES_1','SMILES_2']
                 cols = [c for c in cols if c in display_df.columns]
-                display_df = display_df[cols].sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                display_df = display_df[cols]
+                sort_cols = [c for c in ['Activity_Diff','Similarity'] if c in display_df.columns]
+                if sort_cols:
+                    display_df = display_df.sort_values(by=sort_cols, ascending=[False]*len(sort_cols)).reset_index(drop=True)
+                else:
+                    display_df = display_df.reset_index(drop=True)
                 # 1-based 인덱스
                 display_df.index = range(1, len(display_df) + 1)
                 display_df.index.name = 'Pair #'
@@ -549,8 +559,13 @@ with tab2:
                 except Exception:
                     pass
             except Exception:
-                # 문제가 있으면 원본 표라도 제공
-                df0 = cliff_df.copy().sort_values(by=['Activity_Diff','Similarity'], ascending=[False, False]).reset_index(drop=True)
+                # 문제가 있으면 원본 표라도 제공 (정렬 컬럼 안전 처리)
+                df0 = cliff_df.copy()
+                sort_cols = [c for c in ['Activity_Diff','Similarity'] if c in df0.columns]
+                if sort_cols:
+                    df0 = df0.sort_values(by=sort_cols, ascending=[False]*len(sort_cols)).reset_index(drop=True)
+                else:
+                    df0 = df0.reset_index(drop=True)
                 df0.index = range(1, len(df0) + 1)
                 df0.index.name = 'Pair #'
                 st.dataframe(df0, use_container_width=True)
@@ -689,10 +704,9 @@ with tab3:
                                 activity2=high_act_val,
                                 structural_difference_description=f"화합물 1({low_act_smiles})과 화합물 2({high_act_smiles})의 구조적 차이점.",
                                 similarity=row['Similarity'],
-                                context_json=ctx
+                                context_json=ctx,
+                                token_tracker=get_token_tracker(),
                             )
-                            _add_token_usage('generation', gen_result.get('model', 'unknown'), gen_result.get('usage', {}))
-                            _show_last_and_total_tokens()
                             content = gen_result.get('content', '')
 
                             try:
@@ -707,13 +721,14 @@ with tab3:
                                 save_hypothesis_to_md(file_md, filepath)
                                 st.success(f"가설이 '{filepath}' 파일로 저장되었습니다.")
                             except json.JSONDecodeError:
-                                # LLM 오류 메시지 처리
+                                # LLM 오류 메시지 처리 (원문 노출)
                                 msg = str(content or "").strip()
                                 rate_hit = ("rate" in msg.lower()) or ("429" in msg) or ("insufficient_quota" in msg) or ("quota" in msg.lower())
                                 if rate_hit:
                                     st.error("LLM 호출이 제한되었습니다(리밋/한도). Billing/Usage를 확인하세요.")
                                 else:
-                                    st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 잠시 후 다시 시도하세요.")
+                                    st.error("LLM 응답이 유효한 JSON 형식이 아닙니다. 원문을 확인하세요.")
+                                st.text(msg[:4000])
                                 # 가설 저장/표시는 생략(생성하지 않음)
     else:
         st.info("2. Activity Cliff 분석 탭에서 분석을 먼저 실행해주세요.")
@@ -804,14 +819,15 @@ with tab5:
                             st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
                         else:
                             with st.spinner("LLM이 가설을 평가 중입니다..."):
-                                eval_response = evaluate_hypothesis(
+                                eval_result = evaluate_hypothesis(
                                     api_key=openai_api_key,
                                     hypothesis_text=parsed_data['hypothesis_body'],
                                     smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                                     smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
-                                    structural_difference_description=""
+                                    structural_difference_description="",
+                                    token_tracker=get_token_tracker(),
                                 )
-                                st.session_state[eval_key] = eval_response
+                                st.session_state[eval_key] = eval_result.get('content', '')
                                 # 새로운 평가가 시작되면 이전 수정 결과는 삭제
                                 if f"revise_{selected_file}" in st.session_state:
                                     del st.session_state[f"revise_{selected_file}"]
@@ -854,15 +870,16 @@ with tab5:
                                 st.warning("API 키를 openAI_key.txt 파일에서 로드해주세요.")
                             else:
                                 with st.spinner("LLM이 가설을 수정 중입니다..."):
-                                    revise_response = revise_hypothesis(
+                                    revise_result = revise_hypothesis(
                                         api_key=openai_api_key,
                                         original_hypothesis_text=parsed_data['hypothesis_body'],
                                         review_findings=st.session_state[eval_key],
                                         smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                                         smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
-                                        structural_difference_description=""
+                                        structural_difference_description="",
+                                        token_tracker=get_token_tracker(),
                                     )
-                                    st.session_state[revise_key] = revise_response
+                                    st.session_state[revise_key] = revise_result.get('content', '')
                         
                         if revise_key in st.session_state:
                             st.markdown("##### 수정된 가설")
@@ -943,14 +960,16 @@ with tab6:
                     # 1. 평가
                     st.write("1️⃣ 가설을 평가합니다...")
                     try:
-                        eval_response = evaluate_hypothesis(
+                        eval_result = evaluate_hypothesis(
                             api_key=openai_api_key,
                             hypothesis_text=current_hypothesis_body,
                             smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                             smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
-                            structural_difference_description=""
+                            structural_difference_description="",
+                            token_tracker=get_token_tracker(),
                         )
-                        eval_data = json.loads(eval_response)
+                        eval_content = eval_result.get('content', '')
+                        eval_data = json.loads(eval_content)
                         verdict = eval_data.get('summary', {}).get('verdict', 'Unknown').upper()
                         
                         with st.expander("평가 결과 보기"):
@@ -974,15 +993,16 @@ with tab6:
                         # 3. 수정
                         st.write("3️⃣ 평가 기반으로 가설을 수정합니다...")
                         try:
-                            revise_response = revise_hypothesis(
+                            revise_result = revise_hypothesis(
                                 api_key=openai_api_key,
                                 original_hypothesis_text=current_hypothesis_body,
-                                review_findings=eval_response,
+                                review_findings=eval_content,
                                 smiles1=parsed_data['smiles1'], activity1=parsed_data['activity1'],
                                 smiles2=parsed_data['smiles2'], activity2=parsed_data['activity2'],
-                                structural_difference_description=""
+                                structural_difference_description="",
+                                token_tracker=get_token_tracker(),
                             )
-                            revised_data = json.loads(revise_response)
+                            revised_data = json.loads(revise_result.get('content',''))
                             current_hypothesis_body = format_hypothesis_for_markdown(revised_data)
                             
                             with st.expander("수정된 가설 내용 보기"):

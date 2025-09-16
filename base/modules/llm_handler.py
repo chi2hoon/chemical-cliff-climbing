@@ -1,5 +1,5 @@
 from openai import OpenAI
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 import os
 import json
 
@@ -122,7 +122,7 @@ def generate_hypothesis(
     similarity: float,
     context_json: dict | None = None,
     model: str = "gpt-5",
-    max_tokens: int = 1200,
+    token_tracker: Optional[object] = None,
 ) -> Dict[str, Any]:
     """
     두 분자의 구조-활성 관계(SAR)에 대한 화학적 가설을 생성합니다.
@@ -140,7 +140,6 @@ def generate_hypothesis(
         activity2 (float): 두 번째 화합물의 활성도.
         structural_difference_description (str): 두 화합물 간의 구조적 차이 요약.
         model (str): 사용할 OpenAI 모델 이름.
-        max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
@@ -228,12 +227,23 @@ def generate_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},  # JSON 모드 활성화
-            max_tokens=max_tokens,
-            temperature=0.2,
         )
+        usage_dict = _extract_usage(chat_result)
+        if token_tracker is not None:
+            try:
+                # Support our TokenTracker and simple duck-typed add/add_from_response
+                add_from_resp = getattr(token_tracker, "add_from_response", None)
+                if callable(add_from_resp):
+                    usage_dict = add_from_resp(chat_result, model=used_model, phase="generation")
+                else:
+                    add = getattr(token_tracker, "add", None)
+                    if callable(add):
+                        add(usage_dict.get("prompt_tokens", 0), usage_dict.get("completion_tokens", 0), usage_dict.get("total_tokens", 0), model=used_model, phase="generation")
+            except Exception:
+                pass
         return {
             "content": chat_result.choices[0].message.content.strip(),
-            "usage": _extract_usage(chat_result),
+            "usage": usage_dict,
             "model": used_model,
         }
     except Exception as e:
@@ -267,8 +277,7 @@ def evaluate_hypothesis(
     structural_difference_description: str,
     context_json: dict | None = None,
     model: str = "gpt-5",
-
-    max_tokens: int = 1200,
+    token_tracker: Optional[object] = None,
 ) -> Dict[str, Any]:
     """
     기존에 생성된 SAR 가설을 평가합니다.
@@ -287,7 +296,6 @@ def evaluate_hypothesis(
         activity2 (float): 두 번째 화합물의 활성도.
         structural_difference_description (str): 두 화합물 간의 구조적 차이 요약.
         model (str): 사용할 OpenAI 모델 이름.
-        max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
@@ -352,12 +360,22 @@ def evaluate_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},
-            max_tokens=max_tokens,
-            temperature=0.2,
         )
+        usage_dict = _extract_usage(chat_result)
+        if token_tracker is not None:
+            try:
+                add_from_resp = getattr(token_tracker, "add_from_response", None)
+                if callable(add_from_resp):
+                    usage_dict = add_from_resp(chat_result, model=used_model, phase="evaluation")
+                else:
+                    add = getattr(token_tracker, "add", None)
+                    if callable(add):
+                        add(usage_dict.get("prompt_tokens", 0), usage_dict.get("completion_tokens", 0), usage_dict.get("total_tokens", 0), model=used_model, phase="evaluation")
+            except Exception:
+                pass
         return {
             "content": chat_result.choices[0].message.content.strip(),
-            "usage": _extract_usage(chat_result),
+            "usage": usage_dict,
             "model": used_model,
         }
     except Exception as e:
@@ -381,7 +399,7 @@ def revise_hypothesis(
     structural_difference_description: str,
     context_json: dict | None = None,
     model: str = "gpt-5",
-    max_tokens: int = 4096,
+    token_tracker: Optional[object] = None,
 ) -> Dict[str, Any]:
     """
     평가 결과를 바탕으로 기존 SAR 가설을 수정합니다.
@@ -401,7 +419,6 @@ def revise_hypothesis(
         activity2 (float): 두 번째 화합물의 활성도.
         structural_difference_description (str): 두 화합물 간의 구조적 차이 요약.
         model (str): 사용할 OpenAI 모델 이름.
-        max_tokens (int): 생성할 최대 토큰 수.
 
     Returns:
         Dict[str, Any]: {"content": JSON 문자열, "usage": 토큰 사용량 dict, "model": 모델명}
@@ -490,12 +507,22 @@ def revise_hypothesis(
                 {"role": "user", "content": prompt},
             ],
             response_format={"type": "json_object"},
-            max_tokens=max_tokens,
-            temperature=0.2,
         )
+        usage_dict = _extract_usage(chat_result)
+        if token_tracker is not None:
+            try:
+                add_from_resp = getattr(token_tracker, "add_from_response", None)
+                if callable(add_from_resp):
+                    usage_dict = add_from_resp(chat_result, model=used_model, phase="revision")
+                else:
+                    add = getattr(token_tracker, "add", None)
+                    if callable(add):
+                        add(usage_dict.get("prompt_tokens", 0), usage_dict.get("completion_tokens", 0), usage_dict.get("total_tokens", 0), model=used_model, phase="revision")
+            except Exception:
+                pass
         return {
             "content": chat_result.choices[0].message.content.strip(),
-            "usage": _extract_usage(chat_result),
+            "usage": usage_dict,
             "model": used_model,
         }
     except Exception as e:
