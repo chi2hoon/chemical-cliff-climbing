@@ -14,7 +14,7 @@ def _default_yaml_for_year(year):
     기본 스키마 경로를 반환한다.
     """
     y = str(year)
-    return os.path.join("base", "schemas", "silver", f"{y}.yaml")
+    return os.path.join("schemas", "silver", f"{y}.yaml")
 
 
 def cmd_bronze(args):
@@ -24,7 +24,7 @@ def cmd_bronze(args):
     """
     year = str(args.year)
     yaml_path = args.cfg or _default_yaml_for_year(year)
-    out_dir = args.out or os.path.join("base", "data", "bronze", year)
+    out_dir = args.out or os.path.join("data", "bronze", year)
     result = bronze_dispatch.build_bronze_from_raw(year, yaml_path, out_dir)
     for k in sorted(result.keys()):
         print(f"{k}: {result[k]}")
@@ -42,7 +42,7 @@ def main():
     p_bronze = sub.add_parser("bronze", help="원본→브론즈(시트 슬라이스/매트릭스 롱)")
     p_bronze.add_argument("--year", required=True, help="데이터 연도")
     p_bronze.add_argument("--cfg", default=None, help="schemas/silver/{year}.yaml 경로")
-    p_bronze.add_argument("--out", default=None, help="출력 디렉터리(기본: base/data/bronze/{year})")
+    p_bronze.add_argument("--out", default=None, help="출력 디렉터리(기본: data/bronze/{year})")
     p_bronze.set_defaults(func=cmd_bronze)
 
     p_silver = sub.add_parser("silver", help="정규화/표준화 단계")

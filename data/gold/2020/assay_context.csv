@@ -1,0 +1,536 @@
+example_label,smiles_old,asterisk_yesno,smiles_new,provenance_file,provenance_sheet,provenance_row,tissue,Long term proliferation - USP1 inhibitor sensitive? (<316nM),Colony Formation Assay - USP1 inhibitor sensitive? (<316nM),brca1,brca2,p53,atm,sample_id,solub_pH2_grade,solub_pH7_grade,hlm_t12_grade,rlm_t12_grade
+Example 14,N1=C2C(C=NN2CC2=CC=C(C3N(C=C(C(F)(F)F)N=3)*)C=C2)=CN=C1C1C(=NC=NC=1OC)C1CC1,Y,N1=C2C(C=NN2CC2=CC=C(C3N(C=C(C(F)(F)F)N=3)*)C=C2)=CN=C1C1C(=NC=NC=1OC)C1CC1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,4,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,4,Breast,Yes,Yes,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,4,,,,,,,,1,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,4,,,,,,,,1,,,+,+
+Example 17,O(C1N=CN=C(C=1C1=NC=C2C(N(CC3C=C(C(C4=NC(*)=CN4C)=CC=3)F)N=C2)=N1)C1CC1)C,,COC1=C(C2=N/C=C3\C=NN(CC4=CC=C(C5=NC(C(F)(F)F)=CN5C)C(F)=C4)\C3=N\2)C(C2CC2)=NC=N1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,5,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,5,Ovary,Yes,Yes,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,5,,,,,,,,2,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,5,,,,,,,,2,,,+,+
+Example 20,N1=CN=C(C(C2=NC=C3C(N(CC4C=CC(C5N(C=C(*)N=5)C)=CC=4F)N=C3)=N2)=C1OC)C1CC1,,COC1=C(C2=N/C=C3\C=NN(CC4=C(F)C=C(C5=NC(C(F)(F)F)=CN5C)C=C4)\C3=N\2)C(C2CC2)=NC=N1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,6,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,6,Ovary,-,Yes,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,6,,,,,,,,3,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,6,,,,,,,,3,,,++,++
+Example 33,N1(C=C(*)N=C1C1=CC=C(CN2C3C(C=N2)=CN=C(N=3)C2C(C)=NC=NC=2OC)C=C1)C,,COC1=C(C2=N/C=C3\C=NN(CC4=CC=C(C5=NC(C(F)(F)F)=CN5C)C=C4)\C3=N\2)C(C)=NC=N1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,7,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,7,Ovary,-,Yes,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,7,,,,,,,,4,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,7,,,,,,,,4,,,+,+
+Example 42,N1C(=NC=C2C=1N(CC1=CC=C(C3=NC(*)=CN3C)C=C1)N=C2)C1C(=NC=NC=1OCCOC)C1CC1,,COCCOC1=C(C2=N/C=C3\C=NN(CC4=CC=C(C5=NC(F)=CN5C)C=C4)\C3=N\2)C(C2CC2)=NC=N1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,8,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,8,Ovary,Yes,Yes,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,8,,,,,,,,5,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,8,,,,,,,,5,,,+,+
+Example 44,N1C(=NC=C2C=1N(CC1=CC=C(N3C(=CC(*)=N3)C)C=C1)N=C2)C1=C(C=NN1C(C)C)C,,CC1=CC(CF)=NN1C1=CC=C(CN2/N=C\C3=CN=C(C4=C(C)C=NN4C(C)C)N=C32)C=C1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,9,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,9,Ovary,Yes,-,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,9,,,,,,,,6,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,9,,,,,,,,6,,,+,+
+Example 53,O(C1N=CN=C(C=1C1=NC(C)=C2C(N(CC3C=CC(C4=NC(*)=CN4CC)=CC=3)N=C2)=N1)C1CC1)C,,CCN1C=C(C(F)(F)F)N=C1C1=CC=C(CN2N=CC3=C(C)/N=C(C4=C(OC)N=CN=C4C4CC4)\N=C\32)C=C1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,10,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,10,Breast,Yes,-,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,10,,,,,,,,7,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,10,,,,,,,,7,,,++,+
+Example 67,*OC1N=CN=C(C=1C1=NC=C2C(N(CC3C=CC(C4=NC(CF)=CN4CC)=CC=3)N=C2)=N1)C1CC1,Y,,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,11,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,11,Breast,Yes,-,Mutant,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,11,,,,,,,,8,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,11,,,,,,,,8,,,,
+Example 86,*C1=CN(C(C2C=CC(CN3C4C(C=N3)=CN=C(N=4)C3C(OC)=NC=NC=3OC)=CC=2)=N1)C,,COC1=NC=NC(OC)=C1C1=NC=C2/C=N\N(CC3=CC=C(C4=NC(CF)=CN4C)C=C3)C2=N1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,12,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,12,Ovary,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,12,,,,,,,,9,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,12,,,,,,,,9,,,+,+
+Example 101,N1C=NC(OC)=C(C=1C1CN(C1)C)C1=NC=C2C(N(CC3=CC=C(C4N(C=C(N=4)*)CCC)C=C3)N=C2)=N1,,CCN1C=C(CF)N=C1C1=CC=C(CN2/N=C\C3=CN=C(C4=C(OC)N=CN=C4C4CN(C)C4)N=C32)C=C1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,13,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,13,Breast,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,13,,,,,,,,10,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,13,,,,,,,,10,,,+,+
+Example 102,O(C1N=CN=C(C=1C1=NC=C2C(N(CC3C=CC(C4=NC(*)=CN4C)=CC=3)N=C2)=N1)C1CC1)CC1C=CC=CC=1,,CN1C=C(CF)N=C1C1=CC=C(CN2/N=C\C3=CN=C(C4=C(OCC5=CC=CC=C5)N=CN=C4C4CC4)N=C32)C=C1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,14,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,14,Ovary,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,14,,,,,,,,11,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,14,,,,,,,,11,,,+,+
+Example 118,N1=C2C(C=NN2C(C)C2=CC=C(C3N(C=C(*)N=3)CC)C(=C2)F)=CN=C1C1C(C(C)C)=NC=NC=1OC,,CCN1C=C(C(F)(F)F)N=C1C1=CC=C([C@H](C)N2N=CC3=C\N=C(C4=C(OC)N=CN=C4C(C)C)/N=C\32)C=C1F,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,15,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,15,Ovary,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,15,,,,,,,,12,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,15,,,,,,,,12,,,+,++
+Example 139,O(C1N=CN=C(C=1C1=NC=C2C(N(CC3C=CC(C4N(C=C(C(F)(F)F)N=4)C(*)([H])C(*)*)=CC=3)N=C2)=N1)C1CC1)C,Asterik Still Present,O(C1N=CN=C(C=1C1=NC=C2C(N(CC3C=CC(C4N(C=C(C(F)(F)F)N=4)C(*)(*)C(*)(*)*)=CC=3)N=C2)=N1)C1CC1)C,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,16,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,16,Ovary,No,-,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,16,,,,,,,,13,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,16,,,,,,,,13,,,++,++
+Example 140,O(C1=C(C(C2CC2)=NC=N1)C1=NC=C2C(N(CC3C=CC(C4N(C=C(C(F)(F)F)N=4)C(C(*)(*)*)(*)C*F)=CC=3)N=C2)=N1)C,Asterik Still Present,O(C)C1N=CN=C(C=1C1=NC=C2C(N(CC3C=CC(C4N(C=C(C(F)(F)F)N=4)C(C(*)(*)*)(C(*)(*)*)*)=CC=3)N=C2)=N1)C1CC1,data/bronze/artifacts/2020_raw.xlsx,Asterik ExceptionCase Chart,17,,,,,,,,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,17,Breast,No,No,Mutant,-,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,17,,,,,,,,14,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,17,,,,,,,,14,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,18,Breast,No,-,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,18,,,,,,,,15,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,18,,,,,,,,15,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,19,Ovary,No,No,Mutant,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,19,,,,,,,,16,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,19,,,,,,,,16,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,20,Ovary,No,-,WT,WT,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,20,,,,,,,,17,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,20,,,,,,,,17,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,21,Ovary,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,21,,,,,,,,18,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,21,,,,,,,,18,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,22,Melanoma,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,22,,,,,,,,19,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,22,,,,,,,,19,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,23,Bone,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,23,,,,,,,,20,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,23,,,,,,,,20,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,24,Bone,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,24,,,,,,,,21,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,24,,,,,,,,21,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,25,Bone,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,25,,,,,,,,22,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,25,,,,,,,,22,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,26,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,26,,,,,,,,23,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,26,,,,,,,,23,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,27,Melanoma,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,27,,,,,,,,24,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,27,,,,,,,,24,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,28,Bone,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,28,,,,,,,,25,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,28,,,,,,,,25,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,29,Lung,-,Yes,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,29,,,,,,,,26,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,29,,,,,,,,26,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,30,Uterus,-,No,WT,Mutant,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,30,,,,,,,,27,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,30,,,,,,,,27,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,31,Bladder,-,Yes,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,31,,,,,,,,28,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,31,,,,,,,,28,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,32,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,32,,,,,,,,29,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,32,,,,,,,,29,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,33,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,33,,,,,,,,30,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,33,,,,,,,,30,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,34,Bone,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,34,,,,,,,,31,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,34,,,,,,,,31,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,35,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,35,,,,,,,,32,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,35,,,,,,,,32,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,36,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,36,,,,,,,,33,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,36,,,,,,,,33,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,37,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,37,,,,,,,,34,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,37,,,,,,,,34,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,38,Nervous System,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,38,,,,,,,,35,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,38,,,,,,,,35,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,39,Nervous System,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,39,,,,,,,,36,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,39,,,,,,,,36,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,40,Nervous System,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,40,,,,,,,,37,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,40,,,,,,,,37,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,41,Nervous System,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,41,,,,,,,,38,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,41,,,,,,,,38,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,42,Nervous System,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,42,,,,,,,,39,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,42,,,,,,,,39,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,43,Skin,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,43,,,,,,,,40,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,43,,,,,,,,40,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,44,Soft Tissue,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,44,,,,,,,,41,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,44,,,,,,,,41,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,45,Uterus,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,45,,,,,,,,42,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,45,,,,,,,,42,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,46,Colon*,-,Yes,WT,Mutant,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,46,,,,,,,,43,+,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,46,,,,,,,,43,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,47,Lung*,-,Yes,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,47,,,,,,,,44,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,47,,,,,,,,44,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,48,Colon,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,48,,,,,,,,45,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,48,,,,,,,,45,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,49,Nervous System,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,49,,,,,,,,46,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,49,,,,,,,,46,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,50,Breast,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,50,,,,,,,,47,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,50,,,,,,,,47,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,51,Lung*,-,Yes,WT,WT,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,51,,,,,,,,48,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,51,,,,,,,,48,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,52,Lung,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,52,,,,,,,,49,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,52,,,,,,,,49,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,53,Colon*,-,Yes,WT,WT,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,53,,,,,,,,50,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,53,,,,,,,,50,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,54,Bladder,-,No,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,54,,,,,,,,51,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,54,,,,,,,,51,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,55,Colon,-,No,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,55,,,,,,,,52,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,55,,,,,,,,52,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,56,Ovary,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,56,,,,,,,,53,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,56,,,,,,,,53,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,57,Pancreas,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,57,,,,,,,,54,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,57,,,,,,,,54,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,58,Colon*,-,Yes,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,58,,,,,,,,55,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,58,,,,,,,,55,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,59,Colon,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,59,,,,,,,,56,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,59,,,,,,,,56,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,60,Colon*,-,Yes,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,60,,,,,,,,57,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,60,,,,,,,,57,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,61,Head & Neck,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,61,,,,,,,,58,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,61,,,,,,,,58,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,62,Pancreas,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,62,,,,,,,,59,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,62,,,,,,,,59,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,63,Cervix,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,63,,,,,,,,60,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,63,,,,,,,,60,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,64,Breast,-,No,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,64,,,,,,,,61,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,64,,,,,,,,61,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,65,Breast,-,No,Mutant,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,65,,,,,,,,62,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,65,,,,,,,,62,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,66,Uterus,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,66,,,,,,,,63,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,66,,,,,,,,63,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,67,Breast,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,67,,,,,,,,64,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,67,,,,,,,,64,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,68,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,68,,,,,,,,65,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,68,,,,,,,,65,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,69,Bone,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,69,,,,,,,,66,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,69,,,,,,,,66,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,70,Ovary,-,No,WT,Mutant,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,70,,,,,,,,67,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,70,,,,,,,,67,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,71,Breast,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,71,,,,,,,,68,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,71,,,,,,,,68,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,72,Ovary,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,72,,,,,,,,69,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,72,,,,,,,,69,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,73,Breast,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,73,,,,,,,,70,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,73,,,,,,,,70,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,74,Breast,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,74,,,,,,,,71,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,74,,,,,,,,71,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,75,Breast,-,No,WT,Mutant,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,75,,,,,,,,72,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,75,,,,,,,,72,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,76,Breast,-,No,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,76,,,,,,,,73,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,76,,,,,,,,73,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,77,Breast,-,No,WT,WT,Mutant,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,77,,,,,,,,74,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,77,,,,,,,,74,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,78,Breast,-,No,WT,WT,WT,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,78,,,,,,,,75,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,78,,,,,,,,75,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,79,Head & Neck,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,79,,,,,,,,76,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,79,,,,,,,,76,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,80,Ovary*,-,Yes,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,80,,,,,,,,77,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,80,,,,,,,,77,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,81,Skin*,-,Yes,WT,WT,WT,Mutant,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,81,,,,,,,,78,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,81,,,,,,,,78,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,82,Esophagus,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,82,,,,,,,,79,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,82,,,,,,,,79,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,83,Head & Neck,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,83,,,,,,,,80,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,83,,,,,,,,80,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,84,Esophagus,-,No,WT,Mutant,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,84,,,,,,,,81,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,84,,,,,,,,81,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,85,Head & Neck,-,No,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,85,,,,,,,,82,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,85,,,,,,,,82,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 5,86,Bladder*,-,Yes,WT,WT,Mutant,WT,,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,86,,,,,,,,83,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,86,,,,,,,,83,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,87,,,,,,,,84,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,87,,,,,,,,84,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,88,,,,,,,,85,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,88,,,,,,,,85,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,89,,,,,,,,86,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,89,,,,,,,,86,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,90,,,,,,,,87,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,90,,,,,,,,87,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,91,,,,,,,,88,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,91,,,,,,,,88,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,92,,,,,,,,89,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,92,,,,,,,,89,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,93,,,,,,,,90,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,93,,,,,,,,90,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,94,,,,,,,,91,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,94,,,,,,,,91,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,95,,,,,,,,92,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,95,,,,,,,,92,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,96,,,,,,,,93,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,96,,,,,,,,93,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,97,,,,,,,,94,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,97,,,,,,,,94,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,98,,,,,,,,95,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,98,,,,,,,,95,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,99,,,,,,,,96,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,99,,,,,,,,96,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,100,,,,,,,,97,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,100,,,,,,,,97,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,101,,,,,,,,98,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,101,,,,,,,,98,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,102,,,,,,,,99,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,102,,,,,,,,99,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,103,,,,,,,,100,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,103,,,,,,,,100,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,104,,,,,,,,101,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,104,,,,,,,,101,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,105,,,,,,,,102,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,105,,,,,,,,102,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,106,,,,,,,,103,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,106,,,,,,,,103,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,107,,,,,,,,104,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,107,,,,,,,,104,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,108,,,,,,,,105,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,108,,,,,,,,105,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,109,,,,,,,,106,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,109,,,,,,,,106,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,110,,,,,,,,107,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,110,,,,,,,,107,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,111,,,,,,,,108,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,111,,,,,,,,108,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,112,,,,,,,,109,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,112,,,,,,,,109,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,113,,,,,,,,110,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,113,,,,,,,,110,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,114,,,,,,,,111,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,114,,,,,,,,111,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,115,,,,,,,,112,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,115,,,,,,,,112,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,116,,,,,,,,113,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,116,,,,,,,,113,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,117,,,,,,,,114,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,117,,,,,,,,114,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,118,,,,,,,,115,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,118,,,,,,,,115,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,119,,,,,,,,116,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,119,,,,,,,,116,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,120,,,,,,,,117,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,120,,,,,,,,117,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,121,,,,,,,,118,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,121,,,,,,,,118,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,122,,,,,,,,119,+,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,122,,,,,,,,119,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,123,,,,,,,,120,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,123,,,,,,,,120,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,124,,,,,,,,121,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,124,,,,,,,,121,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,125,,,,,,,,122,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,125,,,,,,,,122,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,126,,,,,,,,123,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,126,,,,,,,,123,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,127,,,,,,,,124,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,127,,,,,,,,124,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,128,,,,,,,,125,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,128,,,,,,,,125,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,129,,,,,,,,126,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,129,,,,,,,,126,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,130,,,,,,,,127,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,130,,,,,,,,127,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,131,,,,,,,,128,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,131,,,,,,,,128,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,132,,,,,,,,129,++,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,132,,,,,,,,129,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,133,,,,,,,,130,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,133,,,,,,,,130,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,134,,,,,,,,131,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,134,,,,,,,,131,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,135,,,,,,,,132,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,135,,,,,,,,132,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,136,,,,,,,,133,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,136,,,,,,,,133,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,137,,,,,,,,134,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,137,,,,,,,,134,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,138,,,,,,,,135,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,138,,,,,,,,135,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,139,,,,,,,,136,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,139,,,,,,,,136,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,140,,,,,,,,137,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,140,,,,,,,,137,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,141,,,,,,,,138,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,141,,,,,,,,138,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,142,,,,,,,,139,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,142,,,,,,,,139,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,143,,,,,,,,140,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,143,,,,,,,,140,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,144,,,,,,,,141,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,144,,,,,,,,141,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,145,,,,,,,,142,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,145,,,,,,,,142,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,146,,,,,,,,143,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,146,,,,,,,,143,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,147,,,,,,,,144,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,147,,,,,,,,144,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,148,,,,,,,,145,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,148,,,,,,,,145,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,149,,,,,,,,146,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,149,,,,,,,,146,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,150,,,,,,,,147,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,150,,,,,,,,147,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,151,,,,,,,,148,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,151,,,,,,,,148,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,152,,,,,,,,149,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,152,,,,,,,,149,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,153,,,,,,,,150,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,153,,,,,,,,150,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,154,,,,,,,,151,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,154,,,,,,,,151,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,155,,,,,,,,152,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,155,,,,,,,,152,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,156,,,,,,,,153,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,156,,,,,,,,153,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,157,,,,,,,,154,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,157,,,,,,,,154,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,158,,,,,,,,155,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,158,,,,,,,,155,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,159,,,,,,,,156,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,159,,,,,,,,156,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,160,,,,,,,,157,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,160,,,,,,,,157,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,161,,,,,,,,158,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,161,,,,,,,,158,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,162,,,,,,,,159,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,162,,,,,,,,159,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,163,,,,,,,,160,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,163,,,,,,,,160,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,164,,,,,,,,161,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,164,,,,,,,,161,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,165,,,,,,,,162,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,165,,,,,,,,162,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,166,,,,,,,,163,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,166,,,,,,,,163,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,167,,,,,,,,164,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,167,,,,,,,,164,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,168,,,,,,,,165,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,168,,,,,,,,165,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,169,,,,,,,,166,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,169,,,,,,,,166,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,170,,,,,,,,167,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,170,,,,,,,,167,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,171,,,,,,,,168,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,171,,,,,,,,168,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,172,,,,,,,,169,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,172,,,,,,,,169,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,173,,,,,,,,170,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,173,,,,,,,,170,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,174,,,,,,,,171,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,174,,,,,,,,171,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,175,,,,,,,,172,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,175,,,,,,,,172,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,176,,,,,,,,173,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,176,,,,,,,,173,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,177,,,,,,,,174,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,177,,,,,,,,174,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,178,,,,,,,,175,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,178,,,,,,,,175,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,179,,,,,,,,176,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,179,,,,,,,,176,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,180,,,,,,,,177,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,180,,,,,,,,177,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,181,,,,,,,,178,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,181,,,,,,,,178,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,182,,,,,,,,179,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,182,,,,,,,,179,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,183,,,,,,,,180,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,183,,,,,,,,180,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,184,,,,,,,,181,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,184,,,,,,,,181,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,185,,,,,,,,182,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,185,,,,,,,,182,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,186,,,,,,,,183,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,186,,,,,,,,183,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,187,,,,,,,,184,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,187,,,,,,,,184,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,188,,,,,,,,185,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,188,,,,,,,,185,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,189,,,,,,,,186,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,189,,,,,,,,186,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,190,,,,,,,,187,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,190,,,,,,,,187,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,191,,,,,,,,188,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,191,,,,,,,,188,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,192,,,,,,,,189,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,192,,,,,,,,189,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,193,,,,,,,,190,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,193,,,,,,,,190,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,194,,,,,,,,191,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,194,,,,,,,,191,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,195,,,,,,,,192,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,195,,,,,,,,192,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,196,,,,,,,,193,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,196,,,,,,,,193,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,197,,,,,,,,194,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,197,,,,,,,,194,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,198,,,,,,,,195,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,198,,,,,,,,195,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,199,,,,,,,,196,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,199,,,,,,,,196,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,200,,,,,,,,197,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,200,,,,,,,,197,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,201,,,,,,,,198,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,201,,,,,,,,198,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,202,,,,,,,,199,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,202,,,,,,,,199,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,203,,,,,,,,200,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,203,,,,,,,,200,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,204,,,,,,,,201,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,204,,,,,,,,201,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,205,,,,,,,,202,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,205,,,,,,,,202,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,206,,,,,,,,203,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,206,,,,,,,,203,,,+,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,207,,,,,,,,204,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,207,,,,,,,,204,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,208,,,,,,,,205,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,208,,,,,,,,205,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,209,,,,,,,,206,++,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,209,,,,,,,,206,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,210,,,,,,,,207,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,210,,,,,,,,207,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,211,,,,,,,,208,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,211,,,,,,,,208,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,212,,,,,,,,209,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,212,,,,,,,,209,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,213,,,,,,,,210,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,213,,,,,,,,210,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,214,,,,,,,,211,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,214,,,,,,,,211,,,+,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,215,,,,,,,,212,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,215,,,,,,,,212,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,216,,,,,,,,213,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,216,,,,,,,,213,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,217,,,,,,,,214,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,217,,,,,,,,214,,,++,++
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,218,,,,,,,,215,++,++,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,218,,,,,,,,215,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,219,,,,,,,,216,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,219,,,,,,,,216,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,220,,,,,,,,217,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,220,,,,,,,,217,,,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,221,,,,,,,,218,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,221,,,,,,,,218,,,++,+
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,222,,,,,,,,219,+,+,,
+,,,,data/bronze/artifacts/2020_raw.xlsx,Table 6 ~ 7,222,,,,,,,,219,,,++,++

@@ -1,0 +1,439 @@
+sample_label,smiles_raw,name_text,nan,flag_asterisk,nan,flag_fixed,flag_too_blurry,flag_missing_image,flag_missing_name,provenance_file,provenance_sheet,provenance_row
+Intermediate 1,CC1=C/C2=CC(C(=O)O)=CC=C2/N=C\1N,2-amino-3-methylquinoline-6-carboxylic acid,nan,Too blurry,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,3
+Intermediate 1b,COC(=O)C1=CC=C2/N=C(NC(C)=O)\C(C)=C/C2=C1,Methyl 2-acetamido-3-methylquinoline-6-carboxylate,nan,Missing Image,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,4
+Intermediate 1c,COC(=O)C1CCC2=C(C=C(C)C(NC(C)=O)=N2)C1,"Methyl 2-acetamido-3-methyl-5,6,7,8-tetrahydroquinoline-6-carboxylate",nan,Missing Name,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,5
+Intermediate 1a,CC1=C/C2=C(CCC(C(=O)O)C2)/N=C\1N,"2-amino-3-methyl-5,6,7,8-tetrahydroquinoline-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,6
+Intermediate 2,[2H]C([2H])([2H])C1=C/C2=CC(C(=O)O)=CC=C2/N=C\1N,2-amino-3-(methyl-D3)quinoline-6-carboxylic acid,NC1C(*)=CC2C(=CC=C(C(=O)O)C=2)N=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,7
+Intermediate 3a,COC(=O)C1=CC=C2/N=C(Cl)\C(Cl)=C/C2=C1,"Methyl 2,3-dichloroquinoline-6-carboxylate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,8
+Intermediate 3b,COC(=O)C1=CC=C2/N=C(NCC3=CC=C(OC)C=C3)\C(Cl)=C/C2=C1,Methyl 3-chloro-2-((4-methoxybenzyl)amino)quinoline-6-carboxylate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,9
+Intermediate 3c,COC(=O)C1=CC=C2/N=C(N)\C(Cl)=C/C2=C1,"Methyl 2-amino-3-chloroquinoline-6-carboxylate 2,2,2-trifluoroacetate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,10
+Intermediate 3,NC1=N/C2=CC=C(C(=O)O)C=C2/C=C\1Cl,2-amino-3-chloroquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,11
+Intermediate 4a,CCOP(=O)(O)C(Br)C#N,Diethyl (bromo(cyano)methyl)phosphonate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,12
+Intermediate 4b,COC(=O)C1=C\C=C2\N=C(N)C(Br)=C\C2=C\1,Methyl 2-amino-3-bromoquinoline-6-carboxylate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,13
+Intermediate 4,NC1=N/C2=CC=C(C(=O)O)C=C2/C=C\1Br,2-amino-3-bromoquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,14
+Intermediate 5a,CC1=C/C2=CC(Br)=C(F)C=C2/N=C\1N,6-Bromo-7-fluoro-3-methylquinolin-2-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,15
+Intermediate 5b,COC(=O)C1=C(F)/C=C2\N=C(N)C(C)=C\C2=C\1,Methyl 2-amino-7-fluoro-3-methylquinoline-6-carboxylate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,16
+Intermediate 5,CC1=C/C2=CC(C(=O)O)=C(F)C=C2/N=C\1N,2-amino-7-fluoro-3-methylquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,17
+Intermediate 6a,[H]C(=O)C1=CC(C(=O)OC)=C(Cl)C=C1N,Methyl 4-amino-2-chloro-5-formylbenzoate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,18
+Intermediate 6,CC1=C/C2=CC(C(=O)O)=C(Cl)C=C2/N=C\1N,2-amino-7-chloro-3-methylquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,19
+Intermediate 7,NC1=N/C2=CC=C(C(=O)O)C=C2/C(Br)=C\1,2-amino-4-methylquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,20
+Intermediate 8,NC1=N/C2=CC=C(C(=O)O)C=C2/C(Br)=C\1,2-amino-4-chloroquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,21
+Intermediate 9a,COC(=O)C1=C/C2=C(\C=C/1)N=C(Cl)C(C)=C2Cl,"Methyl 2,4-dichloro-3-methylquinoline-6-carboxylate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,22
+Intermediate 9b,COC(=O)C1=CC2=C(C=C1)/N=C(NCC1=CC=C(OC)C=C1)\C(C)=C/2Cl,Methyl 4-chloro-2-((4-methoxybenzyl)amino)-3-methylquinoline-6-carboxylate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,23
+Intermediate 9c,COC(=O)C1=CC2=C(C=C1)/N=C(NCC1=CC=C(OC)C=C1)\C(C)=C/2C,"Methyl 2-((4-methoxybenzyl)amino)-3,4-dimethylquinoline-6-carboxylate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,24
+Intermediate 9,COC1=CC=C(CNC2=N/C3=C(C=C(C(=O)O)C=C3)/C(C)=C\2C)C=C1,"2-((4-methoxybenzyl)amino)-3,4-dimethylquinoline-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,25
+Intermediate 10a,CC1=CC2=C\C(C#N)=C/N=C\2N=C1N,"7-Amino-6-methyl-l,8-naphthyridine-3-carbonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,26
+Intermediate 10,CC1=CC2=C\C(C(=O)O)=C/N=C\2N=C1N,"7-amino-6-methyl-l,8-naphthyridine-3-carboxylic acid hydrochloride",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,27
+Intermediate 11a,CCOP(=O)(OCC)C(Cl)C#N,Diethyl (chloro(cyano)methyl)phosphonate,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,28
+Intermediate 11b,NC1=N/C2=NC=C(Br)C=C2/C=C\1Cl,"6-Bromo-3-chloro-l,8-naphthyridin-2-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,29
+Intermediate 11c,COC(=O)C1=C/N=C2/N=C(N)C(Cl)=C/C2=C\1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,30
+Intermediate 11,NC1=N/C2=NC=C(C(=O)O)C=C2/C=C\1Cl,"7-amino-6-chloro-l,8-naphthyridine-3-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,31
+Intermediate 12a,N#CC1=C/N=C2\N=C(N)C(Br)=C\C2=C\1,"7-Amino-6-bromo-l,8-naphthyridine-3-carbonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,32
+Intermediate 12b,COC(=O)C1=C/N=C2/N=C(N)C(Br)=C/C2=C\1,"Methyl 7-amino-6-bromo-l,8-naphthyridine-3-carboxylate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,33
+Intermediate 12,NC1=N/C2=NC=C(C(=O)O)C=C2/C=C\1Br,"7-amino-6-bromo-l,8-naphthyridine-3-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,34
+Intermediate 13,CC1=C/C2=CC(C(=O)O)=NC=C2/N=C\1N,"2-amino-3-methyl-l,7-naphthyridine-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,35
+Intermediate 14a,COC(=O)C1=N/C=C2/N=C(N)C(Cl)=C/C2=C\1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,36
+Intermediate 14,NC1=NC2=C/N=C(C(=O)O)\C=C\2C=C1Cl,"2-amino-3-chloro-l,7-naphthyridine-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,37
+Intermediate 15a,COC(=O)C1=NC=C2/N=C(N)\C(Br)=C/C2=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,38
+Intermediate 15,NC1=NC2=C\N=C(C(=O)O)/C=C\2C=C1Br,"2-amino-3-bromo-l,7-naphthyridine-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,39
+Intermediate 16,CC1=C/C2=CC(C(=O)Cl)=CC=C2/N=C\1N,2-amino-3-methylquinoline-6-carbonyl chloride hydrochloride,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,40
+Intermediate 17,NC1=NC2=N/C=C(C(=O)Cl)\C=C\2C=C1Br,"7-amino-6-bromo-1,8-naphthyridine-3-carbonyl chloride hydrochloride",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,41
+Intermediate 18a,CC1=C/C2=CC(Br)=CN=C2/N=C\1N,"6-Bromo-3-methyl-l,8-naphthyridin-2-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,42
+Intermediate 18,CC1=C/C2=CC(Br)=CN=C2/N=C\1N(C(=O)OC(C)(C)C)C(=O)OC(C)(C)C,"6-Bromo-N,N-bis-Boc-3-methyl-l,8-naphthyridin-2-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,43
+Intermediate 19,CCC1=C/C2=CC(C(=O)O)=CC=C2/N=C\1N,2-amino-3-ethylquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,44
+Intermediate 20a,COC1=CC=C(CN(CC2=CC=C(OC)C=C2)C2=N/C3=CC=C(Br)C=C3/C=C\2C)C=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,45
+Intermediate 20,COC1=CC=C(CN(CC2=CC=C(OC)C=C2)C2=N/C3=CC=C(C(=O)O)C=C3/C=C\2C)C=C1,2-(bis(4-methoxybenzyl)amino)-3-methylquinoline-6-carboxylic acid,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,46
+Intermediate 21,CC1=C/C2=CC(C(=O)Cl)=C(Cl)C=C2/N=C\1N,2-amino-7-chloro-3-methylquinoline-6-carbonyl chloride hydrochloride,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,47
+Intermediate 22,CC1=C(Br)C(N)=N/C2=N\C=C(C(=O)O)/C=C\12,"7-amino-6-bromo-5-methyl-l,8-naphthyridine-3-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,48
+Intermediate 23,NC1=N/C2=CC=C(C(=O)O)C=C2/C=C\1I,2-amino-3-iodoquiiioline-6-carboxylic acid-lithium chloride,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,49
+Intermediate 24,NC1=NC2=N/C=C(C(=O)O)\C=C\2C=C1I,"7-amino-6-iodo-l,8-naphthyridine-3-carboxylic acid hydrochloride",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,50
+Intermediate 25,CC1=C2/C=C(C)\C(N)=N/C2=CC=C1C(=O)O,"2-amino-3,5-dimethylquinoline-6-carboxylic acid",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,51
+Intermediate 26,CC(C)CNCC1=NC=C(C(F)(F)F)C=C1,2-methyl-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)propan-l-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,52
+Intermediate 27,FC(F)(F)C1=CC=C(CNCC2CC2)N=C1,l-cyclopropyl-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)methanamine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,53
+Intermediate 28,FC1=CC=CN=C1CNCC1=CC=C(C(F)(F)F)C=N1,1-(3 -fluoropy ridin-2-y 1)-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)methanamine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,54
+Intermediate 29,FC(F)(F)C1=CC=C(CNCC2=NC=CC=N2)N=C1,l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)methanamine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,55
+Intermediate 30,NC(=O)C1=CC=C(CNCC2=CC=C(C(F)(F)F)C=N2)C=C1,4-((((5-(trifluoromethyl)pyridin-2-yl)methyl)amino)methyl)benzamide,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,56
+Intermediate 31,FC(F)(F)C1=CN=C(CNCC2=C3C=CNC3=NC=C2)C=C1,"N-((1H-pyrrolo[2,3-b]pyridin-4-yl)methyl)-1-(5-(trifluoromethyl)pyridin-2-yl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,57
+Intermediate 32,CN1C=NC(CNCC2=NC=C(C(F)(F)F)C=C2)=N1,"1-(1-methy1-1H-1,2,4-triazol-3-yl)-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,58
+Intermediate 33,NC1=NC=C(CNCC2=CC=C(C(F)(F)F)C=N2)S1,5-((((5-(trifluoromethyl)pyridin-2-yl)methyl)amino)methyl)thiazol-2-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,59
+Intermediate 34,CC(C)CNCC1=NC=C(C(F)(F)F)C=C1F,"N-((3-fluoro-5-(trifluoromethyl)pyridin-2-yl)methyl)-2-
+methy Ipropan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,60
+Intermediate 35,FC(F)(F)C1=CN=C(CNCC2=CC=C3N/N=C\C3=C2)C=C1,"N-(( 1 H-indazol-5 -y l)methy 1)-1-(5-
+(trifluoromethyl)pyridin-2-yl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,61
+Intermediate 36,COCCNCC1=NC=C(C(F)(F)F)C=C1,"2-methoxy-N-((5-(trifluoromethyl)pyridin-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,62
+Intermediate 37,FC(F)(F)C1=CN=C(CNCC2=CC=CC3=C2C=NN3)C=C1,"N-(( 1 H-indazol-4-y l)methy 1)-1-(5-
+(trifluoromethyl)pyridin-2-yl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,63
+Intermediate 38,CC1=CC2=C(N=CC=C2CNCC2=NC=C(C(F)(F)F)C=C2)N1,"l-(2-methyl-lH-pyrrolo[2,3-b]pyridin-4-yl)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,64
+Intermediate 39,FC1=CC=C(CNCC2=CC=C(C(F)(F)F)C=N2)N=C1,"1-(5 -fluoropy ridin-2-y 1)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,65
+Intermediate 40,FC(F)(F)C1=CC=C(CNCC2=NC=CN=C2)N=C1,"1 - (py razin-2 -y 1) -N-((5 - (trifluoromethy l)py ridin-2 -
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,66
+Intermediate 41,CC1=CC(CNCC2=CC=C(C(F)(F)F)C=N2)=NO1,"1 -(5 -methy lisoxazol-3 -yl)-N-((5 -
+(trifluoromethy l)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,67
+Intermediate 42,FC1=CN=CC(CNCC2=CC=C(C(F)(F)F)C=N2)=C1,"1-(5 -fluoropy ridin-3 -y 1)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,68
+Intermediate 43,FC1=CC(F)=C(CNCC2=CC=C(C(F)(F)F)C=N2)N=C1,"l-(3,5-difluoropyridin-2-yl)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,69
+Intermediate 44,FC1=CC(F)=C(CNCC2=C(F)C=CC=N2)N=C1,"1-(3,5-difluoropyridin-2-yl)-N-((3-fluoropyridin-2-
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,70
+Intermediate 45,FC(F)(F)C1=CC=C(CNCC2=CC=CC=N2)N=C1,"l-(pyridin-2-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,71
+Intermediate 46,FC(F)(F)C1=CC=C(CNCC2=CC=CN=C2)N=C1,"l-(pyridin-3-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,72
+Intermediate 47,FC(F)(F)C1=CC=C(CNCC2=CC=NC=C2)N=C1,"l-(pyridin-4-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,73
+Intermediate 48,CC1=C(CNCC2=CC=C(C(F)(F)F)C=N2)N=CC=C1,"1 -(3 -methy lpyridin-2-y l)-N-((5 -
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,74
+Intermediate 49,FC(F)(F)C1=CC=C(CNCC2=C(Cl)C=CC=N2)N=C1,"1 -(3 -chloropyridin-2-y l)-N-((5 -
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,75
+Intermediate 50,FC1=C(CNCC2=CC=C(C(F)(F)F)C=N2)N=CC(Cl)=C1,1-(5 -chloro-3 -fluoropy ridin-2-y 1) -N-((5-(trifluoromethyl)pyridin-2-yl)methyl)methanamine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,76
+Intermediate 51,FC1=CC=CC(F)=C1CNCC1=CC=C(C(F)(F)F)C=N1,"N-(2,6-difluorobenzyl)-l-(5-(trifluoromethyl)pyridin-2-yl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,77
+Intermediate 52,FC(F)(F)C1=CC=C(CNCC2=CC(Cl)=CN=C2)N=C1,1 -(5 -chloropyridin-3 -y l)-N-((5 -(trifluoromethyl)pyridin-2-yl)methyl)methanamine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,78
+Intermediate 53,COCC(COC)NCC1=CC=C(C(F)(F)F)C=N1,"1,3 -dimethoxy -N-((5 -(trifluoromethy l)py ridin-2-	yl)methyl)propan-2-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,79
+Intermediate 54,CC(C)CNCC1=NC=C(C(F)F)C=C1,"N-((5-(difluoromethyl)pyridin-2-yl)methyl)-2-
+methy Ipropan-1 -amine",*C1=CN=C(CNCC(C)C)C=C1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,80
+Intermediate 55,FC1=C(CNCC2=NC=C(C(F)F)C=C2)N=CC=C1,"l-(5-(difluoromethyl)pyridin-2-yl)-N-((3-fluoropyridin-
+2-yl)methyl)methanamine",*C1C=CC(CNCC2N=CC=CC=2F)=NC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,81
+Intermediate 56,FC(F)(F)CNCC1=NC=C(C(F)(F)F)C=C1,"2,2,2-trifluoro-N-((5-(trifluoromethyl)pyridin-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,82
+Intermediate 57,FC(F)(F)C1=CN=C(CNC2CC2)C=C1,"N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)cyclopropanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,83
+Intermediate 58,FC(F)(F)C1=CC=C(CNCC2=NC=NC=C2)N=C1,"l-(pyrimidin-4-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,84
+Intermediate 59,CC1=CN=C(CNCC2=CC=C(C(F)(F)F)C=N2)C=N1,"1 -(5 -methy lpyrazin-2-y 1)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,85
+Intermediate 60,FC(F)(F)C1=CC=C(CNCC2=NC=C(Cl)C=N2)N=C1,"l-(5-chloropyrimidin-2-yl)-N-((5-
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,86
+Intermediate 61,FC1=CN=C(CNCC2=CC=C(C(F)(F)F)C=N2)N=C1,"1 -(5 -fluoropyrimidin-2-yl)-N-((5 -
+(trifluoromethyl)pyridin-2-yl)methyl)methanamine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,87
+Intermediate 62,CC(C)CNCC1=NC=C(Br)C=C1,"N-((5-bromopyridin-2-yl)methyl)-2-methylpropan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,88
+Intermediate 63,CC(C)CNCC1=NC=C(Cl)C=C1,"N-((5-chloropyridin-2-yl)methyl)-2-methylpropan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,89
+Intermediate 64,N#CC1CCCC1NCC1=NC=C(C(F)(F)F)C=C1,"2-(((5 -(trifluoromethyl)pyridin-2-
+yl)methy l)amino)cy clopentane-1 -carbonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,90
+Intermediate 65,N#CC1=CN=C(CNCC2=NC=CC=C2F)C=C1,6-((((3-fluoropyridin-2-yl)methyl)amino)methyl)nicotinonitrile,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,91
+Intermediate 66,nan,"1-(3 -fluoropy ridin-2 -y 1) -N- (4 -
+(trifluoromethyl)benzyl)methanamine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,92
+Intermediate 67,nan,"1-(3 -fluoropy ridin-2 -y 1) -N - (2 -methy 1-4 -
+(trifluoromethyl)benzyl)methanamine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,93
+Intermediate 68,nan,"methyl 6-((((3-fluoropyridin-2-
+yl)methyl)amino)methyl)nicotinate",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,94
+Intermediate 69,nan,"l-(3-fluoropyridin-2-yl)-N-((6-
+(trifluoromethyl)pyridin-3-yl)methyl)methanamine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,95
+Intermediate 70,nan,6-(((cyclopropylmethyl)amino)methyl)nicotinonitrile,nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,96
+Intermediate 71,nan,"l-(5-chloropyridin-2-yl)-N-(pyrimidin-2-
+ylmethyl)methanamine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,97
+Intermediate 72,nan,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)cyclopropan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,98
+Intermediate 73,nan,"N-((3,4-dihydro-2H-pyrano[2,3-c]pyridin-6-
+yl)methyl)-1 -(pyrimidin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,99
+Intermediate 74,nan,"N-(isoquinolin-3-ylmethyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,100
+Intermediate 75,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NOC=N1,"1 -(1,2,4-oxadiazol-3 -y l)-N-((5-
+(trifluoromethy l)pyridin-2-yl)methyl)ethan-1 -amine",N(C(C)C1N=CON=1)C.N1=CC(*)=CC=C1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,101
+Intermediate 76,CC(NCC1=NC=C(C(F)(F)F)C=C1)C1=NC(C#N)=CC=C1,6-(l-(((5-(trifluoromethyl)pyridin-2-yl)methyl)amino)ethyl)picolinonitrile,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,102
+Intermediate 77,C[C@@H](NCC1=CC=C(OCC(F)(F)F)N=N1)C1=NC=CC=N1,"(R)-l-(pyrimidin-2-yl)-N-((6-(2,2,2-trifluoroethoxy)pyridazin-3-
+yl)methyl)ethan-1 - amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,103
+Intermediate 78,CC(NCC1=CC=C(OC(F)F)N=N1)C1=NC=CC=N1,"N-((6-(difluoromethoxy)pyridazin-3-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,104
+Intermediate 79,CC(NCC1=CC=C(OC(F)(F)F)N=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((6-(trifluoromethoxy)pyridazin-3-yl)methyl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,105
+Intermediate 80,FC1=NC2=C(C=C1)OCCC2NCC1=CC=C(C(F)(F)F)C=N1,"6-fluoro-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-3,4-dihydro-2H-
+pyrano[3,2-b]pyridin-4-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,106
+Intermediate 81,FC1=NC2=C(C=C1)OCCC2NCC1=CC=C(C(F)(F)F)N=N1,"6-fluoro-N-((6-(trifluoromethyl)pyridazin-3-yl)methyl)-3,4-dihydro-2H-
+pyrano[3,2-b]pyridin-4-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,107
+Intermediate 82,CC(C)C(NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=CC=N1,"rac-2-methyl-l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)propan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,108
+Intermediate 83,FC(F)(F)C1=CC=C(CNC2CCOC3=C2N=CC=C3)N=C1,"N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-3,4-dihydro-2H-pyrano[3,2-
+b]pyridin-4-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,109
+Intermediate 84,FC(F)(F)C1=CC=C(CNC2/C=C\OC3=NC=CC=C32)N=C1,"N-((5 - (trifluoromethy l)py ridin-2 -y l)methy 1) -3,4 -dihydro-2H-pyrano[2,3-b]pyridin-4-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,110
+Intermediate 85,N#CC1=CC=C(CNC2C=COC3=C2/N=C\C=C/3)N=C1,"6-(((3,4-dihy dro-2H-pyrano [3,2-b]pyridin-4-
+yl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,111
+Intermediate 86,FC(F)(F)C1=CC=C(CNC2/C=C\OC3=C2N=CC=C3)N=N1,"N-((6-(trifluoromethyl)pyridazin-3-yl)methyl)-
+3,4-dihydro-2H-pyrano[3,2-b]pyridin-4-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,112
+Intermediate 87,FC(F)(F)C1=CC=C(CN[C@@H]2/C=C\CC3=C2N=CC=C3)N=C1,"(R)-N-((5 -(trifluoromethy l)pyridin-2-
+y l)methy 1) -5,6,7,8 -tetrahy dro quinolin- 8-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,113
+Intermediate 88,FC(F)(F)C1=CC=C(CN[C@@H]2/C=C\CC3=C2C=NC=C3)N=C1,"(R)-N-((5 -(trifluoromethy l)pyridin-2-(R)-N-((5 -(trifluoromethy l)pyridin-2-
+yl)methyl)-5,6,7,8-tetrahydroisoquinolin-8-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,114
+Intermediate 89,FC(F)(F)C1=NN=C(CN[C@@H]2CCC3=C2N=CC=C3)C=C1,"(R)-N-((6-(trifluoromethy l)pyridazin-3 -
+yl)methy 1)-6,7-dihydro-5H-
+cyclopenta[b]pyridin-7-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,115
+Intermediate 90,FC(F)(F)C1=CC=C(CNC2CCCN3N=CN=C23)N=C1,"N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-
+5,6,7,8-tetrahydro-[l,2,4]triazolo[l,5-a]pyridin-
+8-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,116
+Intermediate 91,N#CC1=CC=C(CNC2CCCN3N=CN=C23)N=C1,"6-(((5,6,7,8-tetrahydro-[l,2,4]triazolo[l,5-
+a]pyridin-8-yl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,117
+Intermediate 92,FC(F)(F)C1=CC=C(CNC2CCCC3=C2N/N=C\3)N=C1,"N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-
+4,5,6,7-tetrahydro-lH-indazol-7-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,118
+Intermediate 93,C[C@@H](NCC1=CC=C(C(F)(F)F)N=N1)C1=NC=CC=N1,(R)-l-(pyrimidin-2-yl)-N-((6-(trifhioromethy l)pyridazin-3 -y l)methy l)ethan-1 -amine,nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,119
+Intermediate 94,nan,(R)-4-chloro-6-(((l-(pyrimidin-2-yl)ethyl)amino)methyl)nicotinonitrile,nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,120
+Intermediate 95,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=CCNC(F)=C1,1 -(2-fkioropyridin-4-yl)-N-((5-(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine,nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,121
+Intermediate 96,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NC(F)=CC=C1,(R)-l-(6-fkioropyridin-2-yl)-N-((5-(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine,nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,122
+Intermediate 97,FC(F)O[C@@H]1CCC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(lR,2R)-2-(difluoromethoxy)-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)cyclopentan-1 -amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,123
+Intermediate 98,FC(F)(F)C1=CC=C(CNC2C=CCN3/C=C\N=C\23)N=N1,"N-((6-(trifluoromethyl)pyridazin-3-yl)methyl)-5,6,7,8-tetrahydroimidazo[l,2-a]pyridin-8-amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,124
+Intermediate 99,FC(F)(F)C1=CC=C(CNC2CNCC3=C2C=CC=N3)N=C1,"N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-5,8-dihydro-6H-pyrano[3,4-b]pyridin-5-amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,125
+Intermediate 100,FC(F)(F)C1=CC=C(CNC2CCCC3=C2N=CC=N3)N=C1,"N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-5,6,7,8-tetrahydroquinoxalin-5-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,126
+Intermediate 101,C[C@H](NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,127
+Intermediate 102,C[C@@H](NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=CC=N1,(R)-1 - (pyrimidin-2-yl)-N- ((5- (trifluoromethyl)py ridin-2-yl)methyl)ethan-1-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,128
+Intermediate 103,CC(NCC1=CC=C(Cl)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,129
+Intermediate 104,C[C@H](NCC1=CC=C(Cl)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,130
+Intermediate 105,C[C@@H](NCC1=CC=C(Cl)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,131
+Intermediate 106,CC(NCC1=CC=C(Br)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,132
+Intermediate 107,C[C@H](NCC1=CC=C(Br)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,133
+Intermediate 108,C[C@@H](NCC1=CC=C(Br)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,134
+Intermediate 109,CC(NCC1=CC=C(C#N)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,135
+Intermediate 110,C[C@H](NCC1=CC=C(C#N)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,136
+Intermediate 111,C[C@@H](NCC1=CC=C(C#N)C=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,137
+Intermediate 112,CCC(NCC1=NC=C(C#N)C=C1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,138
+Intermediate 113,CC[C@H](NCC1=NC=C(C#N)C=C1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,139
+Intermediate 114,CC[C@@H](NCC1=NC=C(C#N)C=C1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,140
+Intermediate 115a,COC1=CC=C(CNC(C)C2=NC=CC=N2)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,141
+Intermediate 115,COC1=CC=C(CN[C@H](C)C2=NC=CC=N2)N=N1,"(R)-N-((6-methoxypyridazin-3-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,142
+Intermediate 116,COC1=CC=C(CN[C@@H](C)C2=NC=CC=N2)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,143
+Intermediate 117,FC(F)(F)C1=CC=C(CNC(C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,144
+Intermediate 118,FC(F)(F)C1=CC=C(CN[C@H](C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,145
+Intermediate 119,FC(F)(F)C1=CC=C(CN[C@@H](C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,146
+Intermediate 120,CC(NCC1=CC=C(C(F)F)C=N1)C1=NC=CC=N1,nan,*C1C=NC(CNC(C)C2=NC=CC=N2)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,147
+Intermediate 121,C[C@H](NCC1=CC=C(C(F)F)C=N1)C1=NC=CC=N1,nan,*C1C=NC(CNC(C)C2=NC=CC=N2)=CC=1   ??? 다르지가 않아요 3개가,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,148
+Intermediate 122,C[C@@H](NCC1=CC=C(C(F)F)C=N1)C1=NC=CC=N1,nan,*C1C=NC(CNC(C)C2=NC=CC=N2)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,149
+Intermediate 123,CC(NCC1=CC=C(Br)N=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,150
+Intermediate 124,C[C@H](NCC1=CC=C(Br)N=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,151
+Intermediate 125,C[C@@H](NCC1=CC=C(Br)N=N1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,152
+Intermediate 126,N#CC1=CC=C(CNC(C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,153
+Intermediate 127,N#CC1=CC=C(CN[C@H](C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,154
+Intermediate 128,N#CC1=CC=C(CN[C@@H](C2=NC=CC=N2)C2CC2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,155
+Intermediate 129,COC1=CC=C(CNC(C)C2=NN(C)C=N2)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,156
+Intermediate 130,COC1=CC=C(CN[C@@H](C)C2=NN(C)C=N2)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,157
+Intermediate 131,COC1=CC=C(CN[C@H](C)C2=NN(C)C=N2)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,158
+Intermediate 249,CC(NCC1=CC=C(C(F)F)C=N1)C1=NN(C)C=N1,nan,N(C(C)C1N=CN(C)N=1)CC1=CC=C(*)C=N1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,159
+Intermediate 250,C[C@H](NCC1=CC=C(C(F)F)C=N1)C1=NN(C)C=N1,nan,N(C(C)C1N=CN(C)N=1)CC1N=CC(*)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,160
+Intermediate 251,C[C@@H](NCC1=CC=C(C(F)F)C=N1)C1=NN(C)C=N1,nan,N(C(C)C1N=CN(C)N=1)CC1N=CC(*)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,161
+Intermediate 132,CCC(NCC1=CN=C(C(F)(F)F)C=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyrazin-2-
+y l)methy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,162
+Intermediate 133,C=CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyridin-2-
+yl)methy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,163
+Intermediate 134,C=CC(NCC1=CC=C(C(F)F)C=N1)C1=NC=CC=N1,N-((5-(difluoromethyl)pyridin-2-yl)methyl)-l-(pyrimidin-2-y l)propan-1 -amine,*C1C=NC(CNC(C2=NC=CC=N2)C=C)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,164
+Intermediate 112,CCC(NCC1=CC=C(C#N)C=N1)C1=NC=CC=N1,"-(((1 -(pyrimidin-2-
+yl)propyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,165
+Intermediate 136,CC(NCC1=CC=C(OC(F)(F)F)C=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethoxy)pyridin-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,166
+Intermediate 137,CC(NCC1=CC=C(OC(F)F)C=N1)C1=NC=CC=N1,"N-((5-(difluoromethoxy)pyridin-2-yl)methyl)-l-
+(pyrimidin-2-y l)ethan-1 -amine",N(C(C)C1=NC=CC=N1)CC1N=CC(*)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,167
+Intermediate 138,[2H]C([2H])([2H])OC1=CC=C(CNC(C)C2=NC=CC=N2)N=C1,"N-((5-(methoxy-d3)pyridin-2-yl)methyl)-l-(pyrimidin-
+2-y l)ethan-1 -amine",*C1C=NC(CNC(C)C2=NC=CC=N2)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,168
+Intermediate 139,CC(NCC1=CN=C(C(F)(F)F)C=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)pyrazin-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,169
+Intermediate 140,CC(NCC1=CC2=C(C=CC=C2)N=C1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-(quinolin-3-ylmethyl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,170
+Intermediate 141,CC(NCC1=CC=C2C=CC=CC2=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-(quinolin-2-ylmethyl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,171
+Intermediate 142,COC(CNCC1=NC=C(C(F)(F)F)C=C1)C(F)(F)F,"3,3,3-trifluoro-2-methoxy-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,172
+Intermediate 143,CC(NCC1=NC=C(Br)N=C1)C1=NC=CC=N1,"N-((5-bromopyrazin-2-yl)methyl)-l-(pyrimidin-2-
+yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,173
+Intermediate 144,CC(NCC1=CC=C(C(F)(F)F)N=N1)C1=CSC=N1,"l-(thiazol-4-yl)-N-((6-(trifluoromethyl)pyridazin-3-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,174
+Intermediate 145,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=CN=CC=N1,"1 - (py razin-2 -y 1) -N-((5 - (trifluoromethy l)py ridin-2 -
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,175
+Intermediate 146,CC(NCC1=CN=C(C(F)(F)F)C=N1)C1=CC=C(F)C=N1,"1-(5 -fluoropy ridin-2-y 1)-N-((5-
+(trifluoromethy l)pyrazin-2-yl)methyl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,176
+Intermediate 147,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=CC=C(F)C=N1,"1-(5 -fluoropy ridin-2-y 1)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,177
+Intermediate 148,CC(NCC1=CC=C(C(F)F)C=N1)C1=NC=C(F)C=N1,"N-((5-(difluoromethyl)pyridin-2-yl)methyl)-l-(5-
+fluoropyrimidin-2-y l)ethan-1 -amine",*C1C=NC(CNC(C)C2N=CC(=CN=2)F)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,178
+Intermediate 149,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=C(F)C=N1,"1 -(5 -fluoropyrimidin-2-yl)-N-((5 -
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,179
+Intermediate 150,CC(CNCC1=NC=C(C(F)(F)F)C=C1)C(F)(F)F,"3,3,3 -trifluoro-2-methy 1-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,180
+Intermediate 151,O[C@@H]1CCOC[C@@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3S,4S)-3-(((5-(trifluoromethyl)pyridin-2-
+yl)methyl)amino)tetrahydro-2H-pyran-4-ol +
+enantiomer",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,181
+Intermediate 152,CN1CCCC(NCC2=CC=C(Br)C=N2)C1=O,"3 -(((5 -bromopyridin-2-y l)methy l)amino)-1 -
+methylpiperi din-2-one",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,182
+Intermediate 153,CN1CC=CC(NCC2=CC=C(C(F)(F)F)C=N2)C1=O,"1 -methy 1-3 -(((5 -(trifluoromethy l)pyridin-2-
+yl)methyl)amino)piperidin-2-one",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,183
+Intermediate 154,O=C1NCC=CC1NCC1=CC=C(C(F)(F)F)C=N1,"3 -(((5 -(trifluoromethy l)pyridin-2-
+yl)methyl)amino)piperidin-2-one",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,184
+Intermediate 155,O=C1C(NCC2=CC=C(C(F)(F)F)C=N2)CCCN1C1CC1,"1 -cy clopropy 1-3 -(((5 -(trifluoromethy l)pyridin-2-
+yl)methyl)amino)piperidin-2-one",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,185
+Intermediate 156,FC1=CC=CN=C1CNC1CCC2=NC(C(F)(F)F)=CC=C21,"N-((3-fluoropyridin-2-yl)methyl)-2-(trifluoromethyl)-
+6,7-dihydro-5H-cyclopenta[b]pyridin-5-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,186
+Intermediate 157,CC1=NC(CNC(C)C2=NC=CC=N2)=CC=C1Br,"N-((5 -bromo-6-methy lpyridin-2-y l)methyl)-1 -
+(pyrimidin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,187
+Intermediate 158,O[C@H]1[C@@H](NCC2=CC=C(C(F)(F)F)C=N2)C=CCC1(F)F,"2,2-difluoro-6-(((5-(trifluoromethyl)pyridm-2-
+yl)methy l)amino)cy clohexan-1 -",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,188
+Intermediate 159,FC1=CC=CN=C1CNC1COC2=CC(C(F)(F)F)=CC=C21,"N-((3-fluoropyridin-2-yl)methyl)-6-(trifluoromethyl)-
+2,3 -dihydrobenzofuran-3-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,189
+Intermediate 160,CC(NCC1=CC=C(C(F)(F)F)N=N1)C1=C(Cl)C=CC=N1,"1-(3 -chlor opy ridin-2 -y 1) -N-((6 -
+(trifluoromethy l)pyridazin-3 -y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,190
+Intermediate 161,CC(NCC1=CC=CC(C(F)(F)F)=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((6-(trifluoromethyl)pyridin-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,191
+Intermediate 162,FC(F)(F)C1=CC=C(CNC2CCCC3=C2N=CC=N3)N=C1,"N-((5-(trifluoromethy l)pyridin-2-yl)methy 1)-5,6,7,8-
+tetrahy droquinoxalin-5 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,192
+Intermediate 163,CC1=NC(CNC(C)C2=NC=CC=N2)=CC=C1Cl,"N-((5-chloro-6-methylpyridin-2-yl)methyl)-l-
+(pyrimidin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,193
+Intermediate 164,COC1=C(CNC(C)C2=NC=CC=N2)C=CC(C(F)(F)F)=N1,"N-((2-methoxy-6-(trifluoromethyl)pyridin-3-
+yl)methy 1)-1 -(pyrimidin-2-yl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,194
+Intermediate 165,CC(NCC1=CC=C(C(F)(F)F)N=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((6-(trifluoromethyl)pyridazin-3-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,195
+Intermediate 166,CC(NCC1=NC=C(C(F)(F)F)S1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((5-(trifluoromethyl)thiazol-2-
+yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,196
+Intermediate 167,C=CC(NCC1=CC=C(C#N)C=N1)C1=NC=CC=N1,"6-(((1 -(pyrimidin-2-
+yl)propyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,197
+Intermediate 168,C=CC(NCC1=CC=C(C(F)(F)F)N=N1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((6-(trifluoromethyl)pyridazin-3-
+y l)methy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,198
+Intermediate 169,CC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NN(C)C=N1,"1 -(1 -methy 1-1H-1,2,4-triazol-3 -y 1)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,199
+Intermediate 170,COCC(NCC1=CC=C(C(F)(F)F)C=N1)C1=NC=CC=C1,"2-methoxy-l-(pyridin-2-yl)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,200
+Intermediate 171,CC(NCC1=CC=C(C#N)C=N1)C1=NN(C)C=N1,"6-((( 1 -(1 -methy 1-1H-1,2,4-triazol-3 -
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,201
+Intermediate 172,CC(NCC1=CC=C(C(F)F)C=N1)C1=NN(C)C=N1,"N-((5-(difluoromethyl)pyridin-2-yl)methyl)-l-(l-
+methy 1-1H-1,2,4-triazol-3 -y l)ethan-1 -amine",*C1C=NC(CNC(C)C2N=CN(C)N=2)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,202
+Intermediate 173,CC1=NC(C(C)NCC2=CC=C(C(F)F)C=N2)=NO1,"N-((5-(difluoromethyl)pyridin-2-yl)methyl)-l-(5-
+methyl-1,2,4-oxadiazol-3-yl)ethan-1 -amine",N(C(C)C1N=C(C)ON=1)CC1=CC=C(*)C=N1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,203
+Intermediate 174,CC(NCC1=CC=C(Br)N=N1)C1=NN(C)C=N1,"N-((6-bromopy ridazin-3 -y l)methy 1) -1-(1 -methyl- 1H-
+l,2,4-triazol-3-yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,204
+Intermediate 175,CC(C)CNC(C)C1=NC=C(C(F)(F)F)C=C1,"2-methy l-N-( 1-(5 -(trifluoromethy l)pyridin-2-
+y l)ethy l)propan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,205
+Intermediate 176,CC(NCC1=CC=C(C(F)(F)F)N=C1)C1=NC=CC=N1,"l-(pyrimidin-2-yl)-N-((6-(trifluoromethyl)pyridin-3-
+yl)methy l)ethan-1 -amin",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,206
+Intermediate 177,COC1=CN=C(CNC(C)C2=NC=CC=N2)C=N1,"N-((5-methoxypyrazin-2-yl)methyl)-l-(pyrimidin-2-
+yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,207
+Intermediate 178,CC(NCC1=CC=C(C#N)C=C1)C1=NC=CC=N1,4-(((1-(pyrimidin-2-yl)ethyl)amino)methyl)benzonitrile,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,208
+Intermediate 179,CC1=CC(Br)=CN=C1CNC(C)C1=NC=CC=N1,"N-((5 -bromo-3 -methy lpyridin-2-y l)methyl)-1 -
+(pyrimidin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,209
+Intermediate 180,C[C@@H](NCC1=CC=C(C(F)(F)F)C=N1)C1=C(F)C=CC=N1,"(R)-l-(3-fluoropyridin-2-yl)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,210
+Intermediate 181,C[C@H](NCC1=CC=C(C(F)(F)F)C=N1)C1=C(F)C=CC=N1,"(S) -1 -(3 -fluoropy ridin-2-y 1)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,211
+Intermediate 182,C[C@@H](NCC1=NC=C(C(F)(F)F)C=C1F)C1=NC=CC=C1F,"(R)-N-((3-fluoro-5-(trifluoromethyl)pyridin-2-
+yl)methy 1)-1 -(3-fluoropyridin-2-yl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,212
+Intermediate 183,CC1=CC([C@@H](C)NCC2=CC=C(C(F)(F)F)C=N2)=NO1,"(R) -1-(5 -methy lisoxazol-3 -y 1)-N-((5-
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,213
+Intermediate 184,C[C@@H](NCC1=NC=CC=C1F)C1=CC=C(C(F)(F)F)C=N1,"(R)-N-((3-fluoropyridin-2-yl)methyl)-l-(5-
+(trifluoromethy l)pyridin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,214
+Intermediate 185,C[C@@H](NCC1=CC=C(Br)C=N1)C1=NC=CC=C1Cl,"(R) -N-((5 -bromopy ridin-2 -y l)me thy 1)-1-(3-
+chloropyridin-2-yl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,215
+Intermediate 186,C[C@@H](NCC1=C(Cl)C=C(C(F)(F)F)C=N1)C1=NC=CC=C1F,"(R)-N-((3-chloro-5-(trifluoromethyl)pyridm-2-
+yl)methy 1)-1 -(3-fluoropyridin-2-yl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,216
+Intermediate 187,CC1=NC(C(F)(F)F)=CC=C1CN[C@H](C)C1=NC=CC=N1,"(R)-N-((2 -methy l-6-(trifluoromethy l)pyridin-3-
+yl)methy 1)-1 -(pyrimidin-2-yl)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,217
+Intermediate 188,C[C@@H](NCC1=CC=C(C(F)(F)F)N=N1)C1=C(F)C=CC=N1,(R)-l-(3-fluoropyridin-2-yl)-N-((6-(trifluoromethy l)pyridazin-3 -y l)methy l)ethan-1 -amin,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,218
+Intermediate 189,C[C@@H](NCC1=CC=C(Br)C=N1)C1=C(F)C=CC=N1,"(R) -N-((5 -bromopy ridin-2 -y l)me thy 1)-1-(3-
+fluoropyridin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,219
+Intermediate 190,C[C@@H](NCC1=CC=C(C(F)(F)F)C=N1)C1=CC=C(Cl)C=N1,"(R) -1-(5 -chloropyridin-2-y 1) -N-((5 -
+(trifluoromethy l)pyridin-2-y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,220
+Intermediate 191,C[C@@H](NCC1=CC=C(C#N)C=N1)C1=NC=C(F)C=C1F,"(R)-6-(((l-(3,5-difluoropyridin-2-
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,221
+Intermediate 192,C[C@@H](NCC1=CC(C#N)=CC=N1)C1=NC=CC=N1,"(R)-2-(((l-(pyrimidin-2-
+yl)ethyl)amino)methyl)isonicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,222
+Intermediate 193,C[C@@H](NCC1=CC=C(Br)N=N1)C1=NC=CS1,"(R)-N-((6-bromopyridazin-3-yl)methyl)-l-(thiazol-2-
+yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,223
+Intermediate 194,COC(=O)C1=CN=C(CN[C@H](C)C2=NC=CC=C2F)C=C1,"methyl (R)-6-(((l-(3-fluoropyridin-2-
+yl)ethyl)amino)methyl)nicotinate",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,224
+Intermediate 195,C[C@@H](NCC1=NC=C(Cl)C=C1)C1=NC=CC=C1F,"(R) -N-((5-chi oropy ridin-2 -y l)methy 1) -1-(3-
+fluoropyridin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,225
+Intermediate 196,N#CC1=CC=C(CNCC2=C(F)C=CC=N2)N=C1,"(R)-6-((( 1-(3 -fluoropyridin-2-
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,226
+Intermediate 197,O[C@@H]1CCC=C[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(lR,2R)-2-(((5-(trifluoromethyl)pyridin-2-
+y l)methy l)amino)cy clopentan-1 -ol",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,227
+Intermediate 198,O[C@@H]1CCC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(lR,2R)-2-(((6-(trifluoromethyl)pyridazin-3-
+y l)methy l)amino)cy clopentan-1 -ol",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,228
+Intermediate 199,O[C@@H]1CCC[C@H]1NCC1=CC=C(C(F)(F)F)N=N1,"(lR,2R)-2-(((6-(trifluoromethyl)pyridazin-3-
+y l)methy l)amino)cy clopentan-1 -ol",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,229
+Intermediate 200,O[C@@H]1CCC[C@H]1NCC1=CC=C(C(F)F)C=N1,"(lR,2R)-2-(((5-(difluoromethyl)pyridin-2-
+y l)methy l)amino)cy clopentan-1 -ol",OC1CCCC1NCC1N=CC(*)=CC=1,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,230
+Intermediate 201,nan,"6-((((lR,2R)-2-
+hydroxycyclopentyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,231
+Intermediate 202,nan,"(lR,2R)-2-(((6-bromopyridazin-3-
+yl)methyl)amino)cy clopentan-1 -ol",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,232
+Intermediate 203,nan,"(lR,2R)-2-(((6-methoxypyridazin-3-
+yl)methyl)amino)cy clopentan-1 -ol",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,233
+Intermediate 204,nan,"(3 S,4R)-4-(((5 -(trifluoromethy l)pyridin-2-
+yl)methyl)amino)tetrahydrofuran-3-ol",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,234
+Intermediate 205,nan,"(R)-N-((6-bromopyridazin-3-yl)methyl)-l-(3-
+fluoropyridin-2-y l)ethan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,235
+Intermediate 206,nan,"(R)-l-cyclopropyl-N-((5-(trifluoromethyl)pyridin-2-
+y l)methy l)ethan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,236
+Intermediate 207,nan,"(R)-1 -(4-fluoropheny 1)-N-((5 -(trifluoromethy l)pyridin-
+2-y l)methyl)ethan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,237
+Intermediate 208,nan,"(R)-l-(2,4-difluorophenyl)-N-((5-
+(trifluoromethy l)pyridin-2-yl)methy l)ethan-1 -amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,238
+Intermediate 209,nan,"(R) -1 -methoxy -N-((5 -(trifluoromethy l)py ridin-2 -
+yl)methyl)propan-2-amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,239
+Intermediate 210,O[C@@H]1CC(F)C[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(lR,2R)-4,4-difluoro-2-(((5-(trifluoromethyl)pyridin-2-
+yl)methyl)amino)cyclopentan-1 -ol (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,240
+Intermediate 211,F[C@@H]1COCC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3 S, 4R) -3 -fluoro -N- ((5 -(trifluoromethy l)py ridin-2 -
+yl)methyl)tetrahydro-2H-pyran-4-amine (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,241
+Intermediate 212,O[C@@H]1COCC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3 S,4R)-4-(((5 -(trifluoromethyl)pyridin-2-
+yl)methyl)amino)tetrahydro-2H-pyran-3 -ol (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,242
+Intermediate 213,CO[C@@H]1COCC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3S,4R)-3-methoxy-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)tetrahydro-2H-pyran-4-amine (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,243
+Intermediate 214,CO[C@@H]1CCOC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3R,4R)-4-methoxy-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)tetrahydro-2H-pyran-3 -amine (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,244
+Intermediate 215,F[C@@H]1CCOC[C@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(3R,4R)-4-fluoro-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)tetrahydro-2H-pyran-3 -amine (racemate)",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,245
+Intermediate 216,CC1=NC(CN[C@H](C)C2=NC=CC=N2)=CC=C1C#N,"(R)-2-methyl-6-(((l-(pyrimidin-2-
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,246
+Intermediate 217,CC(NCC1=NC=CC=C1Cl)C1=NC=CC=N1,"N-((3-chloropyridin-2-yl)methyl)-l-(pyrimidin-2-
+yl)ethan-l-amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,247
+Intermediate 218,CO[C@H]1CCCC[C@@H]1NCC1=CC=C(C(F)(F)F)C=N1,"(lS,2S)-2-methoxy-N-((5-(trifluoromethyl)pyridin-2-
+yl)methyl)cy clohexan-1 -amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,248
+Intermediate 219,COC1=CC=C(CNC(C)C2=NC=CC=N2)C=N1,"N-((6-methoxypyridin-3-yl)methyl)-l-(pyrimidin-2-
+yl)ethan-l-amine",nan,nan,nan,True,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,249
+Intermediate 245,nan,"N-(4-(oxetan-3-yl)benzyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,True,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,250
+Intermediate 248,CC1=NC(CN[C@H](C)C2=NC=CC=N2)=CC=C1C#N,"(R)-2 -methy 1-6-(((1 -(pyrimidin-2-
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,251
+Intermediate 249,C[C@@H](NCC1=CC=C(C#N)C(Cl)=N1)C1=NC=CC=N1,"(R)-2-chloro-6-(((l-(pyrimidin-2-
+yl)ethyl)amino)methyl)nicotinonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,252
+Intermediate 220,C[C@@H](NCC1=NN=C(Br)C=C1)C1=NC=CC=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,253
+Intermediate 221,C[C@H](C1=NC=CC=N1)N(CC1=NN=C(Br)C=C1)C(=O)OC(C)(C)C,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,254
+Intermediate 222,CCOC1=NN=C(CN[C@H](C)C2=NC=CC=N2)C=C1,(R)-N-((6-ethoxypyridazin-3-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,255
+Intermediate 223,C[C@H](C1=NC=CC=N1)N(CC1=NC=C(Br)C=C1)C(=O)OC(C)(C)C,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,256
+Intermediate 224,*C1C=CC(CNC(C)C2N=CC=CN=2)=NC=1,"(R)-N-((5-ethoxypyridin-2-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",*OC1=CN=C(CN[C@H](C)C2=NC=CC=N2)C=C1,True,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,257
+Intermediate 225,*C1C=CC(CNC(C)C2N=CC=CN=2)=NC=1,(R)-N-((5-cyclopropoxypyridin-2-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-amine,*OC1=CN=C(CN[C@H](C)C2=NC=CC=N2)C=C1,True,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,258
+Intermediate 226,C[C@@H](NCC1=NN=C(NCC(F)(F)F)C=C1)C1=NC=CC=N1,"(R)-6-(((l-(pyrimidin-2-yl)ethyl)amino)methyl)-N-(2,2,2-
+trifluoroethyl)pyridazin-3-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,259
+Intermediate 227,C[C@@H](NCC1=NN=C(C(F)F)C=C1)C1=NC=CC=N1,"(R)-N-((6-(difluoromethyl)pyridazin-3-yl)methyl)-l-(pyrimidin-2-
+yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,260
+Intermediate 228,CCN1CCC(F)(F)C1,"(R)-N-((6-(3,3-Difluoropyrrolidin-l-yl)pyridazin-3-yl)methyl)-l-
+(pyrimidin-2-yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,261
+Intermediate 229,CCN1CC(F)(F)C1,"(R)-N-((6-(3,3-difluoroazetidin-l-
+yl)pyridazin-3-yl)methy 1)-l-(pyrimidin-2-yl)ethan-l-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,262
+Intermediate 230,C[C@@H](NCC1=CC=C(C#N)N=N1)C1=NC=CC=C1F,"(R)-6-(((l -(3-fluoropyridin-2-yl)ethyl)amino)methyl)pyridazine-3-
+carbonitrile",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,263
+Intermediate 231,C[C@@H](NCC1=CC=C(N2CCOCC2)N=N1)C1=NC=CC=C1F,"(R)-l-(3-fluoropyridm-2-yl)-N-((6-morpholinopyridazin-3-yl)methyl)ethan-
+1-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,264
+Intermediate 232,BrC1=CC=C(CNC2CCCN3N=CN=C23)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,265
+Intermediate 233,BrC1=CC=C(CN[C@H]2CCCN3/N=C\N=C\23)N=N1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,266
+Intermediate 234,BrC1=CC=C(CN[C@@H]2CCCN3/N=C\N=C\23)N=N1,"(R)-N-((6-bromopyridazin-3-yl)methyl)-5,6,7,8-tetrahydro-
+[l,2,4]triazolo[l,5-a]pyridin-8-amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,267
+Intermediate 235,C[C@H](C1=NC=CC=N1)N(CC1=CC=C(C2=CCOCC2)N=N1)C(=O)OC(C)(C)C,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,268
+Intermediate 236,C[C@@H](NCC1=CC=C(C2=CCOCC2)N=N1)C1=NC=CC=N1,"(R)-N-((6-(3,6-dihydro-2H-pyran-4-yl)pyridazin-3-yl)methyl)-l-
+(pyrimidin-2-yl)ethan-l -amine hydrochloride",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,269
+Intermediate 237,C[C@H](C1=NC=CC=N1)N(CC1=CC=C(OC2COC2)C=N1)C(=O)OC(C)(C)C,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,270
+Intermediate 238,C[C@@H](NCC1=CC=C(OC2COC2)C=N1)C1=NC=CC=N1,(R)-N-((5-(oxetan-3-yloxy)pyridin-2-yl)methyl)-l-(pyrimidin-2-yl)ethan-1-amine,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,271
+Intermediate 239,CO[C@@H]1CC2=C(C=CC=C2)[C@H]1NCC1=NC=C(C(F)(F)F)C=C1,"(lR,2R)-2-methoxy-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-2,3-
+dihydro-1 H-inden-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,272
+Intermediate 240,CO[C@H]1CC2=C(C=CC=C2)[C@@H]1NCC1=NC=C(C(F)(F)F)C=C1,"(1 S,2S)-2-methoxy-N-((5-(trifluoromethyl)pyridin-2-yl)methyl)-2,3-
+dihydro-1 H-inden-1 -amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,273
+Intermediate 241,CC(=O)C1=CC=C(CN(C(=O)OC(C)(C)C)[C@H](C)C2=NC=CC=N2)N=C1,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,274
+Intermediate 242,CC(=O)C1=CC=C(CN[C@H](C)C2=NC=CC=N2)N=C1,"(R)-l-(6-(((l-(pyrimidin-2-yl)ethyl)amino)methyl)pyridin-3-yl)ethan-l-
+one hydrochloride",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,275
+Intermediate 243,C[C@H](C1=NC=CC=N1)N(CC1=CC=C(C2(C)CO2)C=N1)C(=O)OC(C)(C)C,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,276
+Intermediate 244,C[C@@H](NCC1=CC=C(C(C)(C)O)C=N1)C1=NC=CC=N1,(R)-2-(6-(((l-(pyrimidin-2-yl)ethyl)amino)methyl)pyridin-3-yl)propan-2-,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,277
+Intermediate 245,nan,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,278
+Intermediate 246,C[C@@H](NCC1=NN=C(C2CC2)C=C1)C1=NC=CC=N1,"(R)-N-((6-cyclopropylpyridazin-3-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,279
+Intermediate 247,C[C@@H](NCC1=NC=C(N2CCOCC2)C=C1)C1=NC=CC=N1,"(R)-N-((5-morpholinopyridin-2-yl)methyl)-l-(pyrimidin-2-yl)ethan-l-
+amine",nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,280
+Intermediate 248,nan,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,281
+Intermediate 249,nan,nan,nan,nan,nan,nan,False,False,False,data/bronze/artifacts/2021_raw.xlsx,Intermediate 1~249,282

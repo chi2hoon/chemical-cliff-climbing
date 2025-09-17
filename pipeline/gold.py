@@ -17,20 +17,26 @@ def build_gold(years):
     """Args: years(list[str|int]) -> dict
 
     Silver 산출을 연도별로 Gold 고정 스키마로 저장한다.
-    - base/data/gold/{year}/assay_readings.csv
-    - base/data/gold/{year}/compounds.csv
+    - data/gold/{year}/assay_readings.csv
+    - data/gold/{year}/compounds.csv
     """
     years = [str(y) for y in years]
     results = {}
     for y in years:
 
-        assay_path_in = os.path.join("base", "data", "silver", y, "assay_readings_silver.csv")
+        assay_path_in = os.path.join("data", "silver", y, "assay_readings_silver.csv")
+        if not os.path.exists(assay_path_in):
+            legacy = os.path.join("base", "data", "silver", y, "assay_readings_silver.csv")
+            assay_path_in = legacy if os.path.exists(legacy) else assay_path_in
         assays = pd.DataFrame(columns=["compound_id","target_id","assay_id","qualifier","value_std","unit_std","year","qc_pass","provenance_file","provenance_sheet","provenance_row"])
         if os.path.exists(assay_path_in):
             df = pd.read_csv(assay_path_in, dtype=str)
             # 보강: compound_key가 비어있으면 compounds_silver에서 compound_id→SMILES로 유도
             try:
-                comp_silver_path = os.path.join("base","data","silver", y, "compounds_silver.csv")
+                comp_silver_path = os.path.join("data","silver", y, "compounds_silver.csv")
+                if not os.path.exists(comp_silver_path):
+                    legacy = os.path.join("base","data","silver", y, "compounds_silver.csv")
+                    comp_silver_path = legacy if os.path.exists(legacy) else comp_silver_path
                 if os.path.exists(comp_silver_path):
                     comp_sil = pd.read_csv(comp_silver_path, dtype=str)
                 else:
@@ -91,11 +97,11 @@ def build_gold(years):
             assays = df[keep].copy()
             assays = stable_sort(assays, ["compound_id","assay_id","provenance_row"])
 
-<<<<<<< HEAD:base/pipeline/gold.py
-=======
         # compounds per year
->>>>>>> origin/main:hoon/pipeline/gold.py
-        comp_path_in = os.path.join("base", "data", "silver", y, "compounds_silver.csv")
+        comp_path_in = os.path.join("data", "silver", y, "compounds_silver.csv")
+        if not os.path.exists(comp_path_in):
+            legacy = os.path.join("base", "data", "silver", y, "compounds_silver.csv")
+            comp_path_in = legacy if os.path.exists(legacy) else comp_path_in
         comps = pd.DataFrame(columns=["compound_key","smiles_canonical","has_structure","iupac_name","inchikey14"])
         props_rows = []
         if os.path.exists(comp_path_in):
@@ -135,7 +141,7 @@ def build_gold(years):
         if len(comps_bad) > 0:
             write_quarantine("gold", y, "compounds_rule_violation", comps_bad)
 
-        out_dir = os.path.join("base", "data", "gold", y)
+        out_dir = os.path.join("data", "gold", y)
         os.makedirs(out_dir, exist_ok=True)
         assays_path = os.path.join(out_dir, "assay_readings.csv")
         comps_path = os.path.join(out_dir, "compounds.csv")
@@ -146,11 +152,11 @@ def build_gold(years):
             props_df = stable_sort(props_df, ["compound_key","compound_id","provenance_row"]) if "compound_key" in props_df.columns else props_df
             props_out = os.path.join(out_dir, "compound_props.csv")
             props_df.to_csv(props_out, index=False, encoding="utf-8")
-<<<<<<< HEAD:base/pipeline/gold.py
-=======
         # meta: assay_context
->>>>>>> origin/main:hoon/pipeline/gold.py
-        meta_in = os.path.join("base","data","silver", y, "assay_context_silver.csv")
+        meta_in = os.path.join("data","silver", y, "assay_context_silver.csv")
+        if not os.path.exists(meta_in):
+            legacy = os.path.join("base","data","silver", y, "assay_context_silver.csv")
+            meta_in = legacy if os.path.exists(legacy) else meta_in
         if os.path.exists(meta_in):
             meta_df = pd.read_csv(meta_in, dtype=str)
             # 컬럼명 정규화: 'nan' → 'example_label', 'Yes/No' → 'asterisk_yesno', 'OLD/NEW SMILES' 표준화

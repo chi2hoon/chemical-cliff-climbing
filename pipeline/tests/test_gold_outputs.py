@@ -3,8 +3,12 @@ import pandas as pd
 
 
 def test_gold_outputs_columns_2017():
-    ar = os.path.join("base", "data", "gold", "2017", "assay_readings.csv")
-    cp = os.path.join("base", "data", "gold", "2017", "compounds.csv")
+    ar = os.path.join("data", "gold", "2017", "assay_readings.csv")
+    cp = os.path.join("data", "gold", "2017", "compounds.csv")
+    if not os.path.exists(ar):
+        ar = os.path.join("base", "data", "gold", "2017", "assay_readings.csv")
+    if not os.path.exists(cp):
+        cp = os.path.join("base", "data", "gold", "2017", "compounds.csv")
     assert os.path.exists(ar)
     assert os.path.exists(cp)
     df_ar = pd.read_csv(ar)

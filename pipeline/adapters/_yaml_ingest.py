@@ -12,8 +12,8 @@ def _repo_root():
     레포 루트(최상위)를 반환.
     """
     here = os.path.dirname(os.path.abspath(__file__))
-    # .../base/pipeline/adapters → 세 단계 상위가 repo 루트
-    return os.path.abspath(os.path.join(here, os.pardir, os.pardir, os.pardir))
+    # .../pipeline/adapters → 두 단계 상위가 repo 루트
+    return os.path.abspath(os.path.join(here, os.pardir, os.pardir))
 
 
 def _apply_rename(df, mapping):
@@ -31,7 +31,7 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
     """
     root = _repo_root()
     year = str(year)
-    out_dir = out_dir or os.path.join("base", "data", "bronze", year)
+    out_dir = out_dir or os.path.join("data", "bronze", year)
     os.makedirs(out_dir, exist_ok=True)
 
     with open(yaml_path, encoding="utf-8") as f:
@@ -41,17 +41,29 @@ def run_yaml_bronze_ingest(year, yaml_path, out_dir):
     if not xls_path:
         raise ValueError("YAML에 file 경로가 없습니다.")
     if not os.path.isabs(xls_path):
-        # base 상대 또는 레포 루트 상대(base/...) 모두 지원
-
+        # 레포 루트 상대 경로 지원
         cand1 = os.path.join(root, xls_path)
         cand2 = os.path.join(os.path.abspath(os.path.join(root, os.pardir)), xls_path)
-        xls_path = cand1 if os.path.exists(cand1) else cand2
+        # base/data → data 폴백 시도
+        cand3 = os.path.join(root, xls_path.replace("base/data/", "data/")) if "/base/data/" in ("/" + xls_path) else None
+        for c in [cand1, cand2, cand3]:
+            if c and os.path.exists(c):
+                xls_path = c
+                break
     if not os.path.exists(xls_path):
-        # 호환: base/data → hoon/data 폴백
-        if "/base/data/" in ("/" + xls_path):
-            alt = xls_path.replace("/base/data/", "/hoon/data/")
-            if os.path.exists(alt):
-                xls_path = alt
+        # 호환: base/data → data, hoon/data 폴백 (상대/절대 모두 처리)
+        if "/base/data/" in ("/" + xls_path) or "base/data/" in xls_path:
+            for pat in ["/base/data/", "base/data/"]:
+                alt1 = xls_path.replace(pat, pat.replace("base/", ""))
+                if os.path.exists(alt1):
+                    xls_path = alt1
+                    break
+        if not os.path.exists(xls_path) and ("/base/data/" in ("/" + xls_path) or "base/data/" in xls_path):
+            for pat in ["/base/data/", "base/data/"]:
+                alt2 = xls_path.replace(pat, pat.replace("base/", "hoon/"))
+                if os.path.exists(alt2):
+                    xls_path = alt2
+                    break
         if not os.path.exists(xls_path):
             raise FileNotFoundError(xls_path)
 

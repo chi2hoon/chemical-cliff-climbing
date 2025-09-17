@@ -1,0 +1,132 @@
+compound_id,target_id,assay_id,qualifier,value_std,unit_std,year,qc_pass,provenance_file,provenance_sheet,provenance_row,compound_key
+Example 1,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,27,IDPLEONMPTUHBO-UHFFFAOYSA-N
+Example 2,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,12,KZMVFYQAAXVGDW-UHFFFAOYSA-N
+Example 4,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,11,DUOCTTVBRUYEII-UHFFFAOYSA-N
+Example 6,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,8,AQVHLKFXCDDKAG-UHFFFAOYSA-N
+Example 8,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,3,OQFIZSFHPDEKEF-UHFFFAOYSA-N
+Example 9,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,18,QCLBBCRNZYNOCQ-UHFFFAOYSA-N
+Example 11,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,21,KKWUJLRRVDYGJT-UHFFFAOYSA-N
+Example 12,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,17,PVMLMBZHJPOSHL-UHFFFAOYSA-N
+Example 15,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,48,NXKGJDXSEDBYFQ-UHFFFAOYSA-N
+Example 25,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,26,UQWBUGYPVAFTGJ-UHFFFAOYSA-N
+Example 37,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,36,VHQBOPVOIFKMLY-UHFFFAOYSA-N
+Example 40,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,55,YCMJPPFKAQPOTP-UHFFFAOYSA-N
+Example 45,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,75,UYUKCJVNNHRTSU-UHFFFAOYSA-N
+Example 47,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,88,JBKCUYPEAHHDNG-UHFFFAOYSA-N
+Example 48,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,83,IUZXQHLGSZGDFE-UHFFFAOYSA-N
+Example 51,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,37,BKBUECLAFDJPGJ-UHFFFAOYSA-N
+Example 55,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,84,BFFSRIACUDREEY-UHFFFAOYSA-N
+Example 59,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,39,NWUBFUWVUWCFRR-UHFFFAOYSA-N
+Example 61,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,30,JMKKUXKKEJAVBV-UHFFFAOYSA-N
+Example 63,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,49,AAIBBNSZYUVRDE-UHFFFAOYSA-N
+Example 64,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,51,RDSDAMUHQSAVAO-UHFFFAOYSA-N
+Example 87,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,54,ZNSUXULMESNWOK-UHFFFAOYSA-N
+Example 93,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,58,NGMUMRCELIKFGN-CQSZACIVSA-N
+Example 104,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,68,ZWGIKJBJTACRHR-UHFFFAOYSA-N
+Example 133,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,59,KKBXTJKIBDRCGJ-UHFFFAOYSA-N
+Example 144,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,31,ICNQWTQOTOSFKR-UHFFFAOYSA-N
+Example 157,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,93,PJSFZPLXWSOFRE-UHFFFAOYSA-N
+Example 175,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,118,QBPMDODSBGYCMG-UHFFFAOYSA-N
+Example 184,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,107,ZOKIGMWHARWZIU-UHFFFAOYSA-N
+Example 190,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,101,DBXJKQLJVGCRKC-UHFFFAOYSA-N
+Example 215,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,97,BWPGCBBNBCKHQV-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,4,RMSLEFPICSCEAL-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,5,RUVAVJAPJAKZBI-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,6,NKSBTMFDBKJPOS-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,7,BNKPEEXTXKSYKD-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,9,KEINMHRKVDSFCJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,10,IAZPSCFIYNWHHY-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,13,PIXLLDKYXGBCBR-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,14,DCCMOFJNOHXIPO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,15,BXNSQLOGQIUKBD-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,16,STFQWLOAUNAWMP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,19,SRBWWXBOHCTTNU-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,20,QQYMBAZNFRBHMA-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,22,XHXLJCLWLWDTNJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,23,BEGAYXQJZKHHLG-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,24,KTCDCWKVKTYLED-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,25,DPGDMQBBSZTEHR-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,28,
+,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,29,
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,32,SXSKVTJTESGSGU-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,33,FAXKZHLXIVQUQW-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,34,FQQARUUBJVXCIF-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,35,RPCRUPSIGDDPIB-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,38,GSHQVGPGDQHVGN-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,40,HLFGDHKAVDGXTQ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,41,DRRCPOVISKDPGK-MRXNPFEDSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,42,NGMUMRCELIKFGN-AWEZNQCLSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,43,SMI:df537019cbaa7d4c242226e12a61cad2fa8955ca
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,44,KCBWAFJCKVKYHO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,45,RRNYYVHPYXNLDO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,46,NDGGFKQIJMZBQX-OAHLLOKOSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,47,DRRCPOVISKDPGK-INIZCTEOSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,50,NDGGFKQIJMZBQX-HNNXBMFYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,52,PVMLMBZHJPOSHL-FIBGUPNXSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,53,HJXLPHGVVZZXFQ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,56,DCNJISYUASOTLO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,57,VWKBGLKUGWHFEK-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,60,OIIPGJVIIHLCQL-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,61,AEDVSBIYGUCSCE-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,62,KJKOABCRJLBCCR-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,63,TYCALOZFRDAUAZ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,64,ZKKCSLDOCXQBJB-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,65,NNKXULVARQUHNP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,66,ILUFPKQVBKCNBG-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,67,UMXXFCIISSIRCP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,69,LXLOGIXSRZBXMU-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,70,FWVBEBBERVBFHM-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,71,YDVAVSAAGNGKTO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,72,GJVPZSUKSPVZIJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,73,AUXPWAYKTNYZPD-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,74,IQRJGSCCIBFNOJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,76,OODYYBKJNUANOW-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,77,WWNIXXWCMPELNP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,78,JONIDBUADRBVHS-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,79,DMPXTEYDXFJIBZ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,80,HGYGFVLIGCWADI-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,81,SZYBOXMRKRFJRH-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,82,HVZXKMKLAJAGBJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,85,IBPUQDOEOGEDEX-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,86,SQTDZKUJBDHUFO-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,87,WKJGAMFPLUZGEA-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,89,VPMSTXXQZXERTK-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,90,ZAHGXUZWZXPOLW-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,91,MOGKCHHZWMLPOC-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,92,ZVCFQOANNRPNCX-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,94,KFVNRHACFJKZAF-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,95,XDCMVNMUKQLSCJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,96,LCBZXLZFJONFLB-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,98,
+,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,99,
+,usp1,usp1.enzyme.ic50,,,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,100,YOJVKROYECGCNB-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,102,QOEXRPHTOKXHFV-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,103,SOXZHXLUTIGERE-ZDUSSCGKSA-N
+,usp1,usp1.enzyme.ic50,<,0.01,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,104,BARMSAGKTOZMCP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,105,QRQNSLLIPRBKMJ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,106,ALUWRBHJYJUYJT-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,108,CYMCHYIPVKFJQX-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,109,MEGSCPLNHQHKHM-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,110,OEMIXWMYUUSHOQ-HNNXBMFYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,111,PISKIGDUHOIXAC-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,112,LQZLSDDLURXUJR-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,113,OEMIXWMYUUSHOQ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,114,OLSYJTUCWDEPFA-HNNXBMFYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,115,DCFMVSSQOXMKHU-INIZCTEOSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,116,GPZFXLKQXSIFRG-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,117,LMFLXLWYDZANBK-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,119,SRMRUXUPHPNWSE-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,120,QUPLOCSTLZVUIE-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,121,QUPLOCSTLZVUIE-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,122,HWTINLSEXSYKBT-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,123,JSPJEMZJOMRSQH-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,124,XTYNRIBNOJZXHU-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,125,SBQMJJKUAWUJSQ-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,126,XYZZZIVUQYUIDD-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,127,PQMBMZRJUFSKJW-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,128,KPJVZGDUCSHZQM-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,129,BWPGCBBNBCKHQV-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,>,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,130,DVUNOCYHKOCYGM-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,131,ZIQLQTAVGFLNBR-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.2,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,132,PRBHPBIFZYCGLP-UHFFFAOYSA-N
+,usp1,usp1.enzyme.ic50,<,0.1,uM,2020,True,data/bronze/artifacts/2020_raw.xlsx,Table 2 ~ 4,133,STFQWLOAUNAWMP-UHFFFAOYSA-N

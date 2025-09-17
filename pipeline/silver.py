@@ -9,8 +9,8 @@ from pipeline.transforms.normalize import parse_qual_value_unit, convert_unit, a
 
 def _repo_root():
     here = os.path.dirname(os.path.abspath(__file__))
-    # repo 루트: .../base/pipeline → 두 단계 상위
-    return os.path.abspath(os.path.join(here, os.pardir, os.pardir))
+    # repo 루트: .../fin_repo/pipeline → 한 단계 상위
+    return os.path.abspath(os.path.join(here, os.pardir))
 
 
 def _load_yaml(yaml_path):
@@ -26,7 +26,7 @@ def _ensure_dir(p):
 
 
 def _year_refined_dir(year):
-    return os.path.join("base", "data", "silver", str(year))
+    return os.path.join("data", "silver", str(year))
 
 
 def build_silver(year, yaml_path=None):
@@ -43,15 +43,26 @@ def build_silver(year, yaml_path=None):
     yaml_abs = yaml_path if os.path.isabs(yaml_path) else os.path.join(root, yaml_path)
     src_file = (cfg.get("file") or "")
     src_abs = src_file
-    if src_file and not os.path.isabs(src_file):
-        cand1 = os.path.join(root, src_file)
-        cand2 = os.path.join(os.path.abspath(os.path.join(root, os.pardir)), src_file)
-        src_abs = cand1 if os.path.exists(cand1) else cand2
-        # 호환: base/data 경로가 없고 hoon/data에 존재하면 폴백
-        if not os.path.exists(src_abs) and "/base/data/" in ("/" + src_file):
-            alt = os.path.join(root, src_file.replace("base/data/", "hoon/data/"))
-            if os.path.exists(alt):
-                src_abs = alt
+    if src_file:
+        # 절대/상대 모두에 대해 base→data/hoon 폴백 적용
+        candidates = []
+        if os.path.isabs(src_file):
+            candidates.append(src_file)
+            if "/base/data/" in src_file:
+                candidates.append(src_file.replace("/base/data/", "/data/"))
+                candidates.append(src_file.replace("/base/data/", "/hoon/data/"))
+        else:
+            cand1 = os.path.join(root, src_file)
+            candidates.append(cand1)
+            # root 상위 폴더까지도 시도(과거 구조 호환)
+            candidates.append(os.path.join(os.path.abspath(os.path.join(root, os.pardir)), src_file))
+            if "base/data/" in src_file:
+                candidates.append(os.path.join(root, src_file.replace("base/data/", "data/")))
+                candidates.append(os.path.join(root, src_file.replace("base/data/", "hoon/data/")))
+        for c in candidates:
+            if os.path.exists(c):
+                src_abs = c
+                break
     manifest = {
         "stage": "silver",
         "year": year,
@@ -71,8 +82,29 @@ def build_silver(year, yaml_path=None):
     silver_cfg = cfg.get("silver", {})
     comp_cfg = (silver_cfg.get("compounds") or {})
 
-    ingest_dir = os.path.join("base", "data", "bronze", year, "tables")
+    ingest_dir = os.path.join("data", "bronze", year, "tables")
+    if not os.path.exists(ingest_dir):
+        legacy = os.path.join("base", "data", "bronze", year, "tables")
+        ingest_dir = legacy if os.path.exists(legacy) else ingest_dir
     comp_src = comp_cfg.get("from") or None
+    if comp_src:
+        cand = None
+        cands = []
+        if os.path.isabs(comp_src):
+            cands.append(comp_src)
+            if "/base/data/" in comp_src or "base/data/" in comp_src:
+                cands.append(comp_src.replace("/base/data/", "/data/").replace("base/data/", "data/"))
+        else:
+            # repo 루트 상대, base→data 폴백, ingest_dir/basename 탐색
+            cands.append(os.path.join(root, comp_src))
+            if "base/data/" in comp_src:
+                cands.append(os.path.join(root, comp_src.replace("base/data/", "data/")))
+            cands.append(os.path.join(ingest_dir, os.path.basename(comp_src)))
+        for p in cands:
+            if p and os.path.exists(p):
+                cand = p
+                break
+        comp_src = cand or comp_src
     if not comp_src:
         files = []
         if os.path.exists(ingest_dir):
@@ -161,7 +193,10 @@ def build_silver(year, yaml_path=None):
 
     if assay_cfg.get("from_melt"):
         melt_name = assay_cfg["from_melt"]
-        melt_path = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
+        melt_path = os.path.join("data", "bronze", year, f"{melt_name}.csv")
+        if not os.path.exists(melt_path):
+            legacy = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
+            melt_path = legacy if os.path.exists(legacy) else melt_path
         df = pd.read_csv(melt_path, dtype=str)
         df = sanitize_strings(df)
         for c in df.columns:
@@ -305,7 +340,10 @@ def build_silver(year, yaml_path=None):
             if not os.path.isabs(path):
                 path = os.path.join(_repo_root(), src)
             if not os.path.exists(path):
-                alt = os.path.join("base","data","bronze",year,"tables", os.path.basename(src))
+                alt = os.path.join("data","bronze",year,"tables", os.path.basename(src))
+                if not os.path.exists(alt):
+                    legacy = os.path.join("base","data","bronze",year,"tables", os.path.basename(src))
+                    alt = legacy if os.path.exists(legacy) else alt
                 path = alt if os.path.exists(alt) else path
             try:
                 mdf = pd.read_csv(path, dtype=str)
@@ -406,7 +444,10 @@ def build_silver(year, yaml_path=None):
             if os.path.exists(comp_path):
                 comp_fix = pd.read_csv(comp_path, dtype=str)
                 # asterisk 소스: bronze/tables/asterisk_exceptions.csv 또는 메타 파일에서 유도
-                asterisk_path = os.path.join("base","data","bronze",year,"tables","asterisk_exceptions.csv")
+                asterisk_path = os.path.join("data","bronze",year,"tables","asterisk_exceptions.csv")
+                if not os.path.exists(asterisk_path):
+                    legacy = os.path.join("base","data","bronze",year,"tables","asterisk_exceptions.csv")
+                    asterisk_path = legacy if os.path.exists(legacy) else asterisk_path
                 aster = None
                 if os.path.exists(asterisk_path):
                     aster = pd.read_csv(asterisk_path, dtype=str)
@@ -485,8 +526,22 @@ def build_silver(year, yaml_path=None):
         if isinstance(fm, dict):
             fm = [fm]
         raw_file = cfg.get("file")
-        if raw_file and not os.path.isabs(raw_file):
-            raw_file = os.path.join(_repo_root(), raw_file)
+        if raw_file:
+            rf_candidates = []
+            if os.path.isabs(raw_file):
+                rf_candidates.append(raw_file)
+                if "/base/data/" in raw_file:
+                    rf_candidates.append(raw_file.replace("/base/data/", "/data/"))
+                    rf_candidates.append(raw_file.replace("/base/data/", "/hoon/data/"))
+            else:
+                rf_candidates.append(os.path.join(_repo_root(), raw_file))
+                if "base/data/" in raw_file:
+                    rf_candidates.append(os.path.join(_repo_root(), raw_file.replace("base/data/", "data/")))
+                    rf_candidates.append(os.path.join(_repo_root(), raw_file.replace("base/data/", "hoon/data/")))
+            for c in rf_candidates:
+                if os.path.exists(c):
+                    raw_file = c
+                    break
         ases = (cfg.get("silver") or {}).get("assays") or {}
         target_map = ases.get("target_map", {})
         cell_line_map = ases.get("cell_line_map", {})
@@ -618,7 +673,10 @@ def build_silver(year, yaml_path=None):
     try:
         if year == "2018" and assay_cfg.get("from_melt"):
             melt_name = assay_cfg["from_melt"]
-            melt_path = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
+            melt_path = os.path.join("data", "bronze", year, f"{melt_name}.csv")
+            if not os.path.exists(melt_path):
+                legacy = os.path.join("base", "data", "bronze", year, f"{melt_name}.csv")
+                melt_path = legacy if os.path.exists(legacy) else melt_path
             if os.path.exists(melt_path):
                 mdf = pd.read_csv(melt_path, dtype=str)
                 mdf = sanitize_strings(mdf)

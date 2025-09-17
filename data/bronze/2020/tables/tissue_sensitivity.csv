@@ -1,0 +1,84 @@
+tissue,Long term proliferation - USP1 inhibitor sensitive? (<316nM),Colony Formation Assay - USP1 inhibitor sensitive? (<316nM),brca1,brca2,p53,atm,provenance_file,provenance_sheet,provenance_row
+Breast,Yes,Yes,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,4
+Ovary,Yes,Yes,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,5
+Ovary,-,Yes,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,6
+Ovary,-,Yes,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,7
+Ovary,Yes,Yes,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,8
+Ovary,Yes,-,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,9
+Breast,Yes,-,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,10
+Breast,Yes,-,Mutant,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,11
+Ovary,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,12
+Breast,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,13
+Ovary,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,14
+Ovary,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,15
+Ovary,No,-,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,16
+Breast,No,No,Mutant,-,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,17
+Breast,No,-,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,18
+Ovary,No,No,Mutant,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,19
+Ovary,No,-,WT,WT,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,20
+Ovary,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,21
+Melanoma,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,22
+Bone,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,23
+Bone,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,24
+Bone,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,25
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,26
+Melanoma,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,27
+Bone,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,28
+Lung,-,Yes,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,29
+Uterus,-,No,WT,Mutant,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,30
+Bladder,-,Yes,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,31
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,32
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,33
+Bone,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,34
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,35
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,36
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,37
+Nervous System,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,38
+Nervous System,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,39
+Nervous System,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,40
+Nervous System,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,41
+Nervous System,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,42
+Skin,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,43
+Soft Tissue,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,44
+Uterus,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,45
+Colon*,-,Yes,WT,Mutant,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,46
+Lung*,-,Yes,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,47
+Colon,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,48
+Nervous System,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,49
+Breast,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,50
+Lung*,-,Yes,WT,WT,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,51
+Lung,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,52
+Colon*,-,Yes,WT,WT,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,53
+Bladder,-,No,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,54
+Colon,-,No,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,55
+Ovary,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,56
+Pancreas,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,57
+Colon*,-,Yes,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,58
+Colon,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,59
+Colon*,-,Yes,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,60
+Head & Neck,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,61
+Pancreas,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,62
+Cervix,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,63
+Breast,-,No,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,64
+Breast,-,No,Mutant,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,65
+Uterus,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,66
+Breast,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,67
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,68
+Bone,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,69
+Ovary,-,No,WT,Mutant,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,70
+Breast,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,71
+Ovary,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,72
+Breast,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,73
+Breast,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,74
+Breast,-,No,WT,Mutant,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,75
+Breast,-,No,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,76
+Breast,-,No,WT,WT,Mutant,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,77
+Breast,-,No,WT,WT,WT,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,78
+Head & Neck,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,79
+Ovary*,-,Yes,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,80
+Skin*,-,Yes,WT,WT,WT,Mutant,data/bronze/artifacts/2020_raw.xlsx,Table 5,81
+Esophagus,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,82
+Head & Neck,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,83
+Esophagus,-,No,WT,Mutant,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,84
+Head & Neck,-,No,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,85
+Bladder*,-,Yes,WT,WT,Mutant,WT,data/bronze/artifacts/2020_raw.xlsx,Table 5,86

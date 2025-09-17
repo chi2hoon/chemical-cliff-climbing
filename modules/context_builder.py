@@ -240,7 +240,9 @@ def build_pair_context(year, pair_row, df_base, data_root, selected_axis, scale_
     }
 
     # 연도별 메타
-    gold_meta = _read_csv_safe(os.path.join("base", "data", "gold", year, "assay_context.csv"))
+    gold_meta = _read_csv_safe(os.path.join("data", "gold", year, "assay_context.csv"))
+    if len(gold_meta) == 0:
+        gold_meta = _read_csv_safe(os.path.join("base", "data", "gold", year, "assay_context.csv"))
 
     if year == "2017":
         ctx["meta"]["low_in_vivo"] = _extract_2017_meta(gold_meta, comp_low.get("compound_id"))
@@ -251,11 +253,15 @@ def build_pair_context(year, pair_row, df_base, data_root, selected_axis, scale_
         ctx["meta"]["high_percent_at_20uM"] = _extract_2018_meta(gold_meta, comp_high.get("compound_id"))
 
     if year == "2020":
-        comp_silver = _read_csv_safe(os.path.join("base", "data", "silver", year, "compounds_silver.csv"))
+        comp_silver = _read_csv_safe(os.path.join("data", "silver", year, "compounds_silver.csv"))
+        if len(comp_silver) == 0:
+            comp_silver = _read_csv_safe(os.path.join("base", "data", "silver", year, "compounds_silver.csv"))
         ctx["meta"]["asterisk_low"] = _extract_2020_flags(comp_silver, comp_low.get("compound_id"))
         ctx["meta"]["asterisk_high"] = _extract_2020_flags(comp_silver, comp_high.get("compound_id"))
         # ADME 매핑 파일(선택적)
-        adme_map = _read_csv_safe(os.path.join("base", "data", "mappings", "2020_adme_links.csv"))
+        adme_map = _read_csv_safe(os.path.join("data", "mappings", "2020_adme_links.csv"))
+        if len(adme_map) == 0:
+            adme_map = _read_csv_safe(os.path.join("base", "data", "mappings", "2020_adme_links.csv"))
         ctx["meta"]["adme"] = {"linked": False}
         try:
             if len(adme_map) > 0 and "compound_id" in adme_map.columns and "sample_id" in adme_map.columns:
@@ -285,7 +291,9 @@ def build_pair_context(year, pair_row, df_base, data_root, selected_axis, scale_
 
     if year == "2021":
         # 두 축 모두 요약을 제공
-        gold_assay = _read_csv_safe(os.path.join("base", "data", "gold", year, "assay_readings.csv"))
+        gold_assay = _read_csv_safe(os.path.join("data", "gold", year, "assay_readings.csv"))
+        if len(gold_assay) == 0:
+            gold_assay = _read_csv_safe(os.path.join("base", "data", "gold", year, "assay_readings.csv"))
         ctx["meta"]["low_all_values"] = _extract_2021_allvalues(gold_assay, comp_low.get("compound_id"))
         ctx["meta"]["high_all_values"] = _extract_2021_allvalues(gold_assay, comp_high.get("compound_id"))
 

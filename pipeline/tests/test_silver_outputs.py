@@ -3,7 +3,9 @@ import pandas as pd
 
 
 def test_silver_outputs_columns_2017():
-    path = os.path.join("base", "data", "silver", "2017", "assay_readings_silver.csv")
+    path = os.path.join("data", "silver", "2017", "assay_readings_silver.csv")
+    if not os.path.exists(path):
+        path = os.path.join("base", "data", "silver", "2017", "assay_readings_silver.csv")
     assert os.path.exists(path)
     df = pd.read_csv(path)
     required = [
