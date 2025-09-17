@@ -200,7 +200,7 @@ with tab1:
     available_years_all = get_available_gold_years(data_root)
 
     if not available_years_all:
-        st.warning("분석용 데이터가 없습니다. 터미널에서 `PYTHONPATH=base python -m pipeline.cli gold --years 2017 2018`로 생성하세요.")
+        st.warning("분석용 데이터가 없습니다. 터미널에서 `python -m pipeline.cli gold --years 2017 2018 2020 2021`로 생성하세요.")
     else:
         # 패널 이름 매핑
         panel_names_map = {
@@ -246,6 +246,7 @@ with tab1:
                     display_name = panel_names_map.get(panel_id, panel_id)
                     display_option = f"{panel_id} ({display_name})" if str(display_name).strip() != str(panel_id).strip() else f"{display_name}"
                     panel_id_to_display[display_option] = panel_id
+                    panel_display_options.append(display_option)
                 selected_panel_display = st.selectbox("🧬 패널 선택", panel_display_options, index=0)
                 selected_panel = panel_id_to_display[selected_panel_display]
             else:
