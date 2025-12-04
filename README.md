@@ -125,14 +125,14 @@
 
 ```mermaid
 flowchart LR
-    Raw["원본 Excel<br/>(2017_raw.xlsx 등)"] -->|YAML 설정<br/>schemas/silver/{year}.yaml| Bronze["Bronze<br/>추출 엔진"]
-    Bronze -->|tables/*.csv<br/>*_long.csv| Silver["Silver<br/>정제/표준화"]
-    Silver -->|compounds_silver<br/>assay_readings_silver<br/>assay_context_silver| Gold["Gold<br/>최종 스키마"]
+    Raw["원본 Excel (2017_raw.xlsx 등)"] -->|YAML 설정: schemas/silver/{year}.yaml| Bronze["Bronze: 추출 엔진"]
+    Bronze -->|tables/*.csv, *_long.csv| Silver["Silver: 정제/표준화"]
+    Silver -->|compounds_silver, assay_readings_silver, assay_context_silver| Gold["Gold: 최종 스키마"]
 
-    Bronze -->|실행 로그| Logs["Logs<br/>logs/manifest/{year}.json"]
+    Bronze -->|실행 로그| Logs["Logs: logs/manifest/{year}.json"]
     Silver -->|로그 업데이트| Logs
-    Bronze -->|문제 데이터| QBronze["Quarantine<br/>data/quarantine/bronze/*"]
-    Gold -->|규칙 위반| QGold["Quarantine<br/>data/quarantine/gold/*"]
+    Bronze -->|문제 데이터| QBronze["Quarantine: data/quarantine/bronze/*"]
+    Gold -->|규칙 위반| QGold["Quarantine: data/quarantine/gold/*"]
 ```
 
 자세한 설명: [`docs/architecture.md`](docs/architecture.md), [`docs/sequence.md`](docs/sequence.md)
