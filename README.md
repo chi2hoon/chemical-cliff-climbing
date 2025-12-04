@@ -4,13 +4,12 @@
 - **내 역할**: `/pipeline` 전반(어댑터 레지스트리, YAML 기반 Bronze 인제스트, Silver/Gold 표준화, QC/격리/로그)을 설계·구현하고, 앱이 바로 쓸 수 있는 `data/gold/*` 스키마를 정의했습니다.
 - **결과**: 연도·특허별로 제각각이던 표/단위/기호를 **고정 스키마(`assay_readings`, `compounds`, `compound_props`, `assay_context`)**로 수렴시키고, 격리/manifest로 **재현성과 추적 가능성**을 확보했습니다.
 - **검증 범위**
-  - **Level 1 (키 없이)**: Bronze→Silver→Gold 파이프라인 재실행 및 Gold 스키마/테스트 검증
-  - **Level 2 (키 있으면)**: OpenAI API Key 설정 후 Activity Cliff 기반 **가설 생성·평가·수정 LLM 플로우**
+  - **Level 1 (OpenAI API 키 유무: O)**: Bronze→Silver→Gold 파이프라인 재실행 및 Gold 스키마/테스트 검증
+  - **Level 2 (OpenAI API 키 유무: X)**: OpenAI API Key 설정 후 Activity Cliff 기반 **가설 생성·평가·수정 LLM 플로우**
 - **Links**
-  - YouTube 데모: `<여기에 사용자가 넣을 예정>`
+  - YouTube 데모: `https://www.youtube.com/watch?v=q2CVhYdBhU4`(2:28 ~ 8:50 까지 제 파트입니다)
   - 현재 레포: `https://github.com/chi2hoon/chemical-cliff-climbing`
   - 파이프라인 엔트리: [`pipeline/cli.py`](pipeline/cli.py), [`pipeline/silver.py`](pipeline/silver.py), [`pipeline/gold.py`](pipeline/gold.py)
-
 ---
 
 ## 프로젝트 한 줄 소개 & 목적
@@ -18,7 +17,7 @@
 - **한 줄 소개**: 특허 PDF에서 추출한 난해한 Excel들을 정제·표준화하여, 연구원이 **구조–활성 관계(SAR)를 탐색하고 LLM 기반 가설을 빠르게 생성**할 수 있게 돕는 데이터/AI 파이프라인입니다.
 - **목적**
   - 신약 개발 전체 5단계 중 **3단계(리드 최적화)** 구간에서, 구조 변경에 따른 활성/독성 가설을 더 빨리 만들고 검증 후보를 줄이는 것에 초점을 맞췄습니다.
-  - 이 레포에서는 특히 **데이터 엔지니어링 관점**(Medallion 파이프라인, QC, 재현성)에 집중해 포트폴리오용으로 정리했습니다.
+  - 이 레포에서는 그중에서도 **데이터 엔지니어링 관점**(Medallion 파이프라인, QC, 재현성)을 중심으로 정리해 두었습니다.
 
 ---
 
@@ -44,9 +43,10 @@
 
 ---
 
-## My Contributions (내 역할)
+## 제가 한 일
 
-이 레포는 팀 프로젝트 레포를 포크한 것으로, 저는 **데이터 아키텍처와 파이프라인 구현**을 주로 책임졌습니다. 이 포트폴리오 브랜치에서는 특히 아래 파일들이 제 작업 범위를 잘 보여줍니다.
+이 레포는 팀 프로젝트 레포를 포크한 것이고, 저는 주로 **데이터 아키텍처와 파이프라인 구현**을 맡았습니다.  
+아래 파일들이 제가 실제로 작업한 부분들입니다.
 
 - **파이프라인 엔트리 & CLI**
   - `pipeline/cli.py`: 연도별 Bronze/Silver 실행과 Gold/validate 서브커맨드를 제공하는 **Medallion CLI 진입점**입니다.
@@ -139,6 +139,15 @@ flowchart LR
 # 레포 클론 후(또는 이 브랜치 체크아웃 후) 루트에서 실행
 python3 -m venv .venv
 source .venv/bin/activate  # macOS / zsh
+pip install -r requirements.txt
+```
+
+### Windows (PowerShell 예시)
+
+```powershell
+cd C:\path\to\chemical-cliff-climbing
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 ```
 
@@ -237,7 +246,7 @@ LIMIT 100;
 ## Attribution (팀 프로젝트 & 포크 출처)
 
 - 이 레포는 팀 프로젝트 레포를 포크한 것으로, **원본 레포의 전체 아이디어/LLM 프롬프트/앱 UI는 팀 작업 결과**입니다.
-- 원본 팀 레포: `<여기에 사용자가 넣을 예정>` (예: `nazirite96/chemical-cliff-climbing`)
+- 원본 팀 레포: `https://github.com/nazirite96/chemical-cliff-climbing`
 - 이 포트폴리오 브랜치에서는 다음에 초점을 맞췄습니다.
   - `/pipeline` 및 관련 YAML/validate 모듈 정리
   - Medallion 아키텍처 및 Gold 스키마 문서화 (`docs/architecture.md`, `docs/sequence.md`, `docs/schema.md`)
