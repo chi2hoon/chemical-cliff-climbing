@@ -108,7 +108,7 @@
 | `pipeline/adapters/_yaml_ingest.py` | YAML 파일로 시트 구조를 정의하고, 공통 엔진으로 추출하는 로직 |
 | `schemas/silver/*.yaml` | 연도별 시트 구조/예외를 코드가 아닌 설정으로 분리 |
 | `pipeline/silver.py` | 단위 통일, 기호 파싱, 숫자/텍스트 분리 |
-| `pipeline/gold.py` | 최종 스키마 생성 + QC 검증 + 이상값 격리 |
+| `pipeline/gold.py` | 최종 스키마 생성 + QC 규칙 검증(필수 컬럼) + 위반 레코드 격리 |
 | `pipeline/validate/hooks.py` | 안정 정렬, 격리 CSV 기록, 실행 로그 저장 |
 | `modules/io_utils.py` | Gold 테이블을 읽어서 앱이 쓸 수 있는 형태로 변환 |
 | `modules/context_builder.py` | LLM 가설 생성에 필요한 메타 정보 JSON 구성 |
@@ -117,7 +117,7 @@
 
 - **Bronze**: YAML 설정으로 원본 Excel을 슬라이스하고, QC 플래그/출처 정보를 붙임
 - **Silver**: 단위 통일하고, 기호/등급 파싱하고, 숫자 vs 맥락(텍스트)를 분리
-- **Gold**: 고정 스키마 4개 테이블로 수렴 + 이상값은 격리 폴더로
+- **Gold**: 고정 스키마 4개 테이블로 수렴 + 규칙 위반(스키마 불일치) 레코드는 격리 폴더로
 
 ---
 
@@ -134,6 +134,8 @@ flowchart LR
     Bronze -->|문제 데이터| QBronze["quarantine/bronze/"]
     Gold -->|규칙 위반| QGold["quarantine/gold/"]
 ```
+
+Bronze/Silver는 실행될 때마다 `logs/manifest/{year}.json`에 최신 매니페스트를 덮어쓰는 구조입니다(스테이지별로 따로 남지 않음).
 
 자세한 설명: [`docs/architecture.md`](docs/architecture.md), [`docs/sequence.md`](docs/sequence.md)
 
@@ -199,6 +201,8 @@ python -m pipeline.cli silver --year 2017
 python -m pipeline.cli gold --years 2017
 
 # (선택) 스키마 테스트
+# pytest는 기본 requirements에 포함되어 있지 않으므로 필요하면 별도로 설치하세요.
+pip install pytest  # 최초 한 번
 pytest pipeline/tests/test_silver_outputs.py pipeline/tests/test_gold_outputs.py
 ```
 
@@ -233,6 +237,21 @@ streamlit run app.py
 - YAML 스키마 템플릿/체커 만들어서 설정 오류 사전 방지
 - Silver/Gold에 분포 기반 아웃라이어 탐지 붙이기
 - LLM 부분을 벤더 중립으로 추상화 (오픈소스 LLM 대응)
+
+### 개선 로드맵
+
+1. **Dev & 테스트 환경 정비**  
+   - `requirements-dev.txt`에 `pytest`, `altair`, `numpy` 등을 묶고 `make test` 같은 진입점을 추가합니다.  
+   - GitHub Actions(또는 로컬 pre-commit 훅)로 Silver/Gold 스키마 테스트를 자동화합니다.
+2. **Manifest 기록 개선**  
+   - `logs/manifest/{stage}_{year}.json` 구조로 분리하거나, 단일 JSON 안에 Bronze→Silver→Gold 히스토리를 모두 남기게 만듭니다.  
+   - CLI에서 `--manifest` 옵션으로 로그 위치를 오버라이드할 수 있게 열어 둡니다.
+3. **Gold QC 고도화**  
+   - `validate_gold_*`에 단위 범위, 값 타입, 타깃별 허용 구간 등을 정의하고, 위반 시 quarantine으로 보냅니다.  
+   - 분포 기반 이상치 탐지(예: z-score, IQR)를 추가해 “규칙 위반 이외의 의심 데이터”를 별도 격리/리포트합니다.
+4. **End-to-End 회귀 테스트**  
+   - 샘플 연도(2017/2018)에 대해 Bronze→Gold까지 한 번에 실행하는 스냅샷 테스트를 마련하고, 산출물 체크섬을 비교합니다.  
+   - 새 연도 YAML을 추가할 때도 동일 테스트를 재사용하도록 CI 파이프라인에 편입합니다.
 
 ---
 
