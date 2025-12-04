@@ -4,8 +4,8 @@
 - **내 역할**: `/pipeline` 전반(어댑터 레지스트리, YAML 기반 Bronze 인제스트, Silver/Gold 표준화, QC/격리/로그)을 설계·구현하고, 앱이 바로 쓸 수 있는 `data/gold/*` 스키마를 정의했습니다.
 - **결과**: 연도·특허별로 제각각이던 표/단위/기호를 **고정 스키마(`assay_readings`, `compounds`, `compound_props`, `assay_context`)**로 수렴시키고, 격리/manifest로 **재현성과 추적 가능성**을 확보했습니다.
 - **검증 범위**
-  - **Level 1 (OpenAI API 키 유무: O)**: Bronze→Silver→Gold 파이프라인 재실행 및 Gold 스키마/테스트 검증
-  - **Level 2 (OpenAI API 키 유무: X)**: OpenAI API Key 설정 후 Activity Cliff 기반 **가설 생성·평가·수정 LLM 플로우**
+  - **Level 1 (키 없이)**: Bronze→Silver→Gold 파이프라인 재실행 및 Gold 스키마/테스트 검증
+  - **Level 2 (OpenAI API 키 필요)**: OpenAI API Key 설정 후 Activity Cliff 기반 **가설 생성·평가·수정 LLM 플로우**
 - **Links**
   - YouTube 데모: `https://www.youtube.com/watch?v=q2CVhYdBhU4`(2:28 ~ 8:50 까지 제 파트입니다)
   - 현재 레포: `https://github.com/chi2hoon/chemical-cliff-climbing`
@@ -87,14 +87,14 @@
 
 ```mermaid
 flowchart LR
-    Raw[Patent Excel<br/>2017_raw.xlsx 등] -->|YAML 스키마<br/>schemas/silver/{year}.yaml| Bronze[Bronze<br/>YAML Ingest Engine]
-    Bronze -->|tables/*.csv,<br/>*_long.csv| Silver[Silver<br/>정제/표준화]
-    Silver -->|compounds_silver,<br/>assay_readings_silver,<br/>assay_context_silver| Gold[Gold<br/>고정 스키마]
+    Raw[Patent Excel (2017_raw.xlsx 등)] -->|YAML 스키마: schemas/silver/{year}.yaml| Bronze[Bronze: YAML Ingest Engine]
+    Bronze -->|tables/*.csv, *_long.csv| Silver[Silver: 정제/표준화]
+    Silver -->|compounds_silver, assay_readings_silver, assay_context_silver| Gold[Gold: 고정 스키마]
 
-    Bronze -->|manifest.json| Logs[Logs<br/>logs/manifest/{year}.json]
+    Bronze -->|manifest.json| Logs[Logs: logs/manifest/{year}.json]
     Silver -->|manifest.json 업데이트| Logs
-    Bronze -->|이상값/메타 누락| QBronze[Quarantine<br/>data/quarantine/bronze/*]
-    Gold -->|규칙 위반 레코드| QGold[Quarantine<br/>data/quarantine/gold/*]
+    Bronze -->|이상값/메타 누락| QBronze[Quarantine: data/quarantine/bronze/*]
+    Gold -->|규칙 위반 레코드| QGold[Quarantine: data/quarantine/gold/*]
 ```
 
 - **Bronze**
