@@ -10,10 +10,10 @@
 sequenceDiagram
     participant User as User (CLI)
     participant CLI as pipeline.cli
-    participant Adapter as YearAdapter<br/>(pipeline.adapters.year_*)
-    participant Engine as BronzeEngine<br/>(_yaml_ingest)
-    participant Silver as SilverBuilder<br/>(pipeline.silver)
-    participant Gold as GoldBuilder<br/>(pipeline.gold)
+    participant Adapter as YearAdapter (pipeline.adapters.year_*)
+    participant Engine as BronzeEngine (_yaml_ingest)
+    participant Silver as SilverBuilder (pipeline.silver)
+    participant Gold as GoldBuilder (pipeline.gold)
     participant FS as Filesystem
 
     Note over User,Gold: 예시: 2017년 데이터를 Bronze→Silver→Gold로 재생성
@@ -22,8 +22,8 @@ sequenceDiagram
     CLI->>Adapter: build_bronze_from_raw(\"2017\", yaml, out_dir)
     Adapter->>Engine: run_yaml_bronze_ingest(\"2017\", yaml_path, out_dir)
     Engine->>FS: Read raw Excel (2017_raw.xlsx)
-    Engine->>FS: Write data/bronze/2017/tables/*.csv<br/>+ matrix/*_long.csv
-    Engine->>FS: Write logs/manifest/2017.json<br/>+ data/quarantine/bronze/*
+    Engine->>FS: Write data/bronze/2017/tables/*.csv + matrix/*_long.csv
+    Engine->>FS: Write logs/manifest/2017.json + data/quarantine/bronze/*
 
     User->>CLI: python -m pipeline.cli silver --year 2017
     CLI->>Silver: build_silver(\"2017\", yaml)
@@ -31,7 +31,7 @@ sequenceDiagram
     Silver->>FS: Write data/silver/2017/compounds_silver.csv
     Silver->>FS: Write data/silver/2017/assay_readings_silver.csv
     Silver->>FS: Write data/silver/2017/assay_context_silver.csv
-    Silver->>FS: Update logs/manifest/2017.json<br/>+ data/quarantine/silver/*
+    Silver->>FS: Update logs/manifest/2017.json + data/quarantine/silver/*
 
     User->>CLI: python -m pipeline.cli gold --years 2017
     CLI->>Gold: build_gold([\"2017\"])
